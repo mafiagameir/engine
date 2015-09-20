@@ -1,0 +1,155 @@
+/*
+ * Copyright (C) 2015 mafiagame.ir
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+package co.mafiagame.test.integration;
+
+import co.mafiagame.common.configuration.CommonConfiguration;
+import co.mafiagame.common.domain.result.ChannelType;
+import co.mafiagame.engine.api.GameApi;
+import co.mafiagame.engine.container.GameContainer;
+import co.mafiagame.engine.domain.GameMood;
+import co.mafiagame.engine.domain.Player;
+import co.mafiagame.engine.domain.Role;
+import co.mafiagame.engine.executor.CommandExecutor;
+import co.mafiagame.test.env.TestInterfaceChannel;
+import co.mafiagame.test.env.TestInterfaceContext;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+/**
+ * @author nazila
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = CommonConfiguration.class)
+public class Scenario3 {
+
+    @Autowired
+    private GameApi gameApi;
+    @Autowired
+    private CommandExecutor commandExecutor;
+    @Autowired
+    private GameContainer gameContainer;
+    @Autowired
+    private TestInterfaceChannel testInterfaceChannel;
+    private static final String gameIdentity = "game3";
+
+    private final TestInterfaceContext naziIc = new TestInterfaceContext(
+            gameIdentity, "nazi", ChannelType.GENERAL);
+    private final TestInterfaceContext esaIc = new TestInterfaceContext(
+            gameIdentity, "esa", ChannelType.GENERAL);
+    private final TestInterfaceContext hamidIc = new TestInterfaceContext(
+            gameIdentity, "hamid", ChannelType.GENERAL);
+    private final TestInterfaceContext maryamIc = new TestInterfaceContext(
+            gameIdentity, "maryam", ChannelType.GENERAL);
+    private final TestInterfaceContext ic = new TestInterfaceContext(
+            gameIdentity, "starter", ChannelType.GENERAL);
+    private String mafia1 = null;
+    private String detector = null;
+    private String doctor = null;
+    private String citizen1 = null;
+    private TestInterfaceContext icMafia1 = null;
+    private TestInterfaceContext icDetector = null;
+    private TestInterfaceContext icDoctor = null;
+    private TestInterfaceContext icCitizen1 = null;
+
+    @Test
+    public void test() throws InterruptedException {
+        gameApi.help(naziIc);
+        commandExecutor.waitUntilOver(naziIc);
+        assertTrue(testInterfaceChannel.containKey("help"));
+        startGame();
+        commandExecutor.waitUntilOver(ic);
+        assertEquals(GameMood.DAY, gameContainer.getGame(ic).getGameMood());
+        assertEquals(4, gameContainer.getGame(ic).getPlayers().size());
+        assertTrue(testInterfaceChannel.containKey("game.started"));
+        finalElection();
+        commandExecutor.waitUntilOver(ic);
+        assertTrue(testInterfaceChannel.containKey("final.election.started"));
+        setValues();
+        userVotes();
+        commandExecutor.waitUntilOver(ic);
+        assertTrue(testInterfaceChannel.containKey("citizens.win"));
+        testInterfaceChannel.printMessages();
+
+    }
+
+    private void setValues() {
+        List<Player> mafia = gameContainer.getGame(ic).getPlayers().stream()
+                .filter(p -> p.getRole() == Role.MAFIA)
+                .collect(Collectors.toList());
+        mafia1 = mafia.get(0).getAccount().getUsername();
+        detector = gameContainer.getGame(ic).getPlayers().stream()
+                .filter(p -> p.getRole() == Role.DETECTOR).findFirst().get()
+                .getAccount().getUsername();
+        doctor = gameContainer.getGame(ic).getPlayers().stream()
+                .filter(p -> p.getRole() == Role.DOCTOR).findFirst().get()
+                .getAccount().getUsername();
+        icMafia1 = new TestInterfaceContext(gameIdentity, mafia.get(0)
+                .getAccount().getUsername(), ChannelType.USER_PRIVATE);
+        icDetector = new TestInterfaceContext(gameIdentity, detector,
+                ChannelType.USER_PRIVATE);
+        icDoctor = new TestInterfaceContext(gameIdentity, doctor,
+                ChannelType.USER_PRIVATE);
+        List<Player> citizen = gameContainer.getGame(ic).getPlayers().stream()
+                .filter(p -> p.getRole() == Role.CITIZEN)
+                .collect(Collectors.toList());
+        citizen1 = citizen.get(0).getAccount().getUsername();
+        icCitizen1 = new TestInterfaceContext(gameIdentity, citizen1,
+                ChannelType.USER_PRIVATE);
+
+    }
+
+    public void startGame() throws InterruptedException {
+
+        gameApi.startStashedGame(naziIc, 1, 1, 1, 1);
+        gameApi.register(naziIc, "nazi","nazila",null);
+        gameApi.register(esaIc, "esa",null,"hekmat");
+        gameApi.register(hamidIc, "hamid",null,null);
+        gameApi.register(maryamIc, "maryam",null,null);
+        commandExecutor.waitUntilOver(ic);
+    }
+
+    private void finalElection() {
+        TestInterfaceContext ic = new TestInterfaceContext(gameIdentity,
+                "hamid", ChannelType.GENERAL);
+        gameApi.startFinalElection(ic);
+
+    }
+
+    private void userVotes() {
+        List<String> victims = new ArrayList<>();
+        victims.add(mafia1);
+        victims.add(doctor);
+        victims.add(citizen1);
+        gameApi.vote(icCitizen1, citizen1, Collections.singletonList(mafia1));
+        gameApi.vote(icDetector, detector, Collections.singletonList(mafia1));
+        gameApi.vote(icDoctor, doctor, victims);
+        gameApi.vote(icMafia1, mafia1, Collections.singletonList(mafia1));
+    }
+}
