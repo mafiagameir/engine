@@ -130,12 +130,12 @@ public class Game {
         int mafiaNum = gameState.getMafiaNum();
         int citizenSum = citizenNum + doctorNum + detectorNum;
         GameResult gameResult;
-        if (mafiaNum >= citizenSum)
+        if (cancelPlayers.size() >= (players.size() / 2) + 1)
+            gameResult = GameResult.CANCELED;
+        else if (mafiaNum >= citizenSum)
             gameResult = GameResult.MAFIAS_WIN;
         else if (mafiaNum == 0)
             gameResult = GameResult.CITIZEN_WIN;
-        else if (cancelPlayers.size() >= (players.size() / 2) + 1)
-            gameResult = GameResult.CANCELED;
         else
             gameResult = GameResult.UNKNOWN;
         return gameResult;
