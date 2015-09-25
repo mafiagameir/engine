@@ -34,6 +34,8 @@ import java.util.stream.Collectors;
  */
 public class Game {
 
+    private Date createdDate;
+    private Date lastUpdate;
     private final InterfaceContext interfaceContext;
     private final GameState gameState;
     private GameMood gameMood;
@@ -47,10 +49,16 @@ public class Game {
     private final Set<Player> cancelPlayers = new HashSet<>();
 
     public Game(StashedGame stashedGame) {
+        this.createdDate = new Date();
+        this.lastUpdate = new Date();
         this.interfaceContext = stashedGame.getInterfaceContext();
         this.gameState = stashedGame.getGameState();
         this.players = stashedGame.getPlayers();
         this.gameMood = GameMood.DAY;// on the first night no one killed
+    }
+
+    public void update() {
+        this.lastUpdate = new Date();
     }
 
     public GameMood nextMode() {
@@ -96,8 +104,8 @@ public class Game {
     }
 
     public void killPlayer(Player player) {
-       if(player==null)
-           return;
+        if (player == null)
+            return;
         switch (player.getRole()) {
             case MAFIA:
                 gameState.killMafia();
@@ -232,7 +240,9 @@ public class Game {
     @Override
     public String toString() {
         return "Game{" +
-                "interfaceContext=" + interfaceContext +
+                "createdDate=" + createdDate +
+                ", lastUpdate=" + lastUpdate +
+                ", interfaceContext=" + interfaceContext +
                 ", gameState=" + gameState +
                 ", gameMood=" + gameMood +
                 ", players=" + players +

@@ -22,6 +22,7 @@ import co.mafiagame.common.channel.InterfaceContext;
 import co.mafiagame.engine.exception.PlayerAlreadyRegisteredException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,9 +32,13 @@ public class StashedGame {
     private final InterfaceContext interfaceContext;
     private final GameState gameState;
     private final List<Player> players = new ArrayList<>();
+    private Date createdDate;
+    private Date lastUpdate;
 
     public StashedGame(InterfaceContext interfaceContext, int citizenNum,
                        int mafiaNum, int detectorNum, int doctorNum) {
+        this.createdDate = new Date();
+        this.lastUpdate = new Date();
         this.interfaceContext = interfaceContext;
         gameState = new GameState(citizenNum, mafiaNum, detectorNum, doctorNum);
     }
@@ -43,6 +48,7 @@ public class StashedGame {
     }
 
     public boolean register(Player player) {
+        this.lastUpdate = new Date();
         if (players.contains(player))
             throw new PlayerAlreadyRegisteredException();
         players.add(player);
@@ -56,5 +62,16 @@ public class StashedGame {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    @Override
+    public String toString() {
+        return "StashedGame{" +
+                "interfaceContext=" + interfaceContext +
+                ", gameState=" + gameState +
+                ", players=" + players +
+                ", createdDate=" + createdDate +
+                ", lastUpdate=" + lastUpdate +
+                '}';
     }
 }

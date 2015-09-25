@@ -59,6 +59,7 @@ public class GameApi {
 
     public void startElection(InterfaceContext interfaceContext) {
         Game game = gameContainer.getGame(interfaceContext);
+        game.update();
         commandExecutor.run(interfaceContext, Constants.CMD.START_ELECTION,
                 new EmptyContext(interfaceContext, game));
     }
@@ -66,6 +67,7 @@ public class GameApi {
     public void vote(InterfaceContext interfaceContext, String voterUsername,
                      List<String> votedUsername) {
         Game game = gameContainer.getGame(interfaceContext);
+        game.update();
         commandExecutor.run(interfaceContext, Constants.CMD.VOTE,
                 new VoteCommandContext(interfaceContext, game, voterUsername,
                         votedUsername));
@@ -74,6 +76,7 @@ public class GameApi {
     public void detectorAsk(InterfaceContext interfaceContext, String username,
                             String who) {
         Game game = gameContainer.getGame(interfaceContext);
+        game.update();
         commandExecutor.run(interfaceContext, Constants.CMD.DETECTOR_ASK,
                 new DetectorAskCommandContext(interfaceContext, game, username,
                         who));
@@ -81,6 +84,7 @@ public class GameApi {
 
     public void startFinalElection(InterfaceContext interfaceContext) {
         Game game = gameContainer.getGame(interfaceContext);
+        game.update();
         commandExecutor.run(interfaceContext,
                 Constants.CMD.START_FINAL_ELECTION, new EmptyContext(interfaceContext, game));
     }
@@ -88,6 +92,7 @@ public class GameApi {
     public void mafiaKillVote(InterfaceContext interfaceContext,
                               String voterMafia, String username) {
         Game game = gameContainer.getGame(interfaceContext);
+        game.update();
         commandExecutor.run(interfaceContext, Constants.CMD.MAFIA_VOTE,
                 new MafiaKillsCommandContext(interfaceContext, game, voterMafia, username));
     }
@@ -95,12 +100,14 @@ public class GameApi {
     public void doctorHeal(InterfaceContext interfaceContext,
                            String doctorName, String healedName) {
         Game game = gameContainer.getGame(interfaceContext);
+        game.update();
         commandExecutor.run(interfaceContext, Constants.CMD.DOCTOR_HEAL,
                 new DoctorHealCommandContext(interfaceContext, game, doctorName, healedName));
     }
 
     public void whoIsPlaying(InterfaceContext interfaceContext) {
         Game game = gameContainer.getGame(interfaceContext);
+        game.update();
         commandExecutor.run(interfaceContext, Constants.CMD.WHO_IS_PLAYING,
                 new EmptyContext(interfaceContext, game));
     }
@@ -111,6 +118,7 @@ public class GameApi {
 
     public void cancelGame(InterfaceContext interfaceContext, String username) {
         Game game = gameContainer.getGame(interfaceContext);
+        game.update();
         commandExecutor.run(interfaceContext, Constants.CMD.CANCEL,
                 new CancelCommandContext(interfaceContext, game, username));
     }
