@@ -47,6 +47,7 @@ public class VoteCommand extends VotableCommand<VoteCommandContext> {
     public ResultMessage execute(VoteCommandContext context) {
         validateGameNotNull(context);
         Game game = context.getGame();
+        game.update();
         if (game.getGameMood() != GameMood.DAY)
             throw new VoteOnNightException();
         if (game.getElectionMood() == ElectionMood.NONE)

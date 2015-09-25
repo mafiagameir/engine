@@ -47,6 +47,7 @@ public class DoctorHealCommand implements Command<DoctorHealCommandContext> {
     public ResultMessage execute(DoctorHealCommandContext context) {
         validateGameNotNull(context);
         Game game = context.getGame();
+        game.update();
         if (context.getInterfaceContext().getSenderType() != ChannelType.USER_PRIVATE)
             throw new NotInDoctorPrivateException();
         if (game.getPlayerByUsername(context.getDoctorName()).getRole() != Role.DOCTOR)

@@ -22,6 +22,7 @@ import co.mafiagame.common.Constants;
 import co.mafiagame.common.domain.result.Message;
 import co.mafiagame.common.domain.result.ResultMessage;
 import co.mafiagame.engine.command.context.EmptyContext;
+import co.mafiagame.engine.domain.Game;
 import co.mafiagame.engine.domain.Player;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +38,9 @@ public class WhoIsPlayingCommand implements Command<EmptyContext> {
     @Override
     public ResultMessage execute(EmptyContext context) {
         validateGameNotNull(context);
-        List<Player> players = context.getGame().getPlayers();
+        Game game = context.getGame();
+        game.update();
+        List<Player> players = game.getPlayers();
         List<Message> messages = players.stream()
                 .map(p -> new Message("user.playing", context.getInterfaceContext().getUserId(), p.getAccount().getUsername()))
                 .collect(Collectors.toList());

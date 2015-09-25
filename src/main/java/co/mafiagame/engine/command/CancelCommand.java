@@ -44,6 +44,7 @@ public class CancelCommand implements Command<CancelCommandContext> {
     public ResultMessage execute(CancelCommandContext context) {
         validateGameNotNull(context);
         Game game = context.getGame();
+        game.update();
         Player cancelPlayer = game.getPlayerByUsername(context.getUsername());
         game.getCancelPlayers().add(cancelPlayer);
         if (game.checkGameOver() == GameResult.CANCELED) {

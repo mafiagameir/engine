@@ -41,6 +41,7 @@ public class StartElectionCommand implements Command<EmptyContext> {
     public ResultMessage execute(EmptyContext context) {
         validateGameNotNull(context);
         Game game = context.getGame();
+        game.update();
         game.startElection(false);
         List<String> users = game.getPlayers().stream()
                 .map(Player::getAccount)

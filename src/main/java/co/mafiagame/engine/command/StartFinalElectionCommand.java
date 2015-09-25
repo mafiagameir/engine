@@ -45,6 +45,7 @@ public class StartFinalElectionCommand implements Command<EmptyContext> {
     public ResultMessage execute(EmptyContext context) {
         validateGameNotNull(context);
         Game game = context.getGame();
+        game.update();
         if (game.getElectionMood() != ElectionMood.NONE)
             throw new ElectionAlreadyStarted();
         if (game.getGameMood() != GameMood.DAY)

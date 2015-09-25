@@ -49,6 +49,7 @@ public class MafiaKillsCommand extends VotableCommand<MafiaKillsCommandContext> 
     public ResultMessage execute(MafiaKillsCommandContext context) {
         validateGameNotNull(context);
         Game game = context.getGame();
+        game.update();
         Player voter = game.getPlayerByUsername(context.getMafiaVoter());
         if (game.getGameMood() != GameMood.NIGHT_MAFIA)
             throw new MafiaVoteOnWrongMoodException();

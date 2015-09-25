@@ -49,6 +49,7 @@ public class DetectorAskCommand implements Command<DetectorAskCommandContext> {
     public ResultMessage execute(DetectorAskCommandContext context) {
         validateGameNotNull(context);
         Game game = context.getGame();
+        game.update();
         Player detector = game.getPlayerByUsername(context.getUsername());
         if (context.getInterfaceContext().getSenderType() != ChannelType.USER_PRIVATE)
             throw new CommandIsUnavailableHereException();
