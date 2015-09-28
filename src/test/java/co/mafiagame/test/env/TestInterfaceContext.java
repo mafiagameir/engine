@@ -52,6 +52,11 @@ public class TestInterfaceContext implements InterfaceContext {
     }
 
     @Override
+    public String getUserName() {
+        return userId;
+    }
+
+    @Override
     public String getRoomId() {
         return gameIdentity;
     }

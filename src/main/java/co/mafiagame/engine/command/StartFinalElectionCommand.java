@@ -53,7 +53,7 @@ public class StartFinalElectionCommand implements Command<EmptyContext> {
         game.startElection(true);
         List<String> users = game.getPlayers().stream().map(Player::getAccount).map(Account::getUsername)
                 .collect(Collectors.toList());
-        return new ResultMessage(new Message("final.election.started", null,
+        return new ResultMessage(new Message("final.election.started", null, null,
                 game.makeOption(Constants.CMD.VOTE, true), users),
                 ChannelType.GENERAL, context.getInterfaceContext());
     }

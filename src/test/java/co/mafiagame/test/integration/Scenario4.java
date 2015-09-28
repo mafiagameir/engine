@@ -102,10 +102,10 @@ public class Scenario4 {
     public void startGame() throws InterruptedException {
 
         gameApi.startStashedGame(naziIc, 1, 1, 1, 1);
-        gameApi.register(naziIc, "nazi",null,null);
-        gameApi.register(esaIc, "esa",null,null);
-        gameApi.register(hamidIc, "hamid",null,null);
-        gameApi.register(maryamIc, "maryam",null,null);
+        gameApi.register(naziIc, "nazi", null, null);
+        gameApi.register(esaIc, "esa", null, null);
+        gameApi.register(hamidIc, "hamid", null, null);
+        gameApi.register(maryamIc, "maryam", null, null);
         commandExecutor.waitUntilOver(ic);
     }
 

@@ -54,8 +54,9 @@ public class MafiaElectionFinishedCommand extends
         electionResult(messages, game);
 
         if (electionOver) {
-            game.getMafias().stream().map(Player::getAccount).map(Account::getUserInterfaceId)
-                    .map(mafia -> new Message("detector.night.started.be.silent", mafia))
+            game.getMafias().stream().map(Player::getAccount)
+                    .map(mafia -> new Message("detector.night.started.be.silent",
+                            mafia.getUserInterfaceId(), mafia.getUsername()))
                     .forEach(messages::add);
 
             commandExecutor.run(context.getInterfaceContext(),
@@ -72,7 +73,9 @@ public class MafiaElectionFinishedCommand extends
         if (usersEqualMaxVote == null) {
             game.clearElection();
             game.getMafias().forEach(p ->
-                    messages.add(new Message("you.kill.nobody", p.getAccount().getUserInterfaceId())));
+                    messages.add(new Message("you.kill.nobody",
+                            p.getAccount().getUserInterfaceId(),
+                            p.getAccount().getUsername())));
             return true;
         } else {
             Player maxVoted = usersEqualMaxVote.get(0);
@@ -81,7 +84,7 @@ public class MafiaElectionFinishedCommand extends
                 game.clearElection();
                 game.getMafias().forEach(p ->
                         messages.add(new Message("you.kill.a.player",
-                                p.getAccount().getUserInterfaceId(), maxVoted.getAccount().getUsername())));
+                                p.getAccount().getUserInterfaceId(), p.getAccount().getUsername(), maxVoted.getAccount().getUsername())));
                 return true;
             } else {
                 int maxVoteNum = votes.get(maxVoted).size();
@@ -89,6 +92,7 @@ public class MafiaElectionFinishedCommand extends
                         messages.add(new Message(
                                 "you.cant.decide.who.to.kill",
                                 p.getAccount().getUserInterfaceId(),
+                                p.getAccount().getUsername(),
                                 ListToString.toString(
                                         usersEqualMaxVote.stream()
                                                 .map(Player::getAccount)

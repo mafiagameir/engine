@@ -38,7 +38,6 @@ import java.util.Map;
 
 /**
  * @author hekmatof
- *
  */
 @Component
 public class HandleGameOverCommand implements Command<EmptyContext> {
@@ -59,11 +58,11 @@ public class HandleGameOverCommand implements Command<EmptyContext> {
         interfaceChannel.gameOver(game.getBackupPlayerState().keySet());
         GameResult gameResult = game.checkGameOver();
         if (gameResult == GameResult.CITIZEN_WIN)
-            messages.add(new Message("citizens.win", null));
+            messages.add(new Message("citizens.win", null, null));
         else if (gameResult == GameResult.CANCELED)
-            messages.add(new Message("game.canceled", null));
+            messages.add(new Message("game.canceled", null, null));
         else
-            messages.add(new Message("mafia.win", null));
+            messages.add(new Message("mafia.win", null, null));
         return new ResultMessage(messages, ChannelType.GENERAL, context.getInterfaceContext());
     }
 

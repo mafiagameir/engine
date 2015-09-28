@@ -57,7 +57,7 @@ public class ElectionFinishedCommand extends
         if (game.getElectionMood() == ElectionMood.FINALELECTION) {
             boolean electionOver = citizenFinalElectionHandler(messages, game);
             if (electionOver) {
-                messages.add(new Message("night.started.be.silent", null));
+                messages.add(new Message("night.started.be.silent", null, null));
                 commandExecutor.run(context.getInterfaceContext(),
                         Constants.CMD.Internal.NEXT_MOOD, new EmptyContext(
                                 context.getInterfaceContext(), game));
@@ -70,10 +70,10 @@ public class ElectionFinishedCommand extends
     private boolean citizenFinalElectionHandler(List<Message> messages,
                                                 Game game) {
         Map<Player, List<Player>> votes = game.getPlayerVote();
-        List<Player> usersEqualMaxVote = findMaxVoted(game,false);
+        List<Player> usersEqualMaxVote = findMaxVoted(game, false);
         if (usersEqualMaxVote == null) {
             game.clearElection();
-            messages.add(new Message("nobody.was.killed.with.maximum.votes", null));
+            messages.add(new Message("nobody.was.killed.with.maximum.votes", null, null));
             return true;
         } else {
             Player maxVoted = usersEqualMaxVote.get(0);

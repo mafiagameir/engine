@@ -247,31 +247,31 @@ public class Scenario2 {
     public void startGameHalf() throws InterruptedException {
 
         gameApi.startStashedGame(naziIc, 5, 3, 1, 1);
-        gameApi.register(naziIc, "nazi",null,null);
-        gameApi.register(esaIc, "esa",null,null);
-        gameApi.register(hamidIc, "hamid",null,null);
-        gameApi.register(maryamIc, "maryam",null,null);
-        gameApi.register(moradIc, "morad",null,null);
-        gameApi.register(shahinIc, "shahin",null,null);
-        gameApi.register(hassanId, "hassan",null,null);
-        gameApi.register(raziIc, "razi",null,null);
-        gameApi.register(zibaIc, "ziba",null,null);
+        gameApi.register(naziIc, "nazi", null, null);
+        gameApi.register(esaIc, "esa", null, null);
+        gameApi.register(hamidIc, "hamid", null, null);
+        gameApi.register(maryamIc, "maryam", null, null);
+        gameApi.register(moradIc, "morad", null, null);
+        gameApi.register(shahinIc, "shahin", null, null);
+        gameApi.register(hassanId, "hassan", null, null);
+        gameApi.register(raziIc, "razi", null, null);
+        gameApi.register(zibaIc, "ziba", null, null);
         commandExecutor.waitUntilOver(ic);
     }
 
     public void startGameFinal() throws InterruptedException {
 
         gameApi.startStashedGame(naziIc, 5, 3, 1, 1);
-        gameApi.register(naziIc, "nazi",null,null);
-        gameApi.register(esaIc, "esa",null,null);
-        gameApi.register(hamidIc, "hamid",null,null);
-        gameApi.register(maryamIc, "maryam",null,null);
-        gameApi.register(moradIc, "morad",null,null);
-        gameApi.register(shahinIc, "shahin",null,null);
-        gameApi.register(hassanId, "hassan",null,null);
-        gameApi.register(raziIc, "razi",null,null);
-        gameApi.register(zibaIc, "ziba",null,null);
-        gameApi.register(khalilIc, "khalil",null,null);
+        gameApi.register(naziIc, "nazi", null, null);
+        gameApi.register(esaIc, "esa", null, null);
+        gameApi.register(hamidIc, "hamid", null, null);
+        gameApi.register(maryamIc, "maryam", null, null);
+        gameApi.register(moradIc, "morad", null, null);
+        gameApi.register(shahinIc, "shahin", null, null);
+        gameApi.register(hassanId, "hassan", null, null);
+        gameApi.register(raziIc, "razi", null, null);
+        gameApi.register(zibaIc, "ziba", null, null);
+        gameApi.register(khalilIc, "khalil", null, null);
         commandExecutor.waitUntilOver(ic);
     }
 

@@ -74,7 +74,7 @@ public class StartGameCommand implements Command<StartGameCommandContext> {
         commandExecutor.run(context.getInterfaceContext(),
                 Constants.CMD.Internal.ANNOUNCE_ROLES,
                 new EmptyContext(context.getInterfaceContext(), game));
-        return new ResultMessage(new Message("game.started", null),
+        return new ResultMessage(new Message("game.started", null, null),
                 ChannelType.GENERAL, context.getInterfaceContext());
     }
 

@@ -51,19 +51,19 @@ public class AnnounceRoleCommand implements Command<EmptyContext> {
                             switch (p.getRole()) {
                                 case CITIZEN:
                                     messages.add(new Message("your.role.is.citizen",
-                                            p.getAccount().getUserInterfaceId()));
+                                            p.getAccount().getUserInterfaceId(), p.getAccount().getUsername()));
                                     break;
                                 case MAFIA:
                                     messages.add(new Message("your.role.is.mafia",
-                                            p.getAccount().getUserInterfaceId()));
+                                            p.getAccount().getUserInterfaceId(), p.getAccount().getUsername()));
                                     break;
                                 case DETECTOR:
                                     messages.add(new Message("your.role.is.detector",
-                                            p.getAccount().getUserInterfaceId()));
+                                            p.getAccount().getUserInterfaceId(), p.getAccount().getUsername()));
                                     break;
                                 case DOCTOR:
                                     messages.add(new Message("your.role.is.doctor",
-                                            p.getAccount().getUserInterfaceId()));
+                                            p.getAccount().getUserInterfaceId(), p.getAccount().getUsername()));
                                     break;
                             }
                         });

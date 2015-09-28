@@ -47,7 +47,7 @@ public class StartElectionCommand implements Command<EmptyContext> {
                 .map(Player::getAccount)
                 .map(Account::getUsername)
                 .collect(Collectors.toList());
-        return new ResultMessage(new Message("election.started", null,
+        return new ResultMessage(new Message("election.started", null, null,
                 game.makeOption(Constants.CMD.VOTE, true), users),
                 ChannelType.GENERAL, context.getInterfaceContext());
     }

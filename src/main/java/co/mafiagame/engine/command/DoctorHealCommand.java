@@ -58,7 +58,9 @@ public class DoctorHealCommand implements Command<DoctorHealCommandContext> {
         commandExecutor.run(context.getInterfaceContext(),
                 Constants.CMD.Internal.NEXT_MOOD,
                 new EmptyContext(context.getInterfaceContext(), game));
-        return new ResultMessage(new Message("ok", game.getDoctor().getAccount().getUserInterfaceId()),
+        return new ResultMessage(new Message("ok",
+                game.getDoctor().getAccount().getUserInterfaceId(),
+                game.getDoctor().getAccount().getUsername()),
                 context.getInterfaceContext().getSenderType(),
                 context.getInterfaceContext());
     }

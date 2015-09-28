@@ -67,7 +67,7 @@ public class NextMoodCommand implements Command<EmptyContext> {
                 return nextModeIsDoctorNight(context.getInterfaceContext(), game);
             game.setGameMood(game.nextMode());
         }
-        return new ResultMessage(new Message("", null), ChannelType.NONE,
+        return new ResultMessage(new Message("", null, null), ChannelType.NONE,
                 context.getInterfaceContext());
     }
 
@@ -77,6 +77,7 @@ public class NextMoodCommand implements Command<EmptyContext> {
         return new ResultMessage(
                 new Message("doctor.night.started",
                         doctorAccount.getUserInterfaceId(),
+                        doctorAccount.getUsername(),
                         game.makeOption(Constants.CMD.DOCTOR_HEAL, false),
                         Collections.singletonList(doctorAccount.getUsername())
                 ),
@@ -88,6 +89,7 @@ public class NextMoodCommand implements Command<EmptyContext> {
         Account detectorAccount = game.getDetector().getAccount();
         return new ResultMessage(
                 new Message("detector.night.started", detectorAccount.getUserInterfaceId(),
+                        detectorAccount.getUsername(),
                         game.makeOption(Constants.CMD.DETECTOR_ASK, false),
                         Collections.singletonList(detectorAccount.getUsername())
                 ),
@@ -99,6 +101,7 @@ public class NextMoodCommand implements Command<EmptyContext> {
         List<Message> messageList = game.getMafias().stream()
                 .map(Player::getAccount)
                 .map(a -> new Message("mafia.night.started", a.getUserInterfaceId(),
+                                a.getUsername(),
                                 game.makeOption(Constants.CMD.MAFIA_VOTE, true),
                                 Collections.singletonList(a.getUsername())
                         )
@@ -122,7 +125,7 @@ public class NextMoodCommand implements Command<EmptyContext> {
         } else if (game.getHealCandidate().equals(tempKilled)) {
             game.clearKillCandidate();
             game.setGameMood(game.nextMode());
-            messages.add(new Message("nobody.was.killed.last.night", null));
+            messages.add(new Message("nobody.was.killed.last.night", null, null));
             return new ResultMessage(messages, ChannelType.GENERAL, context);
         } else {
             game.killPlayer(tempKilled);
@@ -134,7 +137,7 @@ public class NextMoodCommand implements Command<EmptyContext> {
                     Constants.CMD.Internal.HANDLE_GAME_OVER, new EmptyContext(context, game));
         game.setGameMood(game.nextMode());
         if (tempKilled == null)
-            messages.add(new Message("nobody.was.killed.last.night", null));
+            messages.add(new Message("nobody.was.killed.last.night", null, null));
         else
             messages.add(new Message("user.was.killed.last.night", null,
                     tempKilled.getAccount().getUsername()));

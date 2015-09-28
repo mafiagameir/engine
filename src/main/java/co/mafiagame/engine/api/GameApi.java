@@ -52,9 +52,9 @@ public class GameApi {
                         citizenNum, mafiaNum, detectorNum, doctorNum));
     }
 
-    public void register(InterfaceContext interfaceContext, String username,String firstName, String lastName) {
+    public void register(InterfaceContext interfaceContext, String username, String firstName, String lastName) {
         commandExecutor.run(interfaceContext, Constants.CMD.REGISTER,
-                new RegisterCommandContext(interfaceContext, username,firstName,lastName));
+                new RegisterCommandContext(interfaceContext, username, firstName, lastName));
     }
 
     public void startElection(InterfaceContext interfaceContext) {
@@ -114,8 +114,9 @@ public class GameApi {
         commandExecutor.run(interfaceContext, Constants.CMD.CANCEL,
                 new CancelCommandContext(interfaceContext, game, username));
     }
-    public void commandNotFound(InterfaceContext interfaceContext){
-        commandExecutor.run(interfaceContext,Constants.CMD.COMMAND_NOT_FOUND,new EmptyContext(interfaceContext,null));
+
+    public void commandNotFound(InterfaceContext interfaceContext) {
+        commandExecutor.run(interfaceContext, Constants.CMD.COMMAND_NOT_FOUND, new EmptyContext(interfaceContext, null));
     }
 
 }

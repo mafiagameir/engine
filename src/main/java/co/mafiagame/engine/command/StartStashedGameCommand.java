@@ -56,7 +56,7 @@ public class StartStashedGameCommand implements Command<StartStashedGameCommandC
             throw new MoreThanOneDoctorException();
         if (context.getMafiaNum() < 1)
             throw new ZeroMafiaException();
-        if(gameContainer.getGame(context.getInterfaceContext())!=null)
+        if (gameContainer.getGame(context.getInterfaceContext()) != null)
             throw new GameAlreadyStartedException();
         StashedGame stashedGame = new StashedGame(
                 context.getInterfaceContext(), context.getCitizenNum(),
@@ -64,7 +64,7 @@ public class StartStashedGameCommand implements Command<StartStashedGameCommandC
                 context.getDoctorNum());
         stashedGameContainer.addGame(stashedGame);
         int sum = context.getCitizenNum() + context.getMafiaNum() + context.getDetectorNum() + context.getDoctorNum();
-        return new ResultMessage(new Message("stashed.game.started", null,
+        return new ResultMessage(new Message("stashed.game.started", null, null,
                 Collections.singletonList(new Option(Constants.CMD.REGISTER)), null,
                 String.valueOf(context.getCitizenNum()),
                 String.valueOf(context.getMafiaNum()),

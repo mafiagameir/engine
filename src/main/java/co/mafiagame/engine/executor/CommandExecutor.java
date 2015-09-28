@@ -77,7 +77,7 @@ public class CommandExecutor {
     }
 
     public void waitUntilOver(InterfaceContext ic) throws InterruptedException {
-        while (getExecutor(ic).getQueue().size() != 0 || getExecutor(ic).getActiveCount()!=0)
+        while (getExecutor(ic).getQueue().size() != 0 || getExecutor(ic).getActiveCount() != 0)
             Thread.sleep(50);
     }
 
@@ -94,7 +94,8 @@ public class CommandExecutor {
                         }
                     } catch (MafiaException e) {
                         ResultMessage resultMessage = new ResultMessage(
-                                new Message(e.getMessageCode(), interfaceContext.getUserId(), e.getMessageArgs()),
+                                new Message(e.getMessageCode(), interfaceContext.getUserId(),
+                                        interfaceContext.getUserName(), e.getMessageArgs()),
                                 interfaceContext.getSenderType(), interfaceContext);
                         logger.warn("on game {} :{}", interfaceContext, resultMessage);
                         channel.send(resultMessage);

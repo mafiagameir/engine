@@ -32,17 +32,17 @@ import java.util.stream.Collectors;
  * @author nazila
  */
 public abstract class ElectionHandlerCommand<T extends CommandContext> implements Command<T> {
-    protected List<Player> findMaxVoted(Game game,boolean isMafiaVote) {
+    protected List<Player> findMaxVoted(Game game, boolean isMafiaVote) {
         Map<Player, List<Player>> votes = game.getPlayerVote();
         long noBodyCount;
-        if(isMafiaVote){
+        if (isMafiaVote) {
             noBodyCount = game.getMafias().stream().filter(p -> {
                 for (Player key : votes.keySet())
                     if (votes.get(key).contains(p))
                         return false;
                 return true;
             }).count();
-        }else {
+        } else {
             noBodyCount = game.getPlayers().stream().filter(p -> {
                 for (Player key : votes.keySet())
                     if (votes.get(key).contains(p))

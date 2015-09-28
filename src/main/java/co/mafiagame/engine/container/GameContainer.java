@@ -24,7 +24,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,7 +46,7 @@ public class GameContainer {
         games.remove(ic);
     }
 
-    public Collection<Game> getGames(){
+    public Collection<Game> getGames() {
         return games.values();
     }
 }
