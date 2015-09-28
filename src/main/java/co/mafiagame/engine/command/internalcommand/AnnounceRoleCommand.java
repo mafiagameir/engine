@@ -28,6 +28,7 @@ import co.mafiagame.engine.command.Command;
 import co.mafiagame.engine.command.context.EmptyContext;
 import co.mafiagame.engine.domain.Game;
 import co.mafiagame.engine.domain.Player;
+import co.mafiagame.engine.util.RoleUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -48,24 +49,9 @@ public class AnnounceRoleCommand implements Command<EmptyContext> {
                 .stream()
                 .forEach(
                         p -> {
-                            switch (p.getRole()) {
-                                case CITIZEN:
-                                    messages.add(new Message("your.role.is.citizen",
-                                            p.getAccount().getUserInterfaceId(), p.getAccount().getUsername()));
-                                    break;
-                                case MAFIA:
-                                    messages.add(new Message("your.role.is.mafia",
-                                            p.getAccount().getUserInterfaceId(), p.getAccount().getUsername()));
-                                    break;
-                                case DETECTOR:
-                                    messages.add(new Message("your.role.is.detector",
-                                            p.getAccount().getUserInterfaceId(), p.getAccount().getUsername()));
-                                    break;
-                                case DOCTOR:
-                                    messages.add(new Message("your.role.is.doctor",
-                                            p.getAccount().getUserInterfaceId(), p.getAccount().getUsername()));
-                                    break;
-                            }
+                            messages.add(new Message(RoleUtil.roleIs(p.getRole()),
+                                    p.getAccount().getUserInterfaceId(),
+                                    p.getAccount().getUsername()));
                         });
         List<Player> mafias = game.getMafias();
         List<String> mafiaUserNames = mafias.stream().map(Player::getAccount)

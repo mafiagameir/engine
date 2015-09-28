@@ -119,4 +119,10 @@ public class GameApi {
         commandExecutor.run(interfaceContext, Constants.CMD.COMMAND_NOT_FOUND, new EmptyContext(interfaceContext, null));
     }
 
+    public void whatIsMyRole(InterfaceContext interfaceContext) {
+        Game game = gameContainer.getGame(interfaceContext);
+        commandExecutor.run(interfaceContext, Constants.CMD.WHAT_IS_MY_ROLE,
+                new EmptyContext(interfaceContext, game));
+    }
+
 }
