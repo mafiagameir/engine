@@ -63,8 +63,7 @@ public class VoteCommand extends VotableCommand<VoteCommandContext> {
         if (context.getVotedUsername().size() == 1
                 && Constants.NO_BODY.equals(context.getVotedUsername().get(0))) {
             return new ResultMessage(new Message("user.vote.nobody", null,
-                    context.getVoterUsername(), context.getVotedUsername()
-                    .toString()), ChannelType.GENERAL,
+                    context.getVoterUsername(), context.getVoterUsername()), ChannelType.GENERAL,
                     context.getInterfaceContext());
         } else {
 

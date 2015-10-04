@@ -83,12 +83,12 @@ public class ElectionFinishedCommand extends
 
                 game.clearElection();
                 messages.add(new Message("player.was.killed.with.maximum.votes",
-                        null, maxVoted.getAccount().getUsername(), String.valueOf(maxVoteNum)));
+                        null,null, maxVoted.getAccount().getUsername(), String.valueOf(maxVoteNum)));
                 return true;
             } else {
                 messages.add(new Message(
                         "nobody.was.killed.because.more.than.one.user.has.equal.vote",
-                        null, ListToString.toString(usersEqualMaxVote.stream().map(Player::getAccount)
+                        null,null, ListToString.toString(usersEqualMaxVote.stream().map(Player::getAccount)
                         .map(Account::getUsername).collect(Collectors.toList())),
                         String.valueOf(maxVoteNum)));
                 return false;

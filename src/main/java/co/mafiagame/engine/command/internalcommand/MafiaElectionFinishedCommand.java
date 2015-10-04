@@ -84,7 +84,8 @@ public class MafiaElectionFinishedCommand extends
                 game.clearElection();
                 game.getMafias().forEach(p ->
                         messages.add(new Message("you.kill.a.player",
-                                p.getAccount().getUserInterfaceId(), p.getAccount().getUsername(), maxVoted.getAccount().getUsername())));
+                                p.getAccount().getUserInterfaceId(), p.getAccount().getUsername(),
+                                maxVoted.getAccount().getUsername())));
                 return true;
             } else {
                 int maxVoteNum = votes.get(maxVoted).size();

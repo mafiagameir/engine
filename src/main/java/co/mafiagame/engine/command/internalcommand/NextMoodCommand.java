@@ -114,7 +114,7 @@ public class NextMoodCommand implements Command<EmptyContext> {
     private ResultMessage nextModeIsDay(InterfaceContext context, Game game) {
         List<Message> messages = new ArrayList<>();
         if (game.isTellGameState())
-            messages.add(new Message("game.state.is", null, String.valueOf(game
+            messages.add(new Message("game.state.is", null,null, String.valueOf(game
                     .getGameState().getMafiaNum()), String.valueOf(game
                     .getGameState().getCitizenNum())));
         game.toggleTellGameState();
