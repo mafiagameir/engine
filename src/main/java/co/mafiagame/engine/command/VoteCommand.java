@@ -67,7 +67,7 @@ public class VoteCommand extends VotableCommand<VoteCommandContext> {
                     context.getInterfaceContext());
         } else {
 
-            return new ResultMessage(new Message("user.vote.another", null,
+            return new ResultMessage(new Message("user.vote.another", null,null,
                     context.getVoterUsername(), ListToString.toString(context.getVotedUsername())),
                     ChannelType.GENERAL,
                     context.getInterfaceContext());

@@ -68,7 +68,7 @@ public abstract class ElectionHandlerCommand<T extends CommandContext> implement
     protected void electionResult(List<Message> messages, Game game) {
         Map<Player, List<Player>> votes = game.getPlayerVote();
         votes.keySet().stream().forEach(
-                p -> messages.add(new Message("vote.for.user", null,
+                p -> messages.add(new Message("vote.for.user", null,null,
                         p.getAccount().getUsername(),
                         String.valueOf(votes.get(p).size())
                 ))
