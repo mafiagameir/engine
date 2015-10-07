@@ -51,7 +51,7 @@ public class MafiaElectionFinishedCommand extends
         List<Message> messages = new ArrayList<>();
         Game game = context.getGame();
         boolean electionOver = mafiaFinalElectionHandler(messages, game);
-        electionResult(messages, game);
+        electionResult(messages, game,context);
 
         if (electionOver) {
             game.getMafias().stream().map(Player::getAccount)

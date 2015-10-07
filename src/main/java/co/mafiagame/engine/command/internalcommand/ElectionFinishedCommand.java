@@ -53,7 +53,7 @@ public class ElectionFinishedCommand extends
     public ResultMessage execute(EmptyContext context) {
         List<Message> messages = new ArrayList<>();
         Game game = context.getGame();
-        electionResult(messages, game);
+        electionResult(messages, game,context);
         if (game.getElectionMood() == ElectionMood.FINALELECTION) {
             boolean electionOver = citizenFinalElectionHandler(messages, game);
             if (electionOver) {
