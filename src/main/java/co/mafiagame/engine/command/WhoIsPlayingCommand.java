@@ -27,7 +27,9 @@ import co.mafiagame.engine.domain.Player;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Collections;
 import java.util.stream.Collectors;
+
 
 /**
  * @author nazila
@@ -41,6 +43,7 @@ public class WhoIsPlayingCommand implements Command<EmptyContext> {
         Game game = context.getGame();
         game.update();
         List<Player> players = game.getPlayers();
+        Collections.shuffle(players);
         List<Message> messages = players.stream()
                 .map(p -> new Message("user.playing", context.getInterfaceContext().getUserId(),
                         context.getInterfaceContext().getUserName(),
