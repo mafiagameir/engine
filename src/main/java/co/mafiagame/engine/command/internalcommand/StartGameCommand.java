@@ -92,6 +92,7 @@ public class StartGameCommand implements Command<StartGameCommandContext> {
         assigned += gameState.getDetectorNum();
         for (int i = 0; i < gameState.getDoctorNum(); i++)
             players.get(assigned + i).setRole(Role.DOCTOR);
+        Collections.shuffle(players);
     }
 
     @Override
