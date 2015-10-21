@@ -28,6 +28,7 @@ import co.mafiagame.engine.command.context.VoteCommandContext;
 import co.mafiagame.engine.domain.ElectionMood;
 import co.mafiagame.engine.domain.Game;
 import co.mafiagame.engine.domain.GameMood;
+import co.mafiagame.engine.domain.Player;
 import co.mafiagame.engine.exception.NoElectionStartedException;
 import co.mafiagame.engine.exception.VoteOnNightException;
 import co.mafiagame.engine.executor.CommandExecutor;
@@ -53,8 +54,9 @@ public class VoteCommand extends VotableCommand<VoteCommandContext> {
         if (game.getElectionMood() == ElectionMood.NONE)
             throw new NoElectionStartedException();
         for (String voted : context.getVotedUsername()) {
-            vote(game.getPlayerByUsername(context.getVoterUsername()), voted,
-                    game);
+            Player voter = game.getPlayerByUsername(context.getVoterUsername());
+            vote(voter, voted, game);
+            voter.setVoted(true);
         }
         if (game.checkElectionIsOver())
             commandExecutor.run(context.getInterfaceContext(),
@@ -67,7 +69,7 @@ public class VoteCommand extends VotableCommand<VoteCommandContext> {
                     context.getInterfaceContext());
         } else {
 
-            return new ResultMessage(new Message("user.vote.another", null,null,
+            return new ResultMessage(new Message("user.vote.another", null, null,
                     context.getVoterUsername(), ListToString.toString(context.getVotedUsername())),
                     ChannelType.GENERAL,
                     context.getInterfaceContext());

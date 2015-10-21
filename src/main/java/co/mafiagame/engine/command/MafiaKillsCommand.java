@@ -56,6 +56,7 @@ public class MafiaKillsCommand extends VotableCommand<MafiaKillsCommandContext> 
         if (voter.getRole() != Role.MAFIA)
             throw new YouAreNotMafiaException();
         vote(voter, context.getUserVoted(), game);
+        voter.setVoted(true);
         if (game.checkMafiaElectionIsOver())
             commandExecutor.run(context.getInterfaceContext(),
                     Constants.CMD.Internal.MAFIA_ELECTION_FINISHED,
