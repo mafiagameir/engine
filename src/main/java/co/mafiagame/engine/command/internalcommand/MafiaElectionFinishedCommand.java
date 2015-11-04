@@ -51,7 +51,7 @@ public class MafiaElectionFinishedCommand extends
         List<Message> messages = new ArrayList<>();
         Game game = context.getGame();
         boolean electionOver = mafiaFinalElectionHandler(messages, game);
-        electionResult(messages, game);
+        electionResult(messages, game,context);
 
         if (electionOver) {
             game.getMafias().stream().map(Player::getAccount)
@@ -84,7 +84,8 @@ public class MafiaElectionFinishedCommand extends
                 game.clearElection();
                 game.getMafias().forEach(p ->
                         messages.add(new Message("you.kill.a.player",
-                                p.getAccount().getUserInterfaceId(), p.getAccount().getUsername(), maxVoted.getAccount().getUsername())));
+                                p.getAccount().getUserInterfaceId(), p.getAccount().getUsername(),
+                                maxVoted.getAccount().getUsername())));
                 return true;
             } else {
                 int maxVoteNum = votes.get(maxVoted).size();

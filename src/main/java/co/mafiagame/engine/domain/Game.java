@@ -237,6 +237,10 @@ public class Game {
         players.stream().forEach(p -> backupPlayerState.put(p.getAccount().getUsername(), p.getRole()));
     }
 
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
     @Override
     public String toString() {
         return "Game{" +

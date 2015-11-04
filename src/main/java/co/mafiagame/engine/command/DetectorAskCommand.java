@@ -64,10 +64,12 @@ public class DetectorAskCommand implements Command<DetectorAskCommandContext> {
         Message message;
         if (who.getRole() == Role.MAFIA)
             message = new Message("user.role.is.mafia", detector.getAccount().getUserInterfaceId(),
+                    detector.getAccount().getUsername(),
                     who.getAccount().getUsername());
         else
             message = new Message("user.role.is.not.mafia",
                     detector.getAccount().getUserInterfaceId(),
+                    detector.getAccount().getUsername(),
                     who.getAccount().getUsername());
         return new ResultMessage(message, ChannelType.USER_PRIVATE,
                 context.getInterfaceContext());

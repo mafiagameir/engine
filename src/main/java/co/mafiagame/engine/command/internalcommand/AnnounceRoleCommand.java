@@ -58,7 +58,7 @@ public class AnnounceRoleCommand implements Command<EmptyContext> {
                 .map(Account::getUsername).collect(Collectors.toList());
         mafias.stream().forEach(
                 m -> messages.add(new Message("mafia.are.players",
-                        m.getAccount().getUserInterfaceId(),
+                        m.getAccount().getUserInterfaceId(),m.getAccount().getUsername(),
                         ListToString.toString(mafiaUserNames))));
         return new ResultMessage(messages, ChannelType.USER_PRIVATE, context.getInterfaceContext());
     }

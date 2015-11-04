@@ -56,6 +56,7 @@ public class MafiaKillsCommand extends VotableCommand<MafiaKillsCommandContext> 
         if (voter.getRole() != Role.MAFIA)
             throw new YouAreNotMafiaException();
         vote(voter, context.getUserVoted(), game);
+        voter.setVoted(true);
         if (game.checkMafiaElectionIsOver())
             commandExecutor.run(context.getInterfaceContext(),
                     Constants.CMD.Internal.MAFIA_ELECTION_FINISHED,
@@ -64,10 +65,12 @@ public class MafiaKillsCommand extends VotableCommand<MafiaKillsCommandContext> 
         if (Constants.NO_BODY.equals(context.getUserVoted())) {
             game.getMafias().forEach(
                     m -> messages.add(new Message("user.vote.nobody", m.getAccount().getUserInterfaceId(),
+                            m.getAccount().getUsername(),
                             context.getMafiaVoter())));
         } else {
             game.getMafias().forEach(
                     m -> messages.add(new Message("user.vote.another", m.getAccount().getUserInterfaceId(),
+                            m.getAccount().getUsername(),
                             context.getMafiaVoter(), context.getUserVoted())));
         }
         return new ResultMessage(

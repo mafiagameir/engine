@@ -52,7 +52,7 @@ public class HandleGameOverCommand implements Command<EmptyContext> {
         List<Message> messages = new ArrayList<>();
         Map<String, Role> backupPlayerState = game.getBackupPlayerState();
         backupPlayerState.keySet().stream().forEach(
-                user -> messages.add(new Message("player.role.was", null, user,
+                user -> messages.add(new Message("player.role.was", null,null, user,
                         backupPlayerState.get(user).name())));
         gameContainer.finished(context.getInterfaceContext());
         interfaceChannel.gameOver(game.getBackupPlayerState().keySet());
