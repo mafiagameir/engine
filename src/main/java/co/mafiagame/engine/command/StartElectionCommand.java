@@ -24,8 +24,10 @@ import co.mafiagame.common.domain.result.ChannelType;
 import co.mafiagame.common.domain.result.Message;
 import co.mafiagame.common.domain.result.ResultMessage;
 import co.mafiagame.engine.command.context.EmptyContext;
+import co.mafiagame.engine.domain.ElectionMood;
 import co.mafiagame.engine.domain.Game;
 import co.mafiagame.engine.domain.Player;
+import co.mafiagame.engine.exception.ElectionAlreadyStarted;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -42,6 +44,8 @@ public class StartElectionCommand implements Command<EmptyContext> {
         validateGameNotNull(context);
         Game game = context.getGame();
         game.update();
+        if (game.getElectionMood() != ElectionMood.NONE)
+            throw new ElectionAlreadyStarted();
         game.startElection(false);
         List<String> users = game.getPlayers().stream()
                 .map(Player::getAccount)
