@@ -43,10 +43,11 @@ public class PurgeTimer extends TimerTask {
     @PostConstruct
     public void initPurgeTimer() {
         Calendar now = Calendar.getInstance();
-        now.add(Calendar.DATE, 1);
-        now.set(Calendar.HOUR_OF_DAY, 6);
+        now.add(Calendar.SECOND,10);
+        //now.add(Calendar.DATE, 1);
+        //now.set(Calendar.HOUR_OF_DAY, 6);
         Timer timer = new Timer();
-        timer.schedule(this, now.getTime(), 86400000);
+        timer.schedule(this, now.getTime(), 5000);
     }
 
     @Override
@@ -56,11 +57,13 @@ public class PurgeTimer extends TimerTask {
         Calendar oneDayAgo = Calendar.getInstance();
         oneDayAgo.add(Calendar.DATE, -1);
         gameContainer.getGames().forEach(game -> {
-            if (twoDayAgo.after(game.getLastUpdate()))
+            Calendar gameLastUpdate= Calendar.getInstance();
+            gameLastUpdate.setTime(game.getLastUpdate());
+            if (twoDayAgo.after(gameLastUpdate))
                 commandExecutor.run(game.getInterfaceContext(),
                         Constants.CMD.Internal.PURGE,
                         new EmptyContext(game.getInterfaceContext(), game));
-            else if(oneDayAgo.after(game.getLastUpdate()))
+            else if(oneDayAgo.after(gameLastUpdate))
                 commandExecutor.run(game.getInterfaceContext(),
                         Constants.CMD.Internal.PURGE_ALARM,
                         new EmptyContext(game.getInterfaceContext(), game));
