@@ -42,7 +42,7 @@ public class WhatIsMyRoleCommand implements Command<EmptyContext> {
         if (context.getInterfaceContext().getSenderType() != ChannelType.USER_PRIVATE)
             throw new CommandIsUnavailableHereException();
         game.update();
-        Role role = game.getPlayerByUsername(context.getInterfaceContext().getUserName()).getRole();
+        Role role = game.playerByUsername(context.getInterfaceContext().getUserName()).getRole();
         return new ResultMessage(new Message(RoleUtil.roleIs(role),
                 context.getInterfaceContext().getUserId(),
                 context.getInterfaceContext().getUserName()),

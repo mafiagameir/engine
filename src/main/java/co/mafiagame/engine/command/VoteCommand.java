@@ -54,7 +54,7 @@ public class VoteCommand extends VotableCommand<VoteCommandContext> {
         if (game.getElectionMood() == ElectionMood.NONE)
             throw new NoElectionStartedException();
         for (String voted : context.getVotedUsername()) {
-            Player voter = game.getPlayerByUsername(context.getVoterUsername());
+            Player voter = game.playerByUsername(context.getVoterUsername());
             vote(voter, voted, game);
             voter.setVoted(true);
         }

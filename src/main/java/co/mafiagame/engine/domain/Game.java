@@ -32,14 +32,14 @@ import java.util.stream.Collectors;
  *
  * @author hekmatof
  */
-public class Game {
+public class Game implements InterfaceContextAware {
 
     private Date createdDate;
     private Date lastUpdate;
-    private final InterfaceContext interfaceContext;
-    private final GameState gameState;
+    private InterfaceContext interfaceContext;
+    private GameState gameState;
     private GameMood gameMood;
-    private final List<Player> players;
+    private List<Player> players;
     private Map<Player, List<Player>> playerVote = new HashMap<>();
     private ElectionMood electionMood = ElectionMood.NONE;
     private Player killCandidate;
@@ -47,6 +47,9 @@ public class Game {
     private boolean tellGameState = false;
     private final Map<String, Role> backupPlayerState = new HashMap<>();
     private final Set<Player> cancelPlayers = new HashSet<>();
+
+    public Game() {
+    }
 
     public Game(StashedGame stashedGame) {
         this.createdDate = new Date();
@@ -84,7 +87,7 @@ public class Game {
     }
 
     public boolean checkMafiaElectionIsOver() {
-        List<Player> mafias = getMafias();
+        List<Player> mafias = mafias();
         for (Player mafia : mafias)
             if (!mafia.isVoted())
                 return false;
@@ -145,7 +148,7 @@ public class Game {
         killCandidate = player;
     }
 
-    public Player getPlayerByUsername(String username) {
+    public Player playerByUsername(String username) {
         try {
             return players.stream().filter(p -> p.checkUsername(username)).findFirst().get();
         } catch (NoSuchElementException e) {
@@ -153,15 +156,15 @@ public class Game {
         }
     }
 
-    public List<Player> getMafias() {
+    public List<Player> mafias() {
         return this.players.stream().filter(p -> p.getRole() == Role.MAFIA).collect(Collectors.toList());
     }
 
-    public Player getDetector() {
+    public Player detector() {
         return this.players.stream().filter(p -> p.getRole() == Role.DETECTOR).findFirst().get();
     }
 
-    public Player getDoctor() {
+    public Player doctor() {
         return this.players.stream().filter(p -> p.getRole() == Role.DOCTOR).findFirst().get();
     }
 

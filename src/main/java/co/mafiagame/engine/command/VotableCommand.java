@@ -38,7 +38,7 @@ public abstract class VotableCommand<T extends CommandContext> implements Comman
             throw new UsernameNotNull();
         if (votedUsername.equals(Constants.NO_BODY))
             return;
-        Player voted = game.getPlayerByUsername(votedUsername);
+        Player voted = game.playerByUsername(votedUsername);
         Map<Player, List<Player>> playerVote = game.getPlayerVote();
         if (voter.isVoted()) {
             playerVote.keySet().stream()

@@ -20,21 +20,34 @@ package co.mafiagame.engine.container;
 
 import co.mafiagame.common.channel.InterfaceContext;
 import co.mafiagame.engine.domain.Game;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author hekmatof
  */
 @Component
-public class GameContainer {
+public class GameContainer extends Container<Game> {
+    private final ConcurrentMap<InterfaceContext, Game> games = new ConcurrentHashMap<>();
+    public static final String DIR = "games";
 
-    private final Map<InterfaceContext, Game> games = new HashMap<>();
+    @Value("${mafia.game.persistence.location}")
+    private String gameLocation;
 
-    public void addGame(Game game) {
+    @PostConstruct
+    private void init() throws IOException {
+        load();
+        createPersistTimer();
+    }
+
+    public void addGame(Game game) throws InterruptedException {
         games.put(game.getInterfaceContext(), game);
     }
 
@@ -42,11 +55,32 @@ public class GameContainer {
         return games.get(interfaceContext);
     }
 
-    public void finished(InterfaceContext ic) {
+    public void finished(InterfaceContext ic) throws IOException {
         games.remove(ic);
+        removeFile(ic);
     }
 
     public Collection<Game> getGames() {
         return games.values();
+    }
+
+    @Override
+    protected String getGameLocation() {
+        return gameLocation;
+    }
+
+    @Override
+    protected String getDir() {
+        return DIR;
+    }
+
+    @Override
+    protected Map<InterfaceContext, Game> getMap() {
+        return games;
+    }
+
+    @Override
+    protected Class<Game> getClazz() {
+        return Game.class;
     }
 }

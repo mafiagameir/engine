@@ -57,7 +57,7 @@ public class StartGameCommand implements Command<StartGameCommandContext> {
     private StashedGameContainer stashedGameContainer;
 
     @Override
-    public ResultMessage execute(StartGameCommandContext context) {
+    public ResultMessage execute(StartGameCommandContext context) throws Exception {
         Game game = new Game(context.getStashedGame());
         assignRoles(game.getPlayers(), game.getGameState());
         game.assignBackupPlayers();

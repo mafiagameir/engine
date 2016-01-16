@@ -73,7 +73,7 @@ public class NextMoodCommand implements Command<EmptyContext> {
 
     private ResultMessage nextModeIsDoctorNight(InterfaceContext interfaceContext, Game game) {
         game.setGameMood(game.nextMode());
-        Account doctorAccount = game.getDoctor().getAccount();
+        Account doctorAccount = game.doctor().getAccount();
         return new ResultMessage(
                 new Message("doctor.night.started",
                         doctorAccount.getUserInterfaceId(),
@@ -86,7 +86,7 @@ public class NextMoodCommand implements Command<EmptyContext> {
 
     private ResultMessage nextModeIsDetectorNight(InterfaceContext interfaceContext, Game game) {
         game.setGameMood(game.nextMode());
-        Account detectorAccount = game.getDetector().getAccount();
+        Account detectorAccount = game.detector().getAccount();
         return new ResultMessage(
                 new Message("detector.night.started", detectorAccount.getUserInterfaceId(),
                         detectorAccount.getUsername(),
@@ -98,7 +98,7 @@ public class NextMoodCommand implements Command<EmptyContext> {
     }
 
     private ResultMessage nextModeIsMafiaNight(InterfaceContext interfaceContext, Game game) {
-        List<Message> messageList = game.getMafias().stream()
+        List<Message> messageList = game.mafias().stream()
                 .map(Player::getAccount)
                 .map(a -> new Message("mafia.night.started", a.getUserInterfaceId(),
                                 a.getUsername(),

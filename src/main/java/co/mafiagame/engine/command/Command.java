@@ -33,7 +33,7 @@ public interface Command<T extends CommandContext> {
             throw new GameNotStartedException();
     }
 
-    ResultMessage execute(T context);
+    ResultMessage execute(T context) throws Exception;
 
     String commandName();
 }

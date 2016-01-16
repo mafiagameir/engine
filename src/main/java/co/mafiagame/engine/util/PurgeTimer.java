@@ -44,10 +44,10 @@ public class PurgeTimer extends TimerTask {
     public void initPurgeTimer() {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.SECOND,10);
-        //now.add(Calendar.DATE, 1);
-        //now.set(Calendar.HOUR_OF_DAY, 6);
+        now.add(Calendar.DATE, 1);
+        now.set(Calendar.HOUR_OF_DAY, 6);
         Timer timer = new Timer();
-        timer.schedule(this, now.getTime(), 5000);
+        timer.schedule(this, now.getTime(), 24 * 60 * 60 * 1000);
     }
 
     @Override

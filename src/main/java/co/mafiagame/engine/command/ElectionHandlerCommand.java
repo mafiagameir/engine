@@ -36,7 +36,7 @@ public abstract class ElectionHandlerCommand<T extends CommandContext> implement
         Map<Player, List<Player>> votes = game.getPlayerVote();
         long noBodyCount;
         if (isMafiaVote) {
-            noBodyCount = game.getMafias().stream().filter(p -> {
+            noBodyCount = game.mafias().stream().filter(p -> {
                 for (Player key : votes.keySet())
                     if (votes.get(key).contains(p))
                         return false;

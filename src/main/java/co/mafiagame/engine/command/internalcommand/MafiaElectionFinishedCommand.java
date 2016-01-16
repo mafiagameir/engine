@@ -54,7 +54,7 @@ public class MafiaElectionFinishedCommand extends
         electionResult(messages, game,context);
 
         if (electionOver) {
-            game.getMafias().stream().map(Player::getAccount)
+            game.mafias().stream().map(Player::getAccount)
                     .map(mafia -> new Message("detector.night.started.be.silent",
                             mafia.getUserInterfaceId(), mafia.getUsername()))
                     .forEach(messages::add);
@@ -72,7 +72,7 @@ public class MafiaElectionFinishedCommand extends
         List<Player> usersEqualMaxVote = findMaxVoted(game, true);
         if (usersEqualMaxVote == null) {
             game.clearElection();
-            game.getMafias().forEach(p ->
+            game.mafias().forEach(p ->
                     messages.add(new Message("you.kill.nobody",
                             p.getAccount().getUserInterfaceId(),
                             p.getAccount().getUsername())));
@@ -82,14 +82,14 @@ public class MafiaElectionFinishedCommand extends
             if (usersEqualMaxVote.size() == 1) {
                 game.temporaryKillPlayer(maxVoted);
                 game.clearElection();
-                game.getMafias().forEach(p ->
+                game.mafias().forEach(p ->
                         messages.add(new Message("you.kill.a.player",
                                 p.getAccount().getUserInterfaceId(), p.getAccount().getUsername(),
                                 maxVoted.getAccount().getUsername())));
                 return true;
             } else {
                 int maxVoteNum = votes.get(maxVoted).size();
-                game.getMafias().forEach(p ->
+                game.mafias().forEach(p ->
                         messages.add(new Message(
                                 "you.cant.decide.who.to.kill",
                                 p.getAccount().getUserInterfaceId(),

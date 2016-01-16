@@ -27,6 +27,8 @@ public class GameState {
     private int detectorNum;
     private int doctorNum;
 
+    public GameState() {
+    }
 
     public GameState(int citizenNum, int mafiaNum, int detectorNum,
                      int doctorNum) {

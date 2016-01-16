@@ -50,7 +50,7 @@ public class MafiaKillsCommand extends VotableCommand<MafiaKillsCommandContext> 
         validateGameNotNull(context);
         Game game = context.getGame();
         game.update();
-        Player voter = game.getPlayerByUsername(context.getMafiaVoter());
+        Player voter = game.playerByUsername(context.getMafiaVoter());
         if (game.getGameMood() != GameMood.NIGHT_MAFIA)
             throw new MafiaVoteOnWrongMoodException();
         if (voter.getRole() != Role.MAFIA)
@@ -63,12 +63,12 @@ public class MafiaKillsCommand extends VotableCommand<MafiaKillsCommandContext> 
                     new EmptyContext(context.getInterfaceContext(), game));
         List<Message> messages = new ArrayList<>();
         if (Constants.NO_BODY.equals(context.getUserVoted())) {
-            game.getMafias().forEach(
+            game.mafias().forEach(
                     m -> messages.add(new Message("user.vote.nobody", m.getAccount().getUserInterfaceId(),
                             m.getAccount().getUsername(),
                             context.getMafiaVoter())));
         } else {
-            game.getMafias().forEach(
+            game.mafias().forEach(
                     m -> messages.add(new Message("user.vote.another", m.getAccount().getUserInterfaceId(),
                             m.getAccount().getUsername(),
                             context.getMafiaVoter(), context.getUserVoted())));

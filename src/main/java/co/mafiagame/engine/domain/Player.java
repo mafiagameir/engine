@@ -24,9 +24,12 @@ import co.mafiagame.common.domain.Account;
  * @author hekmatof
  */
 public class Player {
-    private final Account account;
+    private Account account;
     private Role role = Role.UNKNOWN;
     private boolean voted = false;
+
+    public Player() {
+    }
 
     public boolean checkUsername(String username) {
         return this.account.getUsername().equalsIgnoreCase(username);

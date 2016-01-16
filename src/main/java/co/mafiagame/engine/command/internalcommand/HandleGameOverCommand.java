@@ -32,6 +32,7 @@ import co.mafiagame.engine.domain.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class HandleGameOverCommand implements Command<EmptyContext> {
     private InterfaceChannel interfaceChannel;
 
     @Override
-    public ResultMessage execute(EmptyContext context) {
+    public ResultMessage execute(EmptyContext context) throws Exception {
         Game game = context.getGame();
         List<Message> messages = new ArrayList<>();
         Map<String, Role> backupPlayerState = game.getBackupPlayerState();

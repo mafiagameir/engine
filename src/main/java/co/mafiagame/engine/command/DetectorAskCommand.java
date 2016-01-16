@@ -50,14 +50,14 @@ public class DetectorAskCommand implements Command<DetectorAskCommandContext> {
         validateGameNotNull(context);
         Game game = context.getGame();
         game.update();
-        Player detector = game.getPlayerByUsername(context.getUsername());
+        Player detector = game.playerByUsername(context.getUsername());
         if (context.getInterfaceContext().getSenderType() != ChannelType.USER_PRIVATE)
             throw new CommandIsUnavailableHereException();
         if (detector.getRole() != Role.DETECTOR)
             throw new YouAreNotDetectorException();
         if (game.getGameMood() != GameMood.NIGHT_DETECTOR)
             throw new YouCantAskNow();
-        Player who = game.getPlayerByUsername(context.getWho());
+        Player who = game.playerByUsername(context.getWho());
         commandExecutor.run(context.getInterfaceContext(),
                 Constants.CMD.Internal.NEXT_MOOD,
                 new EmptyContext(context.getInterfaceContext(), game));

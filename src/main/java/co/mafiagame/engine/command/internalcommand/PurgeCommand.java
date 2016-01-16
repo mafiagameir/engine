@@ -30,6 +30,8 @@ import co.mafiagame.engine.domain.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 /**
  * @author Esa Hekmatizadeh
  */
@@ -41,7 +43,7 @@ public class PurgeCommand implements Command<EmptyContext> {
     private InterfaceChannel interfaceChannel;
 
     @Override
-    public ResultMessage execute(EmptyContext context) {
+    public ResultMessage execute(EmptyContext context) throws Exception {
         Game game = context.getGame();
         gameContainer.finished(game.getInterfaceContext());
         interfaceChannel.gameOver(game.getBackupPlayerState().keySet());

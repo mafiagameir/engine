@@ -53,7 +53,7 @@ public class AnnounceRoleCommand implements Command<EmptyContext> {
                                     p.getAccount().getUserInterfaceId(),
                                     p.getAccount().getUsername()));
                         });
-        List<Player> mafias = game.getMafias();
+        List<Player> mafias = game.mafias();
         List<String> mafiaUserNames = mafias.stream().map(Player::getAccount)
                 .map(Account::getUsername).collect(Collectors.toList());
         mafias.stream().forEach(
