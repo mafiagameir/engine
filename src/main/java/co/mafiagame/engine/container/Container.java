@@ -70,10 +70,10 @@ public abstract class Container<T extends InterfaceContextAware> {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                logger.info("persisting objects into {}", getGameLocation() + File.separator + getDir());
                 getMap().values().forEach(g -> {
                     Output output = null;
                     try {
+                        logger.info("persisting objects into {}", getGameLocation() + File.separator + getDir());
                         File gameFile = new File(directory(), g.getInterfaceContext().getRoomId());
                         output = new Output(new FileOutputStream(gameFile));
                         kryo.writeObject(output, g);
