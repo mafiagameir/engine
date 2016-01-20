@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 /**
@@ -85,7 +86,7 @@ public abstract class Container<T extends InterfaceContextAware> {
                 });
             }
         };
-        timer.schedule(timerTask, new Date(), 1000);
+        timer.schedule(timerTask, new Date(), TimeUnit.MINUTES.toMillis(5));
     }
 
     protected void load() throws IOException {
