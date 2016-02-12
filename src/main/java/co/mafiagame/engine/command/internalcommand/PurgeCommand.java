@@ -30,8 +30,6 @@ import co.mafiagame.engine.domain.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 /**
  * @author Esa Hekmatizadeh
  */

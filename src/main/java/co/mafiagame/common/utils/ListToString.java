@@ -16,25 +16,17 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package co.mafiagame.engine.util;
+package co.mafiagame.common.utils;
 
-import co.mafiagame.engine.domain.Role;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
- * @author Esa Hekmatizadeh
+ * @author hekmatof
  */
-public class RoleUtil {
-    public static String roleIs(Role role){
-        switch (role) {
-            case CITIZEN:
-                return "your.role.is.citizen";
-            case MAFIA:
-                return "your.role.is.mafia";
-            case DETECTOR:
-                return "your.role.is.detector";
-            case DOCTOR:
-                return "your.role.is.doctor";
-        }
-        throw new IllegalArgumentException("role not found");
+public class ListToString {
+    public static String toString(List<String> source) {
+        return StringUtils.arrayToDelimitedString(source.toArray(new String[source.size()]), " و ");
     }
 }

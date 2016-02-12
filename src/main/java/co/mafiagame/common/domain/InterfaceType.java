@@ -16,25 +16,11 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package co.mafiagame.engine.util;
-
-import co.mafiagame.engine.domain.Role;
+package co.mafiagame.common.domain;
 
 /**
- * @author Esa Hekmatizadeh
+ * @author hekmatof
  */
-public class RoleUtil {
-    public static String roleIs(Role role){
-        switch (role) {
-            case CITIZEN:
-                return "your.role.is.citizen";
-            case MAFIA:
-                return "your.role.is.mafia";
-            case DETECTOR:
-                return "your.role.is.detector";
-            case DOCTOR:
-                return "your.role.is.doctor";
-        }
-        throw new IllegalArgumentException("role not found");
-    }
+public enum InterfaceType {
+    TELEGRAM, TEST
 }

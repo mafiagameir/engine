@@ -16,25 +16,41 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package co.mafiagame.engine.util;
+package co.mafiagame.common.domain.result;
 
-import co.mafiagame.engine.domain.Role;
+import java.util.List;
 
 /**
- * @author Esa Hekmatizadeh
+ * @author hekmatof
  */
-public class RoleUtil {
-    public static String roleIs(Role role){
-        switch (role) {
-            case CITIZEN:
-                return "your.role.is.citizen";
-            case MAFIA:
-                return "your.role.is.mafia";
-            case DETECTOR:
-                return "your.role.is.detector";
-            case DOCTOR:
-                return "your.role.is.doctor";
-        }
-        throw new IllegalArgumentException("role not found");
+public class Option {
+    private final String command;
+    private final String arg;
+
+    public Option(String command, String arg) {
+        this.command = command;
+        this.arg = arg;
+    }
+
+    public Option(String command) {
+        this.command = command;
+        this.arg = "";
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public String getArg() {
+        return arg;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Option{" +
+                "command='" + command + '\'' +
+                ", arg='" + arg + '\'' +
+                '}';
     }
 }
