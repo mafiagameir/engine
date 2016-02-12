@@ -19,14 +19,14 @@
 package co.mafiagame.test.integration;
 
 import co.mafiagame.common.Constants;
+import co.mafiagame.common.channel.InterfaceContext;
 import co.mafiagame.common.configuration.CommonConfiguration;
 import co.mafiagame.common.domain.result.ChannelType;
 import co.mafiagame.engine.api.GameApi;
 import co.mafiagame.engine.container.GameContainer;
 import co.mafiagame.engine.domain.GameMood;
-import co.mafiagame.engine.domain.Player;
-import co.mafiagame.engine.domain.Role;
 import co.mafiagame.engine.executor.CommandExecutor;
+import co.mafiagame.test.TestHelper;
 import co.mafiagame.test.env.TestInterfaceChannel;
 import co.mafiagame.test.env.TestInterfaceContext;
 import org.junit.Test;
@@ -38,7 +38,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -58,221 +57,154 @@ public class Scenario2 {
     private GameContainer gameContainer;
     @Autowired
     private TestInterfaceChannel testInterfaceChannel;
-
+    private InterfaceContext starter = new TestInterfaceContext(gameIdentity, "starter", ChannelType.GENERAL);
     private static final String gameIdentity = "game2";
+    private TestHelper helper;
 
-    private final TestInterfaceContext naziIc = new TestInterfaceContext(
-            gameIdentity, "nazi", ChannelType.GENERAL);
-    private final TestInterfaceContext esaIc = new TestInterfaceContext(
-            gameIdentity, "esa", ChannelType.GENERAL);
-    private final TestInterfaceContext hamidIc = new TestInterfaceContext(
-            gameIdentity, "hamid", ChannelType.GENERAL);
-    private final TestInterfaceContext maryamIc = new TestInterfaceContext(
-            gameIdentity, "maryam", ChannelType.GENERAL);
-    private final TestInterfaceContext moradIc = new TestInterfaceContext(
-            gameIdentity, "morad", ChannelType.GENERAL);
-    private final TestInterfaceContext shahinIc = new TestInterfaceContext(
-            gameIdentity, "shahin", ChannelType.GENERAL);
-    private final TestInterfaceContext hassanId = new TestInterfaceContext(
-            gameIdentity, "hassan", ChannelType.GENERAL);
-    private final TestInterfaceContext raziIc = new TestInterfaceContext(
-            gameIdentity, "razi", ChannelType.GENERAL);
-    private final TestInterfaceContext zibaIc = new TestInterfaceContext(
-            gameIdentity, "ziba", ChannelType.GENERAL);
-    private final TestInterfaceContext khalilIc = new TestInterfaceContext(
-            gameIdentity, "khalil", ChannelType.GENERAL);
-    private final TestInterfaceContext ic = new TestInterfaceContext(
-            gameIdentity, "starter", ChannelType.GENERAL);
-    private String mafia1 = null;
-    private String mafia2 = null;
-    private String mafia3 = null;
-    private String detector = null;
-    private String doctor = null;
-    private String citizen1 = null;
-    private String citizen2 = null;
-    private String citizen3 = null;
-    private String citizen4 = null;
-    private String citizen5 = null;
-    private TestInterfaceContext icMafia1 = null;
-    private TestInterfaceContext icMafia2 = null;
-    private TestInterfaceContext icMafia3 = null;
-    private TestInterfaceContext icDetector = null;
-    private TestInterfaceContext icDoctor = null;
-    private TestInterfaceContext icCitizen1 = null;
-    private TestInterfaceContext icCitizen2 = null;
-    private TestInterfaceContext icCitizen3 = null;
-    private TestInterfaceContext icCitizen4 = null;
-    private TestInterfaceContext icCitizen5 = null;
-    private TestInterfaceContext icGeneralMafia = null;
-    private TestInterfaceContext icGeneralCitizen = null;
-
-    private void setValues() {
-        List<Player> mafia = gameContainer.getGame(ic).getPlayers().stream()
-                .filter(p -> p.getRole() == Role.MAFIA)
-                .collect(Collectors.toList());
-        mafia1 = mafia.get(0).getAccount().getUsername();
-        mafia2 = mafia.get(1).getAccount().getUsername();
-        mafia3 = mafia.get(2).getAccount().getUsername();
-        detector = gameContainer.getGame(ic).getPlayers().stream()
-                .filter(p -> p.getRole() == Role.DETECTOR).findFirst().get()
-                .getAccount().getUsername();
-        doctor = gameContainer.getGame(ic).getPlayers().stream()
-                .filter(p -> p.getRole() == Role.DOCTOR).findFirst().get()
-                .getAccount().getUsername();
-        icMafia1 = new TestInterfaceContext(gameIdentity, mafia.get(0)
-                .getAccount().getUsername(), ChannelType.USER_PRIVATE);
-        icMafia2 = new TestInterfaceContext(gameIdentity, mafia.get(1)
-                .getAccount().getUsername(), ChannelType.USER_PRIVATE);
-        icMafia3 = new TestInterfaceContext(gameIdentity, mafia.get(2)
-                .getAccount().getUsername(), ChannelType.USER_PRIVATE);
-        icDetector = new TestInterfaceContext(gameIdentity, detector,
-                ChannelType.USER_PRIVATE);
-        icDoctor = new TestInterfaceContext(gameIdentity, doctor,
-                ChannelType.USER_PRIVATE);
-        List<Player> citizen = gameContainer.getGame(ic).getPlayers().stream()
-                .filter(p -> p.getRole() == Role.CITIZEN)
-                .collect(Collectors.toList());
-        citizen1 = citizen.get(0).getAccount().getUsername();
-        citizen2 = citizen.get(1).getAccount().getUsername();
-        citizen3 = citizen.get(2).getAccount().getUsername();
-        citizen4 = citizen.get(3).getAccount().getUsername();
-        citizen5 = citizen.get(4).getAccount().getUsername();
-        icCitizen1 = new TestInterfaceContext(gameIdentity, citizen1,
-                ChannelType.USER_PRIVATE);
-        icCitizen2 = new TestInterfaceContext(gameIdentity, citizen2,
-                ChannelType.USER_PRIVATE);
-        icCitizen3 = new TestInterfaceContext(gameIdentity, citizen3,
-                ChannelType.USER_PRIVATE);
-        icCitizen4 = new TestInterfaceContext(gameIdentity, citizen4,
-                ChannelType.USER_PRIVATE);
-        icCitizen5 = new TestInterfaceContext(gameIdentity, citizen5,
-                ChannelType.USER_PRIVATE);
-        icGeneralMafia = new TestInterfaceContext(gameIdentity, mafia1,
-                ChannelType.GENERAL);
-        icGeneralCitizen = new TestInterfaceContext(gameIdentity, citizen2,
-                ChannelType.GENERAL);
-
-    }
-
+    /**
+     * a game with lots of exceptions , which check unusual situations
+     *
+     * @throws InterruptedException
+     */
     @Test
     public void test() throws InterruptedException {
-        testInterfaceChannel.setPrint(true);
         startGameHalf();
-        commandExecutor.waitUntilOver(ic);
-        assertEquals(null, gameContainer.getGame(ic));
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(starter);
+        assertEquals(null, gameContainer.getGame(starter));
+        commandExecutor.waitUntilOver(starter);
         firstElection();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(starter);
         assertTrue(testInterfaceChannel.lastKeyIs("game.not.started.yet"));
         startGameFinal();
-        commandExecutor.waitUntilOver(ic);
-        assertEquals(GameMood.DAY, gameContainer.getGame(ic).getGameMood());
-        assertEquals(10, gameContainer.getGame(ic).getPlayers().size());
+        commandExecutor.waitUntilOver(starter);
+        helper = new TestHelper(gameContainer, gameIdentity, gameContainer.getGame(starter));
+        assertEquals(GameMood.DAY, helper.game().getGameMood());
+        assertEquals(10, helper.game().getPlayers().size());
         assertTrue(testInterfaceChannel.containKey("game.started"));
-        finalElectionRound1();
-        commandExecutor.waitUntilOver(ic);
+
+        gameApi.startFinalElection(helper.ic());
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.containKey("final.election.started"));
-        setValues();
-        userVotes();
-        commandExecutor.waitUntilOver(ic);
+        userVotes(); //votes are equal
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.containKey("user.vote.another"));
+
+        // a citizen try kill command
         citizenKill();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("not.time.of.mafia.vote"));
+
+        //mafia try kill command in day
         mafiaKillOnDay();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("not.time.of.mafia.vote"));
+
+        //election without start command
         userVotes();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("no.election.started"));
+
+        //detector ask in day
         detectorAsk();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("you.cant.ask.now"));
+
+        //doctor heal on day
         doctorHeal();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("not.time.of.doctor.heal"));
-        finalElectionRound1();
-        finalElectionRound1();
-        commandExecutor.waitUntilOver(ic);
+
+        gameApi.startFinalElection(helper.ic());
+        gameApi.startFinalElection(helper.ic());
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.containKey("final.election.started"));
         userVotesNobodyAndPlayerNotExist();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.containKey("player.not.found"));
+
         userVotesCorrect();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.containKey("player.was.killed.with.maximum.votes"));
-        finalElectionRound1();
-        commandExecutor.waitUntilOver(ic);
+        //citizen(0) killed
+
+        //night mode
+
+        //testing vote on night
+        gameApi.startFinalElection(helper.ic());
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.containKey("vote.on.night.not.allowed"));
-        userVotesCorrect();
-        commandExecutor.waitUntilOver(ic);
+        userVoteOnNight();
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("vote.on.night.not.allowed"));
+
+        //citizen try kill command
         citizenKillOnNight();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("you.are.not.mafia"));
+
+        //detector ask in mafia turn
         detectorAsk();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("you.cant.ask.now"));
+
+        //doctor heal in mafia turn
         doctorHeal();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("not.time.of.doctor.heal"));
+
+        //mafia kill command
         mafiaKillVote();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.containKey("user.vote.another"));
+
+        //detector ask in general
         detectorAskInGeneral();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel
                 .lastKeyIs("command.is.unavailable.here"));
-        citizenAskBesideDetector();
-        commandExecutor.waitUntilOver(ic);
-        assertTrue(testInterfaceChannel.lastKeyIs("you.are.not.detector"));
+
+        //citizen ask instead of detector
+        citizenAskInsteadDetector();
+        commandExecutor.waitUntilOver(helper.ic());
+        assertTrue(testInterfaceChannel.containKey("you.are.not.detector"));
+
+        //detector ask
         detectorAsk();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.containKey("user.role.is.mafia"));
-        citizenHealBesideDoctor();
-        commandExecutor.waitUntilOver(ic);
+
+        //citizen heal instead of doctor
+        citizenHealInsteadDoctor();
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("you.are.not.doctor"));
+
+        //doctor heal in general room
         doctorHealInGeneral();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel
                 .lastKeyIs("you.are.not.in.doctor.private"));
+
+        //doctor heal
         doctorHeal();
-        commandExecutor.waitUntilOver(ic);
+        commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel
                 .containKey("ok"));
         testInterfaceChannel.printMessages();
-
     }
 
-    public void startGameHalf() throws InterruptedException {
-
-        gameApi.startStashedGame(naziIc, 5, 3, 1, 1);
-        gameApi.register(naziIc, "nazi", null, null);
-        gameApi.register(esaIc, "esa", null, null);
-        gameApi.register(hamidIc, "hamid", null, null);
-        gameApi.register(maryamIc, "maryam", null, null);
-        gameApi.register(moradIc, "morad", null, null);
-        gameApi.register(shahinIc, "shahin", null, null);
-        gameApi.register(hassanId, "hassan", null, null);
-        gameApi.register(raziIc, "razi", null, null);
-        gameApi.register(zibaIc, "ziba", null, null);
-        commandExecutor.waitUntilOver(ic);
+    private void startGameHalf() throws InterruptedException {
+        gameApi.startStashedGame(starter, 5, 3, 1, 1);
+        for (int i = 0; i < 9; i++) {
+            TestInterfaceContext userIc = new TestInterfaceContext(
+                    gameIdentity, "user" + i, ChannelType.GENERAL);
+            gameApi.register(userIc, userIc.getUserName(), null, null);
+        }
     }
 
-    public void startGameFinal() throws InterruptedException {
-
-        gameApi.startStashedGame(naziIc, 5, 3, 1, 1);
-        gameApi.register(naziIc, "nazi", null, null);
-        gameApi.register(esaIc, "esa", null, null);
-        gameApi.register(hamidIc, "hamid", null, null);
-        gameApi.register(maryamIc, "maryam", null, null);
-        gameApi.register(moradIc, "morad", null, null);
-        gameApi.register(shahinIc, "shahin", null, null);
-        gameApi.register(hassanId, "hassan", null, null);
-        gameApi.register(raziIc, "razi", null, null);
-        gameApi.register(zibaIc, "ziba", null, null);
-        gameApi.register(khalilIc, "khalil", null, null);
-        commandExecutor.waitUntilOver(ic);
+    private void startGameFinal() throws InterruptedException {
+        TestInterfaceContext userIc = new TestInterfaceContext(
+                gameIdentity, "user9", ChannelType.GENERAL);
+        gameApi.register(userIc, userIc.getUserName(), null, null);
     }
 
     public void firstElection() throws InterruptedException {
@@ -281,105 +213,112 @@ public class Scenario2 {
         gameApi.startElection(ic);
     }
 
-    private void finalElectionRound1() {
-        TestInterfaceContext ic = new TestInterfaceContext(gameIdentity,
-                "hamid", ChannelType.GENERAL);
-        gameApi.startFinalElection(ic);
-
-    }
-
     private void userVotes() {
         List<String> victims = new ArrayList<>();
-        victims.add(mafia1);
-        victims.add(doctor);
-        victims.add(citizen1);
-        gameApi.vote(naziIc, "nazi", Collections.singletonList(citizen3));
-        gameApi.vote(esaIc, "esa", Collections.singletonList(citizen3));
-        gameApi.vote(hamidIc, "hamid", Collections.singletonList(citizen1));
-        gameApi.vote(maryamIc, "maryam", Collections.singletonList(citizen3));
-        gameApi.vote(moradIc, "morad", Collections.singletonList(citizen3));
-        gameApi.vote(shahinIc, "shahin", Collections.singletonList(citizen3));
-        gameApi.vote(hassanId, "hassan", victims);
-        gameApi.vote(raziIc, "razi", Collections.singletonList(citizen1));
-        gameApi.vote(khalilIc, "khalil", Collections.singletonList(citizen1));
-        gameApi.vote(zibaIc, "ziba", Collections.singletonList(citizen1));
+        victims.add(helper.mafiaUsername(0));
+        victims.add(helper.doctorUsername());
+        victims.add(helper.citizenUsername(0));
+        gameApi.vote(helper.user(0), helper.username(0), Collections.singletonList(helper.citizenUsername(2)));
+        gameApi.vote(helper.user(1), helper.username(1), Collections.singletonList(helper.citizenUsername(2)));
+        gameApi.vote(helper.user(2), helper.username(2), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(3), helper.username(3), Collections.singletonList(helper.citizenUsername(2)));
+        gameApi.vote(helper.user(4), helper.username(4), Collections.singletonList(helper.citizenUsername(2)));
+        gameApi.vote(helper.user(5), helper.username(5), Collections.singletonList(helper.citizenUsername(2)));
+        gameApi.vote(helper.user(6), helper.username(6), victims);
+        gameApi.vote(helper.user(7), helper.username(7), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(8), helper.username(8), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(9), helper.username(9), Collections.singletonList(helper.citizenUsername(0)));
     }
 
     private void userVotesNobodyAndPlayerNotExist() {
         List<String> victims = new ArrayList<>();
-        victims.add(mafia1);
-        victims.add(doctor);
-        victims.add(citizen1);
-        gameApi.vote(icCitizen1, citizen1, Collections.singletonList(citizen1));
-        gameApi.vote(icGeneralCitizen, citizen2,
-                Collections.singletonList(citizen1));
-        gameApi.vote(icCitizen3, citizen3, Collections.singletonList(citizen1));
-        gameApi.vote(icCitizen4, citizen4, Collections.singletonList(citizen3));
-        gameApi.vote(icCitizen5, citizen5, Collections.singletonList(citizen1));
-        gameApi.vote(icDetector, detector, Collections.singletonList(citizen1));
-        gameApi.vote(icDoctor, doctor, victims);
-        gameApi.vote(icMafia1, mafia1, Collections.singletonList(citizen1));
-        gameApi.vote(icMafia2, mafia2, Collections.singletonList("soghra"));
-        gameApi.vote(icMafia3, mafia3, Collections.singletonList(Constants.NO_BODY));
+        victims.add(helper.mafiaUsername(0));
+        victims.add(helper.doctorUsername());
+        victims.add(helper.citizenUsername(0));
+        gameApi.vote(helper.user(0), helper.username(0), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(1), helper.username(1), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(2), helper.username(2), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(3), helper.username(3), Collections.singletonList(helper.citizenUsername(2)));
+        gameApi.vote(helper.user(4), helper.username(4), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(5), helper.username(5), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(6), helper.username(6), victims);
+        gameApi.vote(helper.user(7), helper.username(7), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(8), helper.username(8), Collections.singletonList("soghra"));
+        gameApi.vote(helper.user(9), helper.username(9), Collections.singletonList(Constants.NO_BODY));
     }
 
     private void userVotesCorrect() {
         List<String> victims = new ArrayList<>();
-        victims.add(mafia1);
-        victims.add(doctor);
-        victims.add(citizen1);
-        gameApi.vote(icCitizen1, citizen1, Collections.singletonList(citizen1));
-        gameApi.vote(icGeneralCitizen, citizen2,
-                Collections.singletonList(citizen1));
-        gameApi.vote(icCitizen3, citizen3, Collections.singletonList(citizen1));
-        gameApi.vote(icCitizen4, citizen4, Collections.singletonList(citizen3));
-        gameApi.vote(icCitizen5, citizen5, Collections.singletonList(citizen1));
-        gameApi.vote(icDetector, detector, Collections.singletonList(citizen1));
-        gameApi.vote(icDoctor, doctor, victims);
-        gameApi.vote(icMafia1, mafia1, Collections.singletonList(citizen1));
-        gameApi.vote(icMafia2, mafia2, Collections.singletonList(citizen1));
-        gameApi.vote(icMafia3, mafia3, Collections.singletonList(Constants.NO_BODY));
+        victims.add(helper.mafiaUsername(0));
+        victims.add(helper.doctorUsername());
+        victims.add(helper.citizenUsername(0));
+        gameApi.vote(helper.user(0), helper.username(0), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(1), helper.username(1), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(2), helper.username(2), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(3), helper.username(3), Collections.singletonList(helper.citizenUsername(2)));
+        gameApi.vote(helper.user(4), helper.username(4), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(5), helper.username(5), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(6), helper.username(6), victims);
+        gameApi.vote(helper.user(7), helper.username(7), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(8), helper.username(8), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(9), helper.username(9), Collections.singletonList(Constants.NO_BODY));
+    }
+
+    private void userVoteOnNight() {
+        List<String> victims = new ArrayList<>();
+        victims.add(helper.mafiaUsername(0));
+        victims.add(helper.doctorUsername());
+        victims.add(helper.citizenUsername(0));
+        gameApi.vote(helper.user(0), helper.username(0), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(1), helper.username(1), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(2), helper.username(2), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(3), helper.username(3), Collections.singletonList(helper.citizenUsername(2)));
+        gameApi.vote(helper.user(4), helper.username(4), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(5), helper.username(5), Collections.singletonList(helper.citizenUsername(0)));
+        gameApi.vote(helper.user(6), helper.username(6), victims);
+        gameApi.vote(helper.user(7), helper.username(7), Collections.singletonList(helper.citizenUsername(0)));
     }
 
     private void citizenKill() {
-        gameApi.mafiaKillVote(icGeneralCitizen, citizen2, mafia1);
+        gameApi.mafiaKillVote(helper.citizenIc(1, ChannelType.GENERAL), helper.citizenUsername(1), helper.mafiaUsername(1));
     }
 
     private void mafiaKillOnDay() {
-        gameApi.mafiaKillVote(icGeneralMafia, mafia1, citizen3);
+        gameApi.mafiaKillVote(helper.mafiaIc(0), helper.mafiaUsername(0), helper.citizenUsername(0));
     }
 
     private void citizenKillOnNight() {
-        gameApi.mafiaKillVote(icGeneralCitizen, citizen2, mafia1);
+        gameApi.mafiaKillVote(helper.citizenIc(1), helper.citizenUsername(1), helper.mafiaUsername(0));
     }
 
     private void detectorAsk() {
-        gameApi.detectorAsk(icDetector, detector, mafia1);
+        gameApi.detectorAsk(helper.detectorIc(), helper.detectorUsername(), helper.mafiaUsername(0));
     }
 
     private void mafiaKillVote() {
-        gameApi.mafiaKillVote(icMafia1, mafia1, citizen2);
-        gameApi.mafiaKillVote(icMafia2, mafia2, citizen2);
-        gameApi.mafiaKillVote(icMafia3, mafia3, citizen3);
+        gameApi.mafiaKillVote(helper.mafiaIc(0), helper.mafiaUsername(0), helper.citizenUsername(1));
+        gameApi.mafiaKillVote(helper.mafiaIc(1), helper.mafiaUsername(1), helper.citizenUsername(1));
+        gameApi.mafiaKillVote(helper.mafiaIc(2), helper.mafiaUsername(2), helper.citizenUsername(2));
     }
 
     private void detectorAskInGeneral() {
-        gameApi.detectorAsk(icGeneralCitizen, detector, mafia1);
+        gameApi.detectorAsk(helper.detectorIc(ChannelType.GENERAL), helper.detectorUsername(),
+                helper.mafiaUsername(0));
     }
 
-    private void citizenAskBesideDetector() {
-        gameApi.detectorAsk(icCitizen2, citizen2, mafia1);
+    private void citizenAskInsteadDetector() {
+        gameApi.detectorAsk(helper.citizenIc(3), helper.citizenUsername(3), helper.mafiaUsername(0));
     }
 
-    private void citizenHealBesideDoctor() {
-        gameApi.doctorHeal(icDetector, detector, citizen2);
+    private void citizenHealInsteadDoctor() {
+        gameApi.doctorHeal(helper.citizenIc(3), helper.citizenUsername(3), helper.citizenUsername(1));
     }
 
     private void doctorHealInGeneral() {
-        gameApi.doctorHeal(icGeneralCitizen, doctor, citizen2);
+        gameApi.doctorHeal(helper.doctorIc(ChannelType.GENERAL), helper.doctorUsername(), helper.citizenUsername(1));
     }
 
     private void doctorHeal() {
-        gameApi.doctorHeal(icDoctor, doctor, citizen2);
+        gameApi.doctorHeal(helper.doctorIc(), helper.doctorUsername(), helper.citizenUsername(3));
     }
 }
