@@ -73,7 +73,7 @@ public abstract class Container<T extends InterfaceContextAware> {
                 getMap().values().forEach(g -> {
                     Output output = null;
                     try {
-                        logger.info("persisting objects into {}", getGameLocation() + File.separator + getDir());
+                        logger.debug("persisting objects into {}", getGameLocation() + File.separator + getDir());
                         File gameFile = new File(directory(), g.getInterfaceContext().getRoomId());
                         output = new Output(new FileOutputStream(gameFile));
                         kryo.writeObject(output, g);
