@@ -20,7 +20,7 @@ package co.mafiagame.test.env;
 
 import co.mafiagame.common.channel.InterfaceChannel;
 import co.mafiagame.common.domain.result.ResultMessage;
-import co.mafiagame.telegraminterface.message.MessageHolder;
+import co.mafiagame.common.utils.MessageHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
