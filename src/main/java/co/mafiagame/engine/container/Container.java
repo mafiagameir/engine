@@ -62,7 +62,13 @@ public abstract class Container<T extends InterfaceContextAware> {
     }
 
     protected void removeFile(InterfaceContext ic) throws IOException {
-        new File(getGameLocation(), ic.getRoomId()).delete();
+        try {
+            boolean deleted = new File(directory(), ic.getRoomId()).delete();
+            if (!deleted)
+                throw new RuntimeException("can't delete file:" + directory() + File.pathSeparator + ic.getRoomId());
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 
     protected void createPersistTimer() {
