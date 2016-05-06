@@ -125,4 +125,10 @@ public class GameApi {
                 new EmptyContext(interfaceContext, game));
     }
 
+    public void killMe(InterfaceContext interfaceContext) {
+        Game game = gameContainer.getGame(interfaceContext);
+        commandExecutor.run(interfaceContext, Constants.CMD.KILL_ME,
+                new EmptyContext(interfaceContext, game));
+    }
+
 }

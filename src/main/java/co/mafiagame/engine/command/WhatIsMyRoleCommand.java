@@ -16,7 +16,7 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package co.mafiagame.engine.command.internalcommand;
+package co.mafiagame.engine.command;
 
 import co.mafiagame.common.Constants;
 import co.mafiagame.common.domain.result.ChannelType;

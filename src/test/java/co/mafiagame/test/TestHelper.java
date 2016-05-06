@@ -90,10 +90,16 @@ public class TestHelper {
         mafia = users.stream()
                 .filter(p -> p.getRole() == Role.MAFIA)
                 .collect(Collectors.toList());
-        detector = users.stream()
-                .filter(p -> p.getRole() == Role.DETECTOR).findFirst().get();
-        doctor = users.stream()
-                .filter(p -> p.getRole() == Role.DOCTOR).findFirst().get();
+        if (hasDetector)
+            detector = users.stream()
+                    .filter(p -> p.getRole() == Role.DETECTOR).findFirst().get();
+        else
+            detector = null;
+        if (hasDoctor)
+            doctor = users.stream()
+                    .filter(p -> p.getRole() == Role.DOCTOR).findFirst().get();
+        else
+            doctor = null;
     }
 
     public InterfaceContext ic() {

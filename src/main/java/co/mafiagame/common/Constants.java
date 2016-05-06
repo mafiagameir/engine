@@ -42,6 +42,7 @@ public class Constants {
         public static final String CANCEL = "cancel";
         public static final String COMMAND_NOT_FOUND = "command_not_found";
         public static final String WHAT_IS_MY_ROLE = "what_is_my_role";
+        public static final String KILL_ME= "kill_me";
 
         public static class Internal {
             public static final String ELECTION_FINISHED = "electionFinished";
