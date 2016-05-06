@@ -29,14 +29,11 @@ import java.util.List;
  * @author hekmatof
  */
 public class StashedGame implements InterfaceContextAware {
-    private InterfaceContext interfaceContext;
-    private GameState gameState;
-    private List<Player> players = new ArrayList<>();
-    private Date createdDate;
+    private final InterfaceContext interfaceContext;
+    private final GameState gameState;
+    private final List<Player> players = new ArrayList<>();
+    private final Date createdDate;
     private Date lastUpdate;
-
-    public StashedGame() {
-    }
 
     public StashedGame(InterfaceContext interfaceContext, int citizenNum,
                        int mafiaNum, int detectorNum, int doctorNum) {
@@ -46,11 +43,11 @@ public class StashedGame implements InterfaceContextAware {
         gameState = new GameState(citizenNum, mafiaNum, detectorNum, doctorNum);
     }
 
-    public InterfaceContext getInterfaceContext() {
+    public synchronized InterfaceContext getInterfaceContext() {
         return interfaceContext;
     }
 
-    public boolean register(Player player) {
+    public synchronized boolean register(Player player) {
         this.lastUpdate = new Date();
         if (players.contains(player))
             throw new PlayerAlreadyRegisteredException();
@@ -59,11 +56,11 @@ public class StashedGame implements InterfaceContextAware {
 
     }
 
-    public GameState getGameState() {
+    public synchronized GameState getGameState() {
         return gameState;
     }
 
-    public List<Player> getPlayers() {
+    public synchronized List<Player> getPlayers() {
         return players;
     }
 

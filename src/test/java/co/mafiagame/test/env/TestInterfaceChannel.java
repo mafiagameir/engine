@@ -81,14 +81,18 @@ public class TestInterfaceChannel implements InterfaceChannel {
     }
 
     public boolean lastKeyIs(String messageCode) {
-        ResultMessage msg = msgs.get(msgs.size() - 1);
-        return msg.getMessages().stream().anyMatch(
-                m -> m.getMessageCode().equals(messageCode));
+        synchronized (msgs) {
+            ResultMessage msg = msgs.get(msgs.size() - 1);
+            return msg.getMessages().stream().anyMatch(
+                    m -> m.getMessageCode().equals(messageCode));
+        }
     }
 
     public boolean containKey(String messageCode) {
-        return msgs.stream().anyMatch(
-                r -> r.getMessages().stream().anyMatch(
-                        m -> m.getMessageCode().equals(messageCode)));
+        synchronized (msgs) {
+            return msgs.stream().anyMatch(
+                    r -> r.getMessages().stream().anyMatch(
+                            m -> m.getMessageCode().equals(messageCode)));
+        }
     }
 }

@@ -22,6 +22,8 @@ import co.mafiagame.common.domain.result.ResultMessage;
 import co.mafiagame.engine.command.context.CommandContext;
 import co.mafiagame.engine.exception.GameNotStartedException;
 
+import java.util.Objects;
+
 /**
  * base class for all game commands
  *
@@ -34,6 +36,15 @@ public interface Command<T extends CommandContext> {
     }
 
     ResultMessage execute(T context) throws Exception;
+
+    default ResultMessage run(T context) throws Exception {
+        if (Objects.nonNull(context.getGame()))
+            synchronized (context.getGame()) {
+                return execute(context);
+            }
+        else
+            return execute(context);
+    }
 
     String commandName();
 }

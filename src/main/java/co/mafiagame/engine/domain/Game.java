@@ -34,22 +34,19 @@ import java.util.stream.Collectors;
  */
 public class Game implements InterfaceContextAware {
 
-    private Date createdDate;
+    private final Date createdDate;
     private Date lastUpdate;
-    private InterfaceContext interfaceContext;
-    private GameState gameState;
+    private final InterfaceContext interfaceContext;
+    private final GameState gameState;
     private GameMood gameMood;
-    private List<Player> players;
-    private Map<Player, List<Player>> playerVote = new HashMap<>();
+    private final List<Player> players;
+    private final Map<Player, List<Player>> playerVote = new HashMap<>();
     private ElectionMood electionMood = ElectionMood.NONE;
     private Player killCandidate;
     private Player healCandidate;
     private boolean tellGameState = false;
     private final Map<String, Role> backupPlayerState = new HashMap<>();
     private final Set<Player> cancelPlayers = new HashSet<>();
-
-    public Game() {
-    }
 
     public Game(StashedGame stashedGame) {
         this.createdDate = new Date();
@@ -60,11 +57,11 @@ public class Game implements InterfaceContextAware {
         this.gameMood = GameMood.DAY;// on the first night no one killed
     }
 
-    public void update() {
+    public synchronized void update() {
         this.lastUpdate = new Date();
     }
 
-    public GameMood nextMode() {
+    public synchronized GameMood nextMode() {
         switch (gameMood) {
             case DAY:
                 return GameMood.NIGHT_MAFIA;
@@ -79,14 +76,14 @@ public class Game implements InterfaceContextAware {
         }
     }
 
-    public boolean checkElectionIsOver() {
+    public synchronized boolean checkElectionIsOver() {
         for (Player player : players)
             if (!player.isVoted())
                 return false;
         return true;
     }
 
-    public boolean checkMafiaElectionIsOver() {
+    public synchronized boolean checkMafiaElectionIsOver() {
         List<Player> mafias = mafias();
         for (Player mafia : mafias)
             if (!mafia.isVoted())
@@ -95,18 +92,18 @@ public class Game implements InterfaceContextAware {
 
     }
 
-    public void startElection(boolean finalElection) {
+    public synchronized void startElection(boolean finalElection) {
         clearElection();
         electionMood = finalElection ? ElectionMood.FINALELECTION : ElectionMood.ELECTION;
     }
 
-    public void clearElection() {
-        playerVote = new HashMap<>();
+    public synchronized void clearElection() {
+        playerVote.clear();
         players.stream().forEach(p -> p.setVoted(false));
         electionMood = ElectionMood.NONE;
     }
 
-    public void killPlayer(Player player) {
+    public synchronized void killPlayer(Player player) {
         if (player == null)
             return;
         switch (player.getRole()) {
@@ -126,7 +123,7 @@ public class Game implements InterfaceContextAware {
         players.remove(player);
     }
 
-    public GameResult checkGameOver() {
+    public synchronized GameResult checkGameOver() {
         int citizenNum = gameState.getCitizenNum();
         int doctorNum = gameState.getDoctorNum();
         int detectorNum = gameState.getDetectorNum();
@@ -144,11 +141,11 @@ public class Game implements InterfaceContextAware {
         return gameResult;
     }
 
-    public void temporaryKillPlayer(Player player) {
+    public synchronized void temporaryKillPlayer(Player player) {
         killCandidate = player;
     }
 
-    public Player playerByUsername(String username) {
+    public synchronized Player playerByUsername(String username) {
         try {
             return players.stream().filter(p -> p.checkUsername(username)).findFirst().get();
         } catch (NoSuchElementException e) {
@@ -156,19 +153,19 @@ public class Game implements InterfaceContextAware {
         }
     }
 
-    public List<Player> mafias() {
+    public synchronized List<Player> mafias() {
         return this.players.stream().filter(p -> p.getRole() == Role.MAFIA).collect(Collectors.toList());
     }
 
-    public Player detector() {
+    public synchronized Player detector() {
         return this.players.stream().filter(p -> p.getRole() == Role.DETECTOR).findFirst().get();
     }
 
-    public Player doctor() {
+    public synchronized Player doctor() {
         return this.players.stream().filter(p -> p.getRole() == Role.DOCTOR).findFirst().get();
     }
 
-    public List<Option> makeOption(String command, boolean withNobody) {
+    public synchronized List<Option> makeOption(String command, boolean withNobody) {
         List<Option> playerList = this.getPlayers().stream().map(Player::getAccount)
                 .map(Account::getUsername).map(u -> new Option(command, u)).collect(Collectors.toList());
         if (withNobody)
@@ -176,71 +173,71 @@ public class Game implements InterfaceContextAware {
         return playerList;
     }
 
-    public InterfaceContext getInterfaceContext() {
+    public synchronized InterfaceContext getInterfaceContext() {
         return interfaceContext;
     }
 
-    public GameState getGameState() {
+    public synchronized GameState getGameState() {
         return gameState;
     }
 
-    public List<Player> getPlayers() {
+    public synchronized List<Player> getPlayers() {
         return players;
     }
 
-    public GameMood getGameMood() {
+    public synchronized GameMood getGameMood() {
         return gameMood;
     }
 
-    public Map<Player, List<Player>> getPlayerVote() {
+    public synchronized Map<Player, List<Player>> getPlayerVote() {
         return playerVote;
     }
 
-    public void setGameMood(GameMood gameMood) {
+    public synchronized void setGameMood(GameMood gameMood) {
         this.gameMood = gameMood;
     }
 
-    public ElectionMood getElectionMood() {
+    public synchronized ElectionMood getElectionMood() {
         return electionMood;
     }
 
-    public Player getKillCandidate() {
+    public synchronized Player getKillCandidate() {
         return killCandidate;
     }
 
-    public void clearKillCandidate() {
+    public synchronized void clearKillCandidate() {
         this.killCandidate = null;
     }
 
-    public Player getHealCandidate() {
+    public synchronized Player getHealCandidate() {
         return healCandidate;
     }
 
-    public void setHealCandidate(Player healCandidate) {
+    public synchronized void setHealCandidate(Player healCandidate) {
         this.healCandidate = healCandidate;
     }
 
-    public boolean isTellGameState() {
+    public synchronized boolean isTellGameState() {
         return tellGameState;
     }
 
-    public void toggleTellGameState() {
+    public synchronized void toggleTellGameState() {
         this.tellGameState = !this.tellGameState;
     }
 
-    public Map<String, Role> getBackupPlayerState() {
+    public synchronized Map<String, Role> getBackupPlayerState() {
         return backupPlayerState;
     }
 
-    public Set<Player> getCancelPlayers() {
+    public synchronized Set<Player> getCancelPlayers() {
         return cancelPlayers;
     }
 
-    public void assignBackupPlayers() {
+    public synchronized void assignBackupPlayers() {
         players.stream().forEach(p -> backupPlayerState.put(p.getAccount().getUsername(), p.getRole()));
     }
 
-    public Date getLastUpdate() {
+    public synchronized Date getLastUpdate() {
         return lastUpdate;
     }
 

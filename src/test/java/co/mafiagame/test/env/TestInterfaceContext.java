@@ -26,12 +26,9 @@ import co.mafiagame.common.domain.result.ChannelType;
  * @author hekmatof
  */
 public class TestInterfaceContext implements InterfaceContext {
-    private String gameIdentity;
-    private ChannelType senderType;
-    private String userId;
-
-    public TestInterfaceContext() {
-    }
+    private final String gameIdentity;
+    private final ChannelType senderType;
+    private final String userId;
 
     public TestInterfaceContext(String gameIdentity, String userId, ChannelType senderType) {
         this.gameIdentity = gameIdentity;

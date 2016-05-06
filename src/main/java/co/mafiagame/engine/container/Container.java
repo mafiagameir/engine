@@ -61,7 +61,7 @@ public abstract class Container<T extends InterfaceContextAware> {
         return gameDirectory;
     }
 
-    protected void removeFile(InterfaceContext ic) throws IOException {
+    protected synchronized void removeFile(InterfaceContext ic) throws IOException {
         try {
             boolean deleted = new File(directory(), ic.getRoomId()).delete();
             if (!deleted)
@@ -95,7 +95,7 @@ public abstract class Container<T extends InterfaceContextAware> {
         timer.schedule(timerTask, new Date(), TimeUnit.MINUTES.toMillis(5));
     }
 
-    protected void load() throws IOException {
+    protected synchronized void load() throws IOException {
         File[] gameFiles = directory().listFiles();
         if (Objects.isNull(gameFiles))
             throw new IOException("could not read game directory");

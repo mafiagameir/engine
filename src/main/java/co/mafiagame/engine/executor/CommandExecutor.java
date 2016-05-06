@@ -61,7 +61,7 @@ public class CommandExecutor {
     public void init() {
         commandsMap = new HashMap<>();
         commands.stream().forEach(c -> commandsMap.put(c.commandName(), c));
-        singleThread = new ThreadPoolExecutor(0, 1, keepAlive, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
+        singleThread = new ThreadPoolExecutor(10, 10, keepAlive, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
     }
 
     private ThreadPoolExecutor getExecutor(InterfaceContext interfaceContext) {
@@ -87,7 +87,7 @@ public class CommandExecutor {
         getExecutor(interfaceContext)
                 .submit(() -> {
                     try {
-                        ResultMessage resultMessage = commandsMap.get(commandKey).execute(context);
+                        ResultMessage resultMessage = commandsMap.get(commandKey).run(context);
                         if (resultMessage.getChannelType() != ChannelType.NONE) {
                             logger.info("on game {} : {}", interfaceContext, resultMessage);
                             channel.send(resultMessage);

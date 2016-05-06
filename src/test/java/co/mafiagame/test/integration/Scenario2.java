@@ -243,8 +243,8 @@ public class Scenario2 {
         gameApi.vote(helper.user(5), helper.username(5), Collections.singletonList(helper.citizenUsername(0)));
         gameApi.vote(helper.user(6), helper.username(6), victims);
         gameApi.vote(helper.user(7), helper.username(7), Collections.singletonList(helper.citizenUsername(0)));
-        gameApi.vote(helper.user(8), helper.username(8), Collections.singletonList("soghra"));
-        gameApi.vote(helper.user(9), helper.username(9), Collections.singletonList(Constants.NO_BODY));
+        gameApi.vote(helper.user(8), helper.username(8), Collections.singletonList(Constants.NO_BODY));
+        gameApi.vote(helper.user(9), helper.username(9), Collections.singletonList("soghra"));
     }
 
     private void userVotesCorrect() {

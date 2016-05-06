@@ -27,9 +27,6 @@ public class GameState {
     private int detectorNum;
     private int doctorNum;
 
-    public GameState() {
-    }
-
     public GameState(int citizenNum, int mafiaNum, int detectorNum,
                      int doctorNum) {
         this.citizenNum = citizenNum;
@@ -38,39 +35,39 @@ public class GameState {
         this.doctorNum = doctorNum;
     }
 
-    public void killMafia() {
+    public synchronized void killMafia() {
         mafiaNum--;
     }
 
-    public void killCitizen() {
+    public synchronized void killCitizen() {
         citizenNum--;
     }
 
-    public void killDetector() {
+    public synchronized void killDetector() {
         detectorNum--;
     }
 
-    public void killDoctor() {
+    public synchronized void killDoctor() {
         doctorNum--;
     }
 
-    public int totalPlayer() {
+    public synchronized int totalPlayer() {
         return citizenNum + mafiaNum + detectorNum + doctorNum;
     }
 
-    public int getCitizenNum() {
+    public synchronized int getCitizenNum() {
         return citizenNum;
     }
 
-    public int getMafiaNum() {
+    public synchronized int getMafiaNum() {
         return mafiaNum;
     }
 
-    public int getDetectorNum() {
+    public synchronized int getDetectorNum() {
         return detectorNum;
     }
 
-    public int getDoctorNum() {
+    public synchronized int getDoctorNum() {
         return doctorNum;
     }
 
