@@ -53,6 +53,7 @@ public class TestInterfaceChannel implements InterfaceChannel {
                                     + msg.getReceiverId()
                                     + " :"
                                     + MessageHolder.get(msg.getMessageCode(),
+                                    MessageHolder.Lang.EN,
                                     msg.getArgs())));
         }
     }
@@ -75,6 +76,7 @@ public class TestInterfaceChannel implements InterfaceChannel {
                                             + " :"
                                             + MessageHolder.get(
                                             msg.getMessageCode(),
+                                            MessageHolder.Lang.EN,
                                             msg.getArgs())));
                     });
         }

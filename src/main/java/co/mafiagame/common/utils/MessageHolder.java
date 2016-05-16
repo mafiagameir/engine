@@ -21,7 +21,6 @@ package co.mafiagame.common.utils;
 import co.mafiagame.common.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -36,30 +35,40 @@ import java.util.Properties;
 public class MessageHolder {
     private static final Logger logger = LoggerFactory.getLogger(MessageHolder.class);
     private static final Properties properties = new Properties();
+    private static final Properties propertiesFa = new Properties();
 
-
-    @Value("${mafia.language}")
-    private String language;
 
     @PostConstruct
     public void init() {
         try {
-            properties.load(MessageHolder.class.getClassLoader().getResourceAsStream(Constants.CONF.MESSAGE_FILE + language + ".properties"));
+            properties.load(MessageHolder.class.getClassLoader()
+                    .getResourceAsStream(Constants.CONF.MESSAGE_FILE + "en" + ".properties"));
+            propertiesFa.load(MessageHolder.class.getClassLoader()
+                    .getResourceAsStream(Constants.CONF.MESSAGE_FILE + "fa" + ".properties"));
         } catch (IOException e) {
             logger.error("could not load message properties", e);
         }
     }
 
-    public static String get(String key, String... args) {
+    public static String get(String key, Lang lang, String... args) {
         try {
-            String value = properties.getProperty(key);
+            String value;
+            if (lang == Lang.FA)
+                value = propertiesFa.getProperty(key);
+            else
+                value = properties.getProperty(key);
             if (args != null)
                 for (String arg : args) {
                     value = value.replaceFirst("%", arg);
                 }
             return value;
         } catch (NullPointerException e) {
+            logger.error("message with key {} not found", key);
             return key + Arrays.toString(args);
         }
+    }
+
+    public enum Lang {
+        EN, FA
     }
 }
