@@ -37,7 +37,6 @@ public class MessageHolder {
     private static final Properties properties = new Properties();
     private static final Properties propertiesFa = new Properties();
 
-
     @PostConstruct
     public void init() {
         try {
@@ -69,6 +68,13 @@ public class MessageHolder {
     }
 
     public enum Lang {
-        EN, FA
+        EN, FA;
+
+        public String lang() {
+            if (this == FA)
+                return "فارسی";
+            else
+                return "english";
+        }
     }
 }

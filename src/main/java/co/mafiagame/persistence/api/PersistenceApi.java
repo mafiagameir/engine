@@ -22,6 +22,7 @@ package co.mafiagame.persistence.api;
 import co.mafiagame.common.domain.Account;
 import co.mafiagame.common.domain.Audit;
 import co.mafiagame.common.domain.InterfaceType;
+import co.mafiagame.common.utils.MessageHolder;
 import co.mafiagame.persistence.repository.AccountRepository;
 import co.mafiagame.persistence.repository.AuditRepository;
 import org.slf4j.Logger;
@@ -77,5 +78,13 @@ public class PersistenceApi {
                     username, type, e);
             return null;
         }
+    }
+
+    public void setLang(String userId, MessageHolder.Lang lang) {
+        accountRepository.setLang(userId,lang.toString());
+    }
+
+    public MessageHolder.Lang getLang(String userId) {
+        return accountRepository.getLang(userId);
     }
 }

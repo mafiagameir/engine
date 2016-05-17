@@ -31,6 +31,7 @@ public class Account {
     private String lastName;
     private InterfaceType type;
     private String userInterfaceId;
+    private String lang;
 
     public UUID getId() {
         return id;
@@ -80,6 +81,15 @@ public class Account {
         this.userInterfaceId = userInterfaceId;
     }
 
+    public String getLang() {
+        return lang;
+    }
+
+    public Account setLang(String lang) {
+        this.lang = lang;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -112,7 +122,7 @@ public class Account {
                 ", lastName='" + lastName + '\'' +
                 ", type=" + type +
                 ", userInterfaceId='" + userInterfaceId + '\'' +
+                ", lang='" + lang + '\'' +
                 '}';
     }
-
 }

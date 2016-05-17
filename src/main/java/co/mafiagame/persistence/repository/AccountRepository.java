@@ -20,6 +20,7 @@ package co.mafiagame.persistence.repository;
 
 import co.mafiagame.common.domain.Account;
 import co.mafiagame.common.domain.InterfaceType;
+import co.mafiagame.common.utils.MessageHolder;
 import co.mafiagame.persistence.rowmapper.AccountRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,6 +41,16 @@ public class AccountRepository {
         String sql = "INSERT INTO TBL_ACCOUNT (ID,TYPE,USERNAME,FIRST_NAME,LAST_NAME,USER_INTERFACE_ID) VALUES(?,?,?,?,?,?)";
         jdbcTemplate.update(sql, account.getId(), account.getType().toString(),
                 account.getUsername(), account.getFirstName(), account.getLastName(), account.getUserInterfaceId());
+    }
+
+    public void setLang(String userId, String lang) {
+        jdbcTemplate.update("UPDATE TBL_ACCOUNT SET LANG=? WHERE USER_INTERFACE_ID=?", lang, userId);
+    }
+
+    public MessageHolder.Lang getLang(String userId) {
+        String langStr = jdbcTemplate.queryForObject("SELECT LANG FROM TBL_ACCOUNT WHERE USER_INTERFACE_ID=?",
+                String.class, userId);
+        return MessageHolder.Lang.valueOf(langStr);
     }
 
     public Account checkAccountExist(String username, InterfaceType type) {

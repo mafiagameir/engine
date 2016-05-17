@@ -41,7 +41,7 @@ public class AccountRowMapper implements RowMapper<Account> {
         account.setFirstName(rs.getString("first_name"));
         account.setLastName(rs.getString("last_name"));
         account.setUserInterfaceId(rs.getString("user_interface_id"));
+        account.setLang(rs.getString("lang"));
         return account;
     }
-
 }
