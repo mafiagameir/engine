@@ -29,11 +29,14 @@ import java.util.List;
  * @author hekmatof
  */
 public class StashedGame implements InterfaceContextAware {
-    private final InterfaceContext interfaceContext;
-    private final GameState gameState;
-    private final List<Player> players = new ArrayList<>();
-    private final Date createdDate;
+    private InterfaceContext interfaceContext;
+    private GameState gameState;
+    private List<Player> players = new ArrayList<>();
+    private Date createdDate;
     private Date lastUpdate;
+
+    public StashedGame() {
+    }
 
     public StashedGame(InterfaceContext interfaceContext, int citizenNum,
                        int mafiaNum, int detectorNum, int doctorNum) {

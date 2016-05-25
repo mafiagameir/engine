@@ -34,19 +34,19 @@ import java.util.stream.Collectors;
  */
 public class Game implements InterfaceContextAware {
 
-    private final Date createdDate;
+    private Date createdDate;
     private Date lastUpdate;
-    private final InterfaceContext interfaceContext;
-    private final GameState gameState;
+    private InterfaceContext interfaceContext;
+    private GameState gameState;
     private GameMood gameMood;
-    private final List<Player> players;
-    private final Map<Player, List<Player>> playerVote = new HashMap<>();
+    private List<Player> players;
+    private Map<Player, List<Player>> playerVote = new HashMap<>();
     private ElectionMood electionMood = ElectionMood.NONE;
     private Player killCandidate;
     private Player healCandidate;
     private boolean tellGameState = false;
-    private final Map<String, Role> backupPlayerState = new HashMap<>();
-    private final Set<Player> cancelPlayers = new HashSet<>();
+    private Map<String, Role> backupPlayerState = new HashMap<>();
+    private Set<Player> cancelPlayers = new HashSet<>();
 
     public Game(StashedGame stashedGame) {
         this.createdDate = new Date();
@@ -55,6 +55,9 @@ public class Game implements InterfaceContextAware {
         this.gameState = stashedGame.getGameState();
         this.players = stashedGame.getPlayers();
         this.gameMood = GameMood.DAY;// on the first night no one killed
+    }
+
+    public Game() {
     }
 
     public synchronized void update() {
