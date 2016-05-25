@@ -23,6 +23,7 @@ import co.mafiagame.common.domain.InterfaceType;
 import co.mafiagame.common.utils.MessageHolder;
 import co.mafiagame.persistence.rowmapper.AccountRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -48,9 +49,13 @@ public class AccountRepository {
     }
 
     public MessageHolder.Lang getLang(String userId) {
-        String langStr = jdbcTemplate.queryForObject("SELECT LANG FROM TBL_ACCOUNT WHERE USER_INTERFACE_ID=?",
-                String.class, userId);
-        return MessageHolder.Lang.valueOf(langStr);
+        try {
+            String langStr = jdbcTemplate.queryForObject("SELECT LANG FROM TBL_ACCOUNT WHERE USER_INTERFACE_ID=?",
+                    String.class, userId);
+            return MessageHolder.Lang.valueOf(langStr);
+        } catch (EmptyResultDataAccessException e) {
+            return MessageHolder.Lang.FA;
+        }
     }
 
     public Account checkAccountExist(String username, InterfaceType type) {
