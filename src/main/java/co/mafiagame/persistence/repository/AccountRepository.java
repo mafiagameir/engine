@@ -24,6 +24,7 @@ import co.mafiagame.common.utils.MessageHolder;
 import co.mafiagame.persistence.rowmapper.AccountRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -54,6 +55,8 @@ public class AccountRepository {
                     String.class, userId);
             return MessageHolder.Lang.valueOf(langStr);
         } catch (EmptyResultDataAccessException e) {
+            return MessageHolder.Lang.FA;
+        } catch (IncorrectResultSizeDataAccessException e) {
             return MessageHolder.Lang.FA;
         }
     }
