@@ -28,6 +28,8 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * @author nazila
  */
@@ -53,6 +55,8 @@ public class AccountRepository {
         try {
             String langStr = jdbcTemplate.queryForObject("SELECT LANG FROM TBL_ACCOUNT WHERE USER_INTERFACE_ID=?",
                     String.class, userId);
+            if (Objects.isNull(langStr))
+                return MessageHolder.Lang.FA;
             return MessageHolder.Lang.valueOf(langStr);
         } catch (EmptyResultDataAccessException e) {
             return MessageHolder.Lang.FA;
