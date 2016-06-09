@@ -56,12 +56,10 @@ public class AccountRepository {
             String langStr = jdbcTemplate.queryForObject("SELECT LANG FROM TBL_ACCOUNT WHERE USER_INTERFACE_ID=?",
                     String.class, userId);
             if (Objects.isNull(langStr))
-                return MessageHolder.Lang.FA;
+                return MessageHolder.Lang.EN;
             return MessageHolder.Lang.valueOf(langStr);
-        } catch (EmptyResultDataAccessException e) {
-            return MessageHolder.Lang.FA;
         } catch (IncorrectResultSizeDataAccessException e) {
-            return MessageHolder.Lang.FA;
+            return MessageHolder.Lang.EN;
         }
     }
 
