@@ -83,6 +83,7 @@ public abstract class Container<T extends InterfaceContextAware> {
                         File gameFile = new File(directory(), g.getInterfaceContext().getRoomId());
                         output = new Output(new FileOutputStream(gameFile));
                         kryo.writeObject(output, g);
+                        output.close();
                     } catch (IOException e) {
                         logger.error("could not save object file: {}", g, e);
                     } finally {
