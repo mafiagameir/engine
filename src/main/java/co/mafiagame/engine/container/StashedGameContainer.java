@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -39,7 +40,7 @@ public class StashedGameContainer extends Container<StashedGame> {
     @Value("${mafia.game.persistence.location}")
     private String gameLocation;
 
-    private final Map<InterfaceContext, StashedGame> games = new ConcurrentHashMap<>();
+    private final Map<InterfaceContext, StashedGame> games = new HashMap<>();
 
     @PostConstruct
     private void init() throws IOException {
