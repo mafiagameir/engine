@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -55,7 +56,7 @@ public class MafiaKillsCommand extends VotableCommand<MafiaKillsCommandContext> 
             throw new MafiaVoteOnWrongMoodException();
         if (voter.getRole() != Role.MAFIA)
             throw new YouAreNotMafiaException();
-        vote(voter, context.getUserVoted(), game);
+        vote(voter, Collections.singletonList(context.getUserVoted()), game);
         voter.setVoted(true);
         if (game.checkMafiaElectionIsOver())
             commandExecutor.run(context.getInterfaceContext(),

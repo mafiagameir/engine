@@ -33,24 +33,26 @@ import java.util.Map;
  */
 public abstract class VotableCommand<T extends CommandContext> implements Command<T> {
 
-    protected void vote(Player voter, String votedUsername, Game game) {
-        if (votedUsername == null)
+    protected void vote(Player voter, List<String> votedUsernames, Game game) {
+        if (votedUsernames == null || votedUsernames.size() == 0)
             throw new UsernameNotNull();
-        if (votedUsername.equals(Constants.NO_BODY))
-            return;
-        Player voted = game.playerByUsername(votedUsername);
         Map<Player, List<Player>> playerVote = game.getPlayerVote();
         if (voter.isVoted()) {
             playerVote.keySet().stream()
                     .filter(p -> playerVote.get(p).contains(voter))
                     .forEach(p -> playerVote.get(p).remove(voter));
         }
-        if (playerVote.containsKey(voted))
-            playerVote.get(voted).add(voter);
-        else {
-            List<Player> voters = new ArrayList<>();
-            voters.add(voter);
-            playerVote.put(voted, voters);
+        for (String votedUsername : votedUsernames) {
+            Player voted = game.playerByUsername(votedUsername);
+            if (votedUsername.equals(Constants.NO_BODY))
+                continue;
+            if (playerVote.containsKey(voted))
+                playerVote.get(voted).add(voter);
+            else {
+                List<Player> voters = new ArrayList<>();
+                voters.add(voter);
+                playerVote.put(voted, voters);
+            }
         }
     }
 }
