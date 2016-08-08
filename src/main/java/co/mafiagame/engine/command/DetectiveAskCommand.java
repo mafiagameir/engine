@@ -22,14 +22,14 @@ import co.mafiagame.common.Constants;
 import co.mafiagame.common.domain.result.ChannelType;
 import co.mafiagame.common.domain.result.Message;
 import co.mafiagame.common.domain.result.ResultMessage;
-import co.mafiagame.engine.command.context.DetectorAskCommandContext;
+import co.mafiagame.engine.command.context.DetectiveAskCommandContext;
 import co.mafiagame.engine.command.context.EmptyContext;
 import co.mafiagame.engine.domain.Game;
 import co.mafiagame.engine.domain.GameMood;
 import co.mafiagame.engine.domain.Player;
 import co.mafiagame.engine.domain.Role;
 import co.mafiagame.engine.exception.CommandIsUnavailableHereException;
-import co.mafiagame.engine.exception.YouAreNotDetectorException;
+import co.mafiagame.engine.exception.YouAreNotDetectiveException;
 import co.mafiagame.engine.exception.YouCantAskNow;
 import co.mafiagame.engine.executor.CommandExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,22 +40,22 @@ import org.springframework.stereotype.Component;
  * @author nazila
  */
 @Component
-public class DetectorAskCommand implements Command<DetectorAskCommandContext> {
+public class DetectiveAskCommand implements Command<DetectiveAskCommandContext> {
 
     @Autowired
     private CommandExecutor commandExecutor;
 
     @Override
-    public ResultMessage execute(DetectorAskCommandContext context) {
+    public ResultMessage execute(DetectiveAskCommandContext context) {
         validateGameNotNull(context);
         Game game = context.getGame();
         game.update();
-        Player detector = game.playerByUsername(context.getUsername());
+        Player detective = game.playerByUsername(context.getUsername());
         if (context.getInterfaceContext().getSenderType() != ChannelType.USER_PRIVATE)
             throw new CommandIsUnavailableHereException();
-        if (detector.getRole() != Role.DETECTOR)
-            throw new YouAreNotDetectorException();
-        if (game.getGameMood() != GameMood.NIGHT_DETECTOR)
+        if (detective.getRole() != Role.DETECTIVE)
+            throw new YouAreNotDetectiveException();
+        if (game.getGameMood() != GameMood.NIGHT_DETECTIVE)
             throw new YouCantAskNow();
         Player who = game.playerByUsername(context.getWho());
         commandExecutor.run(context.getInterfaceContext(),
@@ -63,13 +63,13 @@ public class DetectorAskCommand implements Command<DetectorAskCommandContext> {
                 new EmptyContext(context.getInterfaceContext(), game));
         Message message;
         if (who.getRole() == Role.MAFIA)
-            message = new Message("user.role.is.mafia", detector.getAccount().getUserInterfaceId(),
-                    detector.getAccount().getUsername(),
+            message = new Message("user.role.is.mafia", detective.getAccount().getUserInterfaceId(),
+                    detective.getAccount().getUsername(),
                     who.getAccount().getUsername());
         else
             message = new Message("user.role.is.not.mafia",
-                    detector.getAccount().getUserInterfaceId(),
-                    detector.getAccount().getUsername(),
+                    detective.getAccount().getUserInterfaceId(),
+                    detective.getAccount().getUsername(),
                     who.getAccount().getUsername());
         return new ResultMessage(message, ChannelType.USER_PRIVATE,
                 context.getInterfaceContext());
@@ -77,7 +77,7 @@ public class DetectorAskCommand implements Command<DetectorAskCommandContext> {
 
     @Override
     public String commandName() {
-        return Constants.CMD.DETECTOR_ASK;
+        return Constants.CMD.DETECTIVE_ASK;
     }
 
 }

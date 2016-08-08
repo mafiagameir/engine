@@ -33,7 +33,7 @@ public abstract class CommandContext {
         this.game = game;
     }
 
-    protected CommandContext(InterfaceContext interfaceContext) {
+    CommandContext(InterfaceContext interfaceContext) {
         this.interfaceContext = interfaceContext;
         this.game = null;
     }

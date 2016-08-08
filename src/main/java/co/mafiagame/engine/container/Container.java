@@ -38,7 +38,7 @@ import java.util.stream.Stream;
 /**
  * @author Esa Hekmatizadeh
  */
-public abstract class Container<T extends InterfaceContextAware> {
+abstract class Container<T extends InterfaceContextAware> {
     private final static Logger logger = LoggerFactory.getLogger(Container.class);
     private final Kryo kryo = new Kryo();
 
@@ -50,18 +50,18 @@ public abstract class Container<T extends InterfaceContextAware> {
 
     protected abstract Class<T> getClazz();
 
-    public Container() {
+    Container() {
         kryo.register(UUID.class, new JavaSerializer());
     }
 
-    protected File directory() throws IOException {
+    private File directory() throws IOException {
         File gameDirectory = new File(getGameLocation() + File.separator + getDir());
         if (!gameDirectory.exists() && !gameDirectory.mkdir())
             throw new IOException("could now create game directory");
         return gameDirectory;
     }
 
-    protected synchronized void removeFile(InterfaceContext ic) throws IOException {
+    synchronized void removeFile(InterfaceContext ic) throws IOException {
         try {
             boolean deleted = new File(directory(), ic.getRoomId()).delete();
             if (!deleted)
@@ -71,7 +71,7 @@ public abstract class Container<T extends InterfaceContextAware> {
         }
     }
 
-    protected void createPersistTimer() {
+    void createPersistTimer() {
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -96,7 +96,7 @@ public abstract class Container<T extends InterfaceContextAware> {
         timer.schedule(timerTask, new Date(), TimeUnit.MINUTES.toMillis(5));
     }
 
-    protected synchronized void load() throws IOException {
+    synchronized void load() throws IOException {
         File[] gameFiles = directory().listFiles();
         if (Objects.isNull(gameFiles))
             throw new IOException("could not read game directory");

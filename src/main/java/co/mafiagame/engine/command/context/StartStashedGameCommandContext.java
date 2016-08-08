@@ -26,16 +26,16 @@ import co.mafiagame.common.channel.InterfaceContext;
 public class StartStashedGameCommandContext extends CommandContext {
     private final int citizenNum;
     private final int mafiaNum;
-    private final int detectorNum;
+    private final int detectiveNum;
     private final int doctorNum;
 
     public StartStashedGameCommandContext(InterfaceContext interfaceContext,
                                           int citizenNum, int mafiaNum,
-                                          int detectorNum, int doctorNum) {
+                                          int detectiveNum, int doctorNum) {
         super(interfaceContext);
         this.citizenNum = citizenNum;
         this.mafiaNum = mafiaNum;
-        this.detectorNum = detectorNum;
+        this.detectiveNum = detectiveNum;
         this.doctorNum = doctorNum;
     }
 
@@ -47,8 +47,8 @@ public class StartStashedGameCommandContext extends CommandContext {
         return mafiaNum;
     }
 
-    public int getDetectorNum() {
-        return detectorNum;
+    public int getDetectiveNum() {
+        return detectiveNum;
     }
 
     public int getDoctorNum() {
@@ -58,7 +58,7 @@ public class StartStashedGameCommandContext extends CommandContext {
     @Override
     public String toString() {
         return "StartStashedGameCommandContext{" + "citizenNum=" + citizenNum
-                + ", mafiaNum=" + mafiaNum + ", detectorNum=" + detectorNum
+                + ", mafiaNum=" + mafiaNum + ", detectiveNum=" + detectiveNum
                 + ", doctorNum=" + doctorNum + '}';
     }
 }

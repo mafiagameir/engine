@@ -22,5 +22,5 @@ package co.mafiagame.engine.domain;
  * @author hekmatof
  */
 public enum Role {
-    CITIZEN, MAFIA, DETECTOR, DOCTOR, UNKNOWN
+    CITIZEN, MAFIA, DETECTIVE, DOCTOR, UNKNOWN
 }

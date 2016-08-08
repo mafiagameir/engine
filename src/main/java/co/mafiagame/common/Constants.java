@@ -33,7 +33,7 @@ public class Constants {
         public static final String START_STASHED_GAME = "start";
         public static final String VOTE = "vote";
         public static final String START_ELECTION = "election";
-        public static final String DETECTOR_ASK = "ask";
+        public static final String DETECTIVE_ASK = "ask";
         public static final String START_FINAL_ELECTION = "final_election";
         public static final String MAFIA_VOTE = "kill";
         public static final String DOCTOR_HEAL = "heal";

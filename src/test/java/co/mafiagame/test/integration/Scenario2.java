@@ -104,8 +104,8 @@ public class Scenario2 {
         commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("no.election.started"));
 
-        //detector ask in day
-        detectorAsk();
+        //DETECTIVE ask in day
+        detectiveAsk();
         commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("you.cant.ask.now"));
 
@@ -142,8 +142,8 @@ public class Scenario2 {
         commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("you.are.not.mafia"));
 
-        //detector ask in mafia turn
-        detectorAsk();
+        //DETECTIVE ask in mafia turn
+        detectiveAsk();
         commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.lastKeyIs("you.cant.ask.now"));
 
@@ -157,19 +157,19 @@ public class Scenario2 {
         commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.containKey("user.vote.another"));
 
-        //detector ask in general
-        detectorAskInGeneral();
+        //DETECTIVE ask in general
+        detectiveAskInGeneral();
         commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel
                 .lastKeyIs("command.is.unavailable.here"));
 
-        //citizen ask instead of detector
-        citizenAskInsteadDetector();
+        //citizen ask instead of DETECTIVE
+        citizenAskInsteaddetective();
         commandExecutor.waitUntilOver(helper.ic());
-        assertTrue(testInterfaceChannel.containKey("you.are.not.detector"));
+        assertTrue(testInterfaceChannel.containKey("you.are.not.detective"));
 
-        //detector ask
-        detectorAsk();
+        //DETECTIVE ask
+        detectiveAsk();
         commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.containKey("user.role.is.mafia"));
 
@@ -291,8 +291,8 @@ public class Scenario2 {
         gameApi.mafiaKillVote(helper.citizenIc(1), helper.citizenUsername(1), helper.mafiaUsername(0));
     }
 
-    private void detectorAsk() {
-        gameApi.detectorAsk(helper.detectorIc(), helper.detectorUsername(), helper.mafiaUsername(0));
+    private void detectiveAsk() {
+        gameApi.detectiveAsk(helper.detectiveIc(), helper.detectiveUsername(), helper.mafiaUsername(0));
     }
 
     private void mafiaKillVote() {
@@ -301,13 +301,13 @@ public class Scenario2 {
         gameApi.mafiaKillVote(helper.mafiaIc(2), helper.mafiaUsername(2), helper.citizenUsername(2));
     }
 
-    private void detectorAskInGeneral() {
-        gameApi.detectorAsk(helper.detectorIc(ChannelType.GENERAL), helper.detectorUsername(),
+    private void detectiveAskInGeneral() {
+        gameApi.detectiveAsk(helper.detectiveIc(ChannelType.GENERAL), helper.detectiveUsername(),
                 helper.mafiaUsername(0));
     }
 
-    private void citizenAskInsteadDetector() {
-        gameApi.detectorAsk(helper.citizenIc(3), helper.citizenUsername(3), helper.mafiaUsername(0));
+    private void citizenAskInsteaddetective() {
+        gameApi.detectiveAsk(helper.citizenIc(3), helper.citizenUsername(3), helper.mafiaUsername(0));
     }
 
     private void citizenHealInsteadDoctor() {

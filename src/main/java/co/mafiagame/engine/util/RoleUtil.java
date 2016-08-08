@@ -30,8 +30,8 @@ public class RoleUtil {
                 return "your.role.is.citizen";
             case MAFIA:
                 return "your.role.is.mafia";
-            case DETECTOR:
-                return "your.role.is.detector";
+            case DETECTIVE:
+                return "your.role.is.detective";
             case DOCTOR:
                 return "your.role.is.doctor";
         }

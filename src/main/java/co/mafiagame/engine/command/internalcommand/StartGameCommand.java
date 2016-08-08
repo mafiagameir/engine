@@ -87,9 +87,9 @@ public class StartGameCommand implements Command<StartGameCommandContext> {
         for (int i = 0; i < gameState.getMafiaNum(); i++)
             players.get(assigned + i).setRole(Role.MAFIA);
         assigned += gameState.getMafiaNum();
-        for (int i = 0; i < gameState.getDetectorNum(); i++)
-            players.get(assigned + i).setRole(Role.DETECTOR);
-        assigned += gameState.getDetectorNum();
+        for (int i = 0; i < gameState.getDetectiveNum(); i++)
+            players.get(assigned + i).setRole(Role.DETECTIVE);
+        assigned += gameState.getDetectiveNum();
         for (int i = 0; i < gameState.getDoctorNum(); i++)
             players.get(assigned + i).setRole(Role.DOCTOR);
         Collections.shuffle(players);

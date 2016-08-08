@@ -46,10 +46,10 @@ public class GameApi {
     private GameContainer gameContainer;
 
     public void startStashedGame(InterfaceContext interfaceContext,
-                                 int citizenNum, int mafiaNum, int detectorNum, int doctorNum) {
+                                 int citizenNum, int mafiaNum, int detectiveNum, int doctorNum) {
         commandExecutor.run(interfaceContext, Constants.CMD.START_STASHED_GAME,
                 new StartStashedGameCommandContext(interfaceContext,
-                        citizenNum, mafiaNum, detectorNum, doctorNum));
+                        citizenNum, mafiaNum, detectiveNum, doctorNum));
     }
 
     public void register(InterfaceContext interfaceContext, String username, String firstName, String lastName) {
@@ -71,11 +71,11 @@ public class GameApi {
                         votedUsername));
     }
 
-    public void detectorAsk(InterfaceContext interfaceContext, String username,
+    public void detectiveAsk(InterfaceContext interfaceContext, String username,
                             String who) {
         Game game = gameContainer.getGame(interfaceContext);
-        commandExecutor.run(interfaceContext, Constants.CMD.DETECTOR_ASK,
-                new DetectorAskCommandContext(interfaceContext, game, username,
+        commandExecutor.run(interfaceContext, Constants.CMD.DETECTIVE_ASK,
+                new DetectiveAskCommandContext(interfaceContext, game, username,
                         who));
     }
 

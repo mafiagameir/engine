@@ -60,7 +60,7 @@ public class Scenario1 {
     private TestHelper helper;
 
     /**
-     * normal game scenario with 10 player which is 6 citizen 2 mafia and one doctor and detector
+     * normal game scenario with 10 player which is 6 citizen 2 mafia and one doctor and detective
      *
      * @throws InterruptedException
      */
@@ -94,8 +94,8 @@ public class Scenario1 {
         commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.containKey("user.vote.another"));
 
-        //detector ask
-        gameApi.detectorAsk(helper.detectorIc(), helper.detectorUsername(), helper.citizenUsername(5));
+        //DETECTIVE ask
+        gameApi.detectiveAsk(helper.detectiveIc(), helper.detectiveUsername(), helper.citizenUsername(5));
         commandExecutor.waitUntilOver(helper.ic());
         assertTrue(testInterfaceChannel.containKey("user.role.is.not.mafia"));
 
@@ -112,7 +112,7 @@ public class Scenario1 {
         assertTrue(testInterfaceChannel.containKey("election.started"));
         secondUserVote();
         commandExecutor.waitUntilOver(helper.ic());
-        //detector killed
+        //DETECTIVE killed
 
         //night mode
 
@@ -176,12 +176,12 @@ public class Scenario1 {
     private void secondUserVote() {
         gameApi.vote(helper.user(0), helper.username(0),
                 Collections.singletonList(Constants.NO_BODY));
-        gameApi.vote(helper.user(1), helper.username(1), Collections.singletonList(helper.detectorUsername()));
-        gameApi.vote(helper.user(2), helper.username(2), Collections.singletonList(helper.detectorUsername()));
-        gameApi.vote(helper.user(3), helper.username(3), Collections.singletonList(helper.detectorUsername()));
-        gameApi.vote(helper.user(4), helper.username(4), Collections.singletonList(helper.detectorUsername()));
+        gameApi.vote(helper.user(1), helper.username(1), Collections.singletonList(helper.detectiveUsername()));
+        gameApi.vote(helper.user(2), helper.username(2), Collections.singletonList(helper.detectiveUsername()));
+        gameApi.vote(helper.user(3), helper.username(3), Collections.singletonList(helper.detectiveUsername()));
+        gameApi.vote(helper.user(4), helper.username(4), Collections.singletonList(helper.detectiveUsername()));
         gameApi.vote(helper.user(5), helper.username(5), Collections.singletonList(helper.username(6)));
-        gameApi.vote(helper.user(6), helper.username(6), Collections.singletonList(helper.detectorUsername()));
+        gameApi.vote(helper.user(6), helper.username(6), Collections.singletonList(helper.detectiveUsername()));
         gameApi.vote(helper.user(7), helper.username(7), Collections.singletonList(helper.username(2)));
     }
 

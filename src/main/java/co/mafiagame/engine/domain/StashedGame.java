@@ -39,11 +39,11 @@ public class StashedGame implements InterfaceContextAware {
     }
 
     public StashedGame(InterfaceContext interfaceContext, int citizenNum,
-                       int mafiaNum, int detectorNum, int doctorNum) {
+                       int mafiaNum, int detectiveNum, int doctorNum) {
         this.createdDate = new Date();
         this.lastUpdate = new Date();
         this.interfaceContext = interfaceContext;
-        gameState = new GameState(citizenNum, mafiaNum, detectorNum, doctorNum);
+        gameState = new GameState(citizenNum, mafiaNum, detectiveNum, doctorNum);
     }
 
     public synchronized InterfaceContext getInterfaceContext() {

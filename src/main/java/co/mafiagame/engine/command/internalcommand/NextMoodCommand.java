@@ -61,8 +61,8 @@ public class NextMoodCommand implements Command<EmptyContext> {
                 return nextModeIsDay(context.getInterfaceContext(), game);
             if (gameMood == GameMood.NIGHT_MAFIA)
                 return nextModeIsMafiaNight(context.getInterfaceContext(), game);
-            if (gameMood == GameMood.NIGHT_DETECTOR)
-                return nextModeIsDetectorNight(context.getInterfaceContext(), game);
+            if (gameMood == GameMood.NIGHT_DETECTIVE)
+                return nextModeIsDetectiveNight(context.getInterfaceContext(), game);
             if (gameMood == GameMood.NIGHT_DOCTOR)
                 return nextModeIsDoctorNight(context.getInterfaceContext(), game);
             game.setGameMood(game.nextMode());
@@ -84,14 +84,14 @@ public class NextMoodCommand implements Command<EmptyContext> {
                 ChannelType.USER_PRIVATE, interfaceContext);
     }
 
-    private ResultMessage nextModeIsDetectorNight(InterfaceContext interfaceContext, Game game) {
+    private ResultMessage nextModeIsDetectiveNight(InterfaceContext interfaceContext, Game game) {
         game.setGameMood(game.nextMode());
-        Account detectorAccount = game.detector().getAccount();
+        Account detectiveAccount = game.detective().getAccount();
         return new ResultMessage(
-                new Message("detector.night.started", detectorAccount.getUserInterfaceId(),
-                        detectorAccount.getUsername(),
-                        game.makeOption(Constants.CMD.DETECTOR_ASK, false),
-                        Collections.singletonList(detectorAccount.getUsername())
+                new Message("detective.night.started", detectiveAccount.getUserInterfaceId(),
+                        detectiveAccount.getUsername(),
+                        game.makeOption(Constants.CMD.DETECTIVE_ASK, false),
+                        Collections.singletonList(detectiveAccount.getUsername())
                 ),
                 ChannelType.USER_PRIVATE, interfaceContext
         );

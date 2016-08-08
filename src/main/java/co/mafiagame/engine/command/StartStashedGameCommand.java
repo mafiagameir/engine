@@ -28,7 +28,7 @@ import co.mafiagame.engine.container.GameContainer;
 import co.mafiagame.engine.container.StashedGameContainer;
 import co.mafiagame.engine.domain.StashedGame;
 import co.mafiagame.engine.exception.GameAlreadyStartedException;
-import co.mafiagame.engine.exception.MoreThanOneDetectorException;
+import co.mafiagame.engine.exception.MoreThanOneDetectiveException;
 import co.mafiagame.engine.exception.MoreThanOneDoctorException;
 import co.mafiagame.engine.exception.ZeroMafiaException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +50,8 @@ public class StartStashedGameCommand implements Command<StartStashedGameCommandC
 
     @Override
     public ResultMessage execute(StartStashedGameCommandContext context) {
-        if (context.getDetectorNum() > 1)
-            throw new MoreThanOneDetectorException();
+        if (context.getDetectiveNum() > 1)
+            throw new MoreThanOneDetectiveException();
         if (context.getDoctorNum() > 1)
             throw new MoreThanOneDoctorException();
         if (context.getMafiaNum() < 1)
@@ -60,15 +60,15 @@ public class StartStashedGameCommand implements Command<StartStashedGameCommandC
             throw new GameAlreadyStartedException();
         StashedGame stashedGame = new StashedGame(
                 context.getInterfaceContext(), context.getCitizenNum(),
-                context.getMafiaNum(), context.getDetectorNum(),
+                context.getMafiaNum(), context.getDetectiveNum(),
                 context.getDoctorNum());
         stashedGameContainer.addGame(stashedGame);
-        int sum = context.getCitizenNum() + context.getMafiaNum() + context.getDetectorNum() + context.getDoctorNum();
+        int sum = context.getCitizenNum() + context.getMafiaNum() + context.getDetectiveNum() + context.getDoctorNum();
         return new ResultMessage(new Message("stashed.game.started", null, null,
                 Collections.singletonList(new Option(Constants.CMD.REGISTER)), null,
                 String.valueOf(context.getCitizenNum()),
                 String.valueOf(context.getMafiaNum()),
-                String.valueOf(context.getDetectorNum()),
+                String.valueOf(context.getDetectiveNum()),
                 String.valueOf(context.getDoctorNum()),
                 String.valueOf(sum)),
                 ChannelType.GENERAL, context.getInterfaceContext());

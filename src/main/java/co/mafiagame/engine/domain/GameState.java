@@ -24,17 +24,17 @@ package co.mafiagame.engine.domain;
 public class GameState {
     private int citizenNum;
     private int mafiaNum;
-    private int detectorNum;
+    private int detectiveNum;
     private int doctorNum;
 
     public GameState() {
     }
 
-    public GameState(int citizenNum, int mafiaNum, int detectorNum,
+    public GameState(int citizenNum, int mafiaNum, int detectiveNum,
                      int doctorNum) {
         this.citizenNum = citizenNum;
         this.mafiaNum = mafiaNum;
-        this.detectorNum = detectorNum;
+        this.detectiveNum = detectiveNum;
         this.doctorNum = doctorNum;
     }
 
@@ -46,8 +46,8 @@ public class GameState {
         citizenNum--;
     }
 
-    public synchronized void killDetector() {
-        detectorNum--;
+    public synchronized void killDetective() {
+        detectiveNum--;
     }
 
     public synchronized void killDoctor() {
@@ -55,7 +55,7 @@ public class GameState {
     }
 
     public synchronized int totalPlayer() {
-        return citizenNum + mafiaNum + detectorNum + doctorNum;
+        return citizenNum + mafiaNum + detectiveNum + doctorNum;
     }
 
     public synchronized int getCitizenNum() {
@@ -66,8 +66,8 @@ public class GameState {
         return mafiaNum;
     }
 
-    public synchronized int getDetectorNum() {
-        return detectorNum;
+    public synchronized int getDetectiveNum() {
+        return detectiveNum;
     }
 
     public synchronized int getDoctorNum() {
@@ -79,7 +79,7 @@ public class GameState {
         return "GameState{" +
                 "citizenNum=" + citizenNum +
                 ", mafiaNum=" + mafiaNum +
-                ", detectorNum=" + detectorNum +
+                ", detectiveNum=" + detectiveNum +
                 ", doctorNum=" + doctorNum +
                 '}';
     }

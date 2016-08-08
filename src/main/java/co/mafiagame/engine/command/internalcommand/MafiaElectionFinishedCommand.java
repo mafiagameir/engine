@@ -55,7 +55,7 @@ public class MafiaElectionFinishedCommand extends
 
         if (electionOver) {
             game.mafias().stream().map(Player::getAccount)
-                    .map(mafia -> new Message("detector.night.started.be.silent",
+                    .map(mafia -> new Message("detective.night.started.be.silent",
                             mafia.getUserInterfaceId(), mafia.getUsername()))
                     .forEach(messages::add);
 

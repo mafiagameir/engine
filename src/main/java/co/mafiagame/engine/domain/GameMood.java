@@ -22,5 +22,5 @@ package co.mafiagame.engine.domain;
  * @author hekmatof
  */
 public enum GameMood {
-    DAY, NIGHT_MAFIA, NIGHT_DETECTOR, NIGHT_DOCTOR
+    DAY, NIGHT_MAFIA, NIGHT_DETECTIVE, NIGHT_DOCTOR
 }

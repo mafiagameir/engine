@@ -23,10 +23,10 @@ import co.mafiagame.common.exception.MafiaException;
 /**
  * @author hekmatof
  */
-public class MoreThanOneDetectorException extends MafiaException {
+public class MoreThanOneDetectiveException extends MafiaException {
     @Override
     public String getMessageCode() {
-        return "more.than.one.detector";
+        return "more.than.one.detective";
     }
 
     @Override

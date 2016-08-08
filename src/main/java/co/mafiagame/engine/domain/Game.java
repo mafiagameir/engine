@@ -69,9 +69,9 @@ public class Game implements InterfaceContextAware {
             case DAY:
                 return GameMood.NIGHT_MAFIA;
             case NIGHT_MAFIA:
-                if (gameState.getDetectorNum() > 0)
-                    return GameMood.NIGHT_DETECTOR;
-            case NIGHT_DETECTOR:
+                if (gameState.getDetectiveNum() > 0)
+                    return GameMood.NIGHT_DETECTIVE;
+            case NIGHT_DETECTIVE:
                 if (gameState.getDoctorNum() > 0)
                     return GameMood.NIGHT_DOCTOR;
             default:
@@ -116,8 +116,8 @@ public class Game implements InterfaceContextAware {
             case CITIZEN:
                 gameState.killCitizen();
                 break;
-            case DETECTOR:
-                gameState.killDetector();
+            case DETECTIVE:
+                gameState.killDetective();
                 break;
             case DOCTOR:
                 gameState.killDoctor();
@@ -129,9 +129,9 @@ public class Game implements InterfaceContextAware {
     public synchronized GameResult checkGameOver() {
         int citizenNum = gameState.getCitizenNum();
         int doctorNum = gameState.getDoctorNum();
-        int detectorNum = gameState.getDetectorNum();
+        int detectiveNum = gameState.getDetectiveNum();
         int mafiaNum = gameState.getMafiaNum();
-        int citizenSum = citizenNum + doctorNum + detectorNum;
+        int citizenSum = citizenNum + doctorNum + detectiveNum;
         GameResult gameResult;
         if (cancelPlayers.size() >= (players.size() / 2) + 1)
             gameResult = GameResult.CANCELED;
@@ -160,8 +160,8 @@ public class Game implements InterfaceContextAware {
         return this.players.stream().filter(p -> p.getRole() == Role.MAFIA).collect(Collectors.toList());
     }
 
-    public synchronized Player detector() {
-        return this.players.stream().filter(p -> p.getRole() == Role.DETECTOR).findFirst().get();
+    public synchronized Player detective() {
+        return this.players.stream().filter(p -> p.getRole() == Role.DETECTIVE).findFirst().get();
     }
 
     public synchronized Player doctor() {

@@ -16,38 +16,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package co.mafiagame.engine.command.context;
+package co.mafiagame.engine.exception;
 
-import co.mafiagame.common.channel.InterfaceContext;
-import co.mafiagame.engine.domain.Game;
+import co.mafiagame.common.exception.MafiaException;
 
 /**
  * @author hekmatof
- * @author nazila
  */
-public class DetectorAskCommandContext extends CommandContext {
-    private final String username;
-    private final String who;
-
-    public DetectorAskCommandContext(InterfaceContext interfaceContext,
-                                     Game game, String username, String who) {
-        super(interfaceContext, game);
-        this.username = username;
-        this.who = who;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-
-    public String getWho() {
-        return who;
+public class YouAreNotDetectiveException extends MafiaException {
+    @Override
+    public String getMessageCode() {
+        return "you.are.not.detective";
     }
 
     @Override
-    public String toString() {
-        return "DetectorAskCommandContext{" + "username='" + username + '\''
-                + ", who='" + who + '\'' + '}';
+    public String[] getMessageArgs() {
+        return new String[0];
     }
 }

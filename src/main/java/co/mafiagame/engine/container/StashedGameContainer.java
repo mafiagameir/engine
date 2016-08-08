@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class StashedGameContainer extends Container<StashedGame> {
-    public static final String DIR = "stashedGames";
+    private static final String DIR = "stashedGames";
 
     @Value("${mafia.game.persistence.location}")
     private String gameLocation;

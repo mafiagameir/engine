@@ -42,7 +42,7 @@ public class TestHelper {
     private final List<Player> mafia;
     private final List<Player> citizens;
     private final Player doctor;
-    private final Player detector;
+    private final Player detective;
     private final String gameIdentity;
     private final GameContainer gameContainer;
 
@@ -60,25 +60,25 @@ public class TestHelper {
         mafia = users.stream()
                 .filter(p -> p.getRole() == Role.MAFIA)
                 .collect(Collectors.toList());
-        detector = users.stream()
-                .filter(p -> p.getRole() == Role.DETECTOR).findFirst().get();
+        detective = users.stream()
+                .filter(p -> p.getRole() == Role.DETECTIVE).findFirst().get();
         doctor = users.stream()
                 .filter(p -> p.getRole() == Role.DOCTOR).findFirst().get();
     }
 
     public TestHelper(CommandExecutor commandExecutor, GameApi gameApi,
                       GameContainer gameContainer, String gameIdentity,
-                      int citizenNum, int mafiaNum, boolean hasDetector, boolean hasDoctor) throws InterruptedException {
+                      int citizenNum, int mafiaNum, boolean hasDetective, boolean hasDoctor) throws InterruptedException {
         this.gameIdentity = gameIdentity;
         this.gameContainer = gameContainer;
         int playerNum = citizenNum + mafiaNum;
-        if (hasDetector) playerNum++;
+        if (hasDetective) playerNum++;
         if (hasDoctor) playerNum++;
         for (int i = 1; i <= playerNum; i++) {
             InterfaceContext cic = new TestInterfaceContext(gameIdentity, "user" + i, ChannelType.GENERAL);
             userInterfaceContexts.add(cic);
         }
-        gameApi.startStashedGame(ic(), citizenNum, mafiaNum, hasDetector ? 1 : 0, hasDoctor ? 1 : 0);
+        gameApi.startStashedGame(ic(), citizenNum, mafiaNum, hasDetective ? 1 : 0, hasDoctor ? 1 : 0);
         userInterfaceContexts.forEach(u ->
                 gameApi.register(u, u.getUserName(), null, null)
         );
@@ -90,11 +90,11 @@ public class TestHelper {
         mafia = users.stream()
                 .filter(p -> p.getRole() == Role.MAFIA)
                 .collect(Collectors.toList());
-        if (hasDetector)
-            detector = users.stream()
-                    .filter(p -> p.getRole() == Role.DETECTOR).findFirst().get();
+        if (hasDetective)
+            detective = users.stream()
+                    .filter(p -> p.getRole() == Role.DETECTIVE).findFirst().get();
         else
-            detector = null;
+            detective = null;
         if (hasDoctor)
             doctor = users.stream()
                     .filter(p -> p.getRole() == Role.DOCTOR).findFirst().get();
@@ -163,16 +163,16 @@ public class TestHelper {
         return doctorIc(ChannelType.USER_PRIVATE);
     }
 
-    public String detectorUsername() {
-        return detector.getAccount().getUsername();
+    public String detectiveUsername() {
+        return detective.getAccount().getUsername();
     }
 
-    public InterfaceContext detectorIc(ChannelType type) {
-        return new TestInterfaceContext(gameIdentity, detectorUsername(), type);
+    public InterfaceContext detectiveIc(ChannelType type) {
+        return new TestInterfaceContext(gameIdentity, detectiveUsername(), type);
     }
 
-    public InterfaceContext detectorIc() {
-        return detectorIc(ChannelType.USER_PRIVATE);
+    public InterfaceContext detectiveIc() {
+        return detectiveIc(ChannelType.USER_PRIVATE);
     }
 
     public List<InterfaceContext> aliveIc() {
@@ -200,8 +200,8 @@ public class TestHelper {
         return doctor;
     }
 
-    public Player detector() {
-        return detector;
+    public Player detective() {
+        return detective;
     }
 
 }

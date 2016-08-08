@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentMap;
 @Component
 public class GameContainer extends Container<Game> {
     private final Map<InterfaceContext, Game> games = new HashMap<>();
-    public static final String DIR = "games";
+    private static final String DIR = "games";
 
     @Value("${mafia.game.persistence.location}")
     private String gameLocation;
