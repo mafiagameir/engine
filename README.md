@@ -1,0 +1,1 @@
+The core of mafia(werewolf) game implementation in java.
