@@ -65,15 +65,15 @@ public abstract class ElectionHandlerCommand<T extends CommandContext> implement
                 .collect(Collectors.toList());
     }
 
-    protected void electionResult(List<Message> messages, Game game,CommandContext context) {
+    protected void electionResult(List<Message> messages, Game game, CommandContext context) {
         Map<Player, List<Player>> votes = game.getPlayerVote();
-        votes.keySet().stream().forEach(
-                p -> messages.add(new Message("vote.for.user",
-                        context.getInterfaceContext().getUserId(),
-                        context.getInterfaceContext().getUserName(),
-                        p.getAccount().getUsername(),
-                        String.valueOf(votes.get(p).size())
-                ))
+        votes.keySet().forEach(
+                p -> messages.add(new Message("vote.for.user")
+                        .setReceiverId(context.getInterfaceContext().getUserId())
+                        .setArgs(
+                                p.getAccount().getUsername(),
+                                String.valueOf(votes.get(p).size())
+                        ))
         );
     }
 }

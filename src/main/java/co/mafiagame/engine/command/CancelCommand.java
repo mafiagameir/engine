@@ -54,8 +54,9 @@ public class CancelCommand implements Command<CancelCommandContext> {
                     new EmptyContext(context.getInterfaceContext(), game)
             );
         }
-        return new ResultMessage(new Message("user.canceled.game", null, null,
-                context.getUsername()), ChannelType.GENERAL, context.getInterfaceContext());
+        return new ResultMessage(new Message("user.canceled.game")
+                .setArgs(context.getUsername()),
+                ChannelType.GENERAL, context.getInterfaceContext());
     }
 
     @Override

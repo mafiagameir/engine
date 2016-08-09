@@ -43,9 +43,9 @@ public abstract class VotableCommand<T extends CommandContext> implements Comman
                     .forEach(p -> playerVote.get(p).remove(voter));
         }
         for (String votedUsername : votedUsernames) {
-            Player voted = game.playerByUsername(votedUsername);
             if (votedUsername.equals(Constants.NO_BODY))
                 continue;
+            Player voted = game.playerByUsername(votedUsername);
             if (playerVote.containsKey(voted))
                 playerVote.get(voted).add(voter);
             else {

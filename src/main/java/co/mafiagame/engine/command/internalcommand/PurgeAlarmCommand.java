@@ -35,7 +35,7 @@ public class PurgeAlarmCommand implements Command<EmptyContext> {
     @Override
     public ResultMessage execute(EmptyContext context) {
         Game game = context.getGame();
-        return new ResultMessage(new Message("purge.alarm", null, null), ChannelType.GENERAL,
+        return new ResultMessage(new Message("purge.alarm"), ChannelType.GENERAL,
                 game.getInterfaceContext());
     }
 

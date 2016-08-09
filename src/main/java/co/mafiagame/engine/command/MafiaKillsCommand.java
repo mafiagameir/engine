@@ -65,14 +65,14 @@ public class MafiaKillsCommand extends VotableCommand<MafiaKillsCommandContext> 
         List<Message> messages = new ArrayList<>();
         if (Constants.NO_BODY.equals(context.getUserVoted())) {
             game.mafias().forEach(
-                    m -> messages.add(new Message("user.vote.nobody", m.getAccount().getUserInterfaceId(),
-                            m.getAccount().getUsername(),
-                            context.getMafiaVoter())));
+                    m -> messages.add(new Message("user.vote.nobody")
+                            .setReceiverId(m.getAccount().getUserInterfaceId())
+                            .setArgs(context.getMafiaVoter())));
         } else {
             game.mafias().forEach(
-                    m -> messages.add(new Message("user.vote.another", m.getAccount().getUserInterfaceId(),
-                            m.getAccount().getUsername(),
-                            context.getMafiaVoter(), context.getUserVoted())));
+                    m -> messages.add(new Message("user.vote.another")
+                            .setReceiverId(m.getAccount().getUserInterfaceId())
+                            .setArgs(context.getMafiaVoter(), context.getUserVoted())));
         }
         return new ResultMessage(
                 messages, context.getInterfaceContext().getSenderType(), context.getInterfaceContext());

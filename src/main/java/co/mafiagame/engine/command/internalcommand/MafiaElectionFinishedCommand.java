@@ -51,12 +51,12 @@ public class MafiaElectionFinishedCommand extends
         List<Message> messages = new ArrayList<>();
         Game game = context.getGame();
         boolean electionOver = mafiaFinalElectionHandler(messages, game);
-        electionResult(messages, game,context);
+        electionResult(messages, game, context);
 
         if (electionOver) {
             game.mafias().stream().map(Player::getAccount)
-                    .map(mafia -> new Message("detective.night.started.be.silent",
-                            mafia.getUserInterfaceId(), mafia.getUsername()))
+                    .map(mafia -> new Message("detective.night.started.be.silent")
+                            .setReceiverId(mafia.getUserInterfaceId()))
                     .forEach(messages::add);
 
             commandExecutor.run(context.getInterfaceContext(),
@@ -73,9 +73,9 @@ public class MafiaElectionFinishedCommand extends
         if (usersEqualMaxVote == null) {
             game.clearElection();
             game.mafias().forEach(p ->
-                    messages.add(new Message("you.kill.nobody",
-                            p.getAccount().getUserInterfaceId(),
-                            p.getAccount().getUsername())));
+                    messages.add(new Message("you.kill.nobody")
+                            .setReceiverId(p.getAccount().getUserInterfaceId())
+                    ));
             return true;
         } else {
             Player maxVoted = usersEqualMaxVote.get(0);
@@ -83,18 +83,16 @@ public class MafiaElectionFinishedCommand extends
                 game.temporaryKillPlayer(maxVoted);
                 game.clearElection();
                 game.mafias().forEach(p ->
-                        messages.add(new Message("you.kill.a.player",
-                                p.getAccount().getUserInterfaceId(), p.getAccount().getUsername(),
-                                maxVoted.getAccount().getUsername())));
+                        messages.add(new Message("you.kill.a.player")
+                                .setReceiverId(p.getAccount().getUserInterfaceId())
+                                .setArgs(maxVoted.getAccount().getUsername())));
                 return true;
             } else {
                 int maxVoteNum = votes.get(maxVoted).size();
                 game.mafias().forEach(p ->
-                        messages.add(new Message(
-                                "you.cant.decide.who.to.kill",
-                                p.getAccount().getUserInterfaceId(),
-                                p.getAccount().getUsername(),
-                                ListToString.toString(
+                        messages.add(new Message("you.cant.decide.who.to.kill")
+                                .setReceiverId(p.getAccount().getUserInterfaceId())
+                                .setArgs(ListToString.toString(
                                         usersEqualMaxVote.stream()
                                                 .map(Player::getAccount)
                                                 .map(Account::getUsername)

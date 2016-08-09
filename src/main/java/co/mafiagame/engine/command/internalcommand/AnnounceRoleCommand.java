@@ -45,21 +45,16 @@ public class AnnounceRoleCommand implements Command<EmptyContext> {
     public ResultMessage execute(EmptyContext context) {
         Game game = context.getGame();
         List<Message> messages = new ArrayList<>();
-        game.getPlayers()
-                .stream()
-                .forEach(
-                        p -> {
-                            messages.add(new Message(RoleUtil.roleIs(p.getRole()),
-                                    p.getAccount().getUserInterfaceId(),
-                                    p.getAccount().getUsername()));
-                        });
+        game.getPlayers().forEach(
+                p -> messages.add(new Message(RoleUtil.roleIs(p.getRole()))
+                        .setReceiverId(p.getAccount().getUserInterfaceId())));
         List<Player> mafias = game.mafias();
         List<String> mafiaUserNames = mafias.stream().map(Player::getAccount)
                 .map(Account::getUsername).collect(Collectors.toList());
-        mafias.stream().forEach(
-                m -> messages.add(new Message("mafia.are.players",
-                        m.getAccount().getUserInterfaceId(),m.getAccount().getUsername(),
-                        ListToString.toString(mafiaUserNames))));
+        mafias.forEach(
+                m -> messages.add(new Message("mafia.are.players")
+                        .setReceiverId(m.getAccount().getUserInterfaceId())
+                        .setArgs(ListToString.toString(mafiaUserNames))));
         return new ResultMessage(messages, ChannelType.USER_PRIVATE, context.getInterfaceContext());
     }
 

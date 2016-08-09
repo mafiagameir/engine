@@ -22,7 +22,6 @@ import co.mafiagame.common.Constants;
 import co.mafiagame.common.domain.result.ChannelType;
 import co.mafiagame.common.domain.result.Message;
 import co.mafiagame.common.domain.result.ResultMessage;
-import co.mafiagame.engine.command.Command;
 import co.mafiagame.engine.command.context.EmptyContext;
 import co.mafiagame.engine.domain.Game;
 import co.mafiagame.engine.domain.Role;
@@ -43,9 +42,8 @@ public class WhatIsMyRoleCommand implements Command<EmptyContext> {
             throw new CommandIsUnavailableHereException();
         game.update();
         Role role = game.playerByUsername(context.getInterfaceContext().getUserName()).getRole();
-        return new ResultMessage(new Message(RoleUtil.roleIs(role),
-                context.getInterfaceContext().getUserId(),
-                context.getInterfaceContext().getUserName()),
+        return new ResultMessage(new Message(RoleUtil.roleIs(role))
+                .setReceiverId(context.getInterfaceContext().getUserId()),
                 ChannelType.USER_PRIVATE, context.getInterfaceContext());
     }
 

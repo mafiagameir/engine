@@ -28,43 +28,13 @@ import java.util.List;
 public class Message {
 
     private final String messageCode;
-    private final String[] args;
-    private final String receiverId;
-    private final List<Option> options;
-    private final List<String> toUsers;
-    private final String receiverUserName;
+    private String[] args = new String[0];
+    private String receiverId;
+    private List<Option> options = new ArrayList<>();
+    private List<String> toUsers = new ArrayList<>();
 
-    public Message(String messageCode, String receiverId, String receiverUserName, List<Option> options, List<String> toUsers, String... args) {
+    public Message(String messageCode) {
         this.messageCode = messageCode;
-        this.receiverId = receiverId;
-        this.receiverUserName = receiverUserName;
-        this.args = args;
-        this.options = options;
-        this.toUsers = toUsers;
-    }
-
-    public Message(String messageCode, String receiverId, String receiverUserName, List<Option> options, List<String> toUsers) {
-        super();
-        this.messageCode = messageCode;
-        this.receiverId = receiverId;
-        this.receiverUserName = receiverUserName;
-        this.args = new String[0];
-        this.options = options;
-        this.toUsers = toUsers;
-    }
-
-    public Message(String messageCode, String receiverId, String receiverUserName, String... args) {
-        super();
-        this.messageCode = messageCode;
-        this.receiverId = receiverId;
-        this.receiverUserName = receiverUserName;
-        this.args = args;
-        this.options = new ArrayList<>();
-        this.toUsers = new ArrayList<>();
-    }
-
-    public Message(String messageCode, String receiverId, String receiverUserName) {
-        this(messageCode, receiverId, receiverUserName, new String[0]);
     }
 
     public List<String> getToUsers() {
@@ -83,12 +53,28 @@ public class Message {
         return receiverId;
     }
 
-    public String getReceiverUserName() {
-        return receiverUserName;
-    }
-
     public List<Option> getOptions() {
         return options;
+    }
+
+    public Message setArgs(String... args) {
+        this.args = args;
+        return this;
+    }
+
+    public Message setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
+        return this;
+    }
+
+    public Message setOptions(List<Option> options) {
+        this.options = options;
+        return this;
+    }
+
+    public Message setToUsers(List<String> toUsers) {
+        this.toUsers = toUsers;
+        return this;
     }
 
     @Override
@@ -99,7 +85,6 @@ public class Message {
                 ", receiverId='" + receiverId + '\'' +
                 ", options=" + options +
                 ", toUsers=" + toUsers +
-                ", receiverUserName='" + receiverUserName + '\'' +
                 '}';
     }
 }

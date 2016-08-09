@@ -53,22 +53,24 @@ public class VoteCommand extends VotableCommand<VoteCommandContext> {
             throw new VoteOnNightException();
         if (game.getElectionMood() == ElectionMood.NONE)
             throw new NoElectionStartedException();
-            Player voter = game.playerByUsername(context.getVoterUsername());
-            vote(voter, context.getVotedUsername(), game);
-            voter.setVoted(true);
+        Player voter = game.playerByUsername(context.getVoterUsername());
+        vote(voter, context.getVotedUsername(), game);
+        voter.setVoted(true);
         if (game.checkElectionIsOver())
             commandExecutor.run(context.getInterfaceContext(),
                     Constants.CMD.Internal.ELECTION_FINISHED, new EmptyContext(
                             context.getInterfaceContext(), game));
         if (context.getVotedUsername().size() == 1
                 && Constants.NO_BODY.equals(context.getVotedUsername().get(0))) {
-            return new ResultMessage(new Message("user.vote.nobody", null,
-                    context.getVoterUsername(), context.getVoterUsername()), ChannelType.GENERAL,
-                    context.getInterfaceContext());
+            return new ResultMessage(new Message("user.vote.nobody")
+                    .setReceiverId(game.playerByUsername(context.getVoterUsername()).getAccount().getUserInterfaceId())
+                    .setArgs(context.getVoterUsername()),
+                    ChannelType.GENERAL, context.getInterfaceContext());
         } else {
 
-            return new ResultMessage(new Message("user.vote.another", null, null,
-                    context.getVoterUsername(), ListToString.toString(context.getVotedUsername())),
+            return new ResultMessage(new Message("user.vote.another")
+                    .setArgs(context.getVoterUsername(),
+                            ListToString.toString(context.getVotedUsername())),
                     ChannelType.GENERAL,
                     context.getInterfaceContext());
         }

@@ -32,9 +32,8 @@ public class HelpCommand implements Command<EmptyContext> {
 
     @Override
     public ResultMessage execute(EmptyContext context) {
-        return new ResultMessage(new Message("help",
-                context.getInterfaceContext().getUserId(),
-                context.getInterfaceContext().getUserName()),
+        return new ResultMessage(new Message("help")
+                .setReceiverId(context.getInterfaceContext().getUserId()),
                 context.getInterfaceContext().getSenderType(),
                 context.getInterfaceContext());
     }

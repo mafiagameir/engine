@@ -63,14 +63,13 @@ public class DetectiveAskCommand implements Command<DetectiveAskCommandContext> 
                 new EmptyContext(context.getInterfaceContext(), game));
         Message message;
         if (who.getRole() == Role.MAFIA)
-            message = new Message("user.role.is.mafia", detective.getAccount().getUserInterfaceId(),
-                    detective.getAccount().getUsername(),
-                    who.getAccount().getUsername());
+            message = new Message("user.role.is.mafia")
+                    .setReceiverId(detective.getAccount().getUserInterfaceId())
+                    .setArgs(who.getAccount().getUsername());
         else
-            message = new Message("user.role.is.not.mafia",
-                    detective.getAccount().getUserInterfaceId(),
-                    detective.getAccount().getUsername(),
-                    who.getAccount().getUsername());
+            message = new Message("user.role.is.not.mafia")
+                    .setReceiverId(detective.getAccount().getUserInterfaceId())
+                    .setArgs(who.getAccount().getUsername());
         return new ResultMessage(message, ChannelType.USER_PRIVATE,
                 context.getInterfaceContext());
     }

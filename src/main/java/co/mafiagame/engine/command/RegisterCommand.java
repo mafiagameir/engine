@@ -61,8 +61,9 @@ public class RegisterCommand implements Command<RegisterCommandContext> {
             commandExecutor.run(context.getInterfaceContext(),
                     Constants.CMD.Internal.START_GAME,
                     new StartGameCommandContext(context.getInterfaceContext(), game));
-        return new ResultMessage(new Message("player.successfully.registered", null, null,
-                account.getUsername()), ChannelType.GENERAL, context.getInterfaceContext());
+        return new ResultMessage(new Message("player.successfully.registered")
+                .setArgs(account.getUsername()),
+                ChannelType.GENERAL, context.getInterfaceContext());
     }
 
     @Override

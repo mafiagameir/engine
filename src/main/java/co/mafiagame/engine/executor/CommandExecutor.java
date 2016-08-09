@@ -60,7 +60,7 @@ public class CommandExecutor {
     @PostConstruct
     public void init() {
         commandsMap = new HashMap<>();
-        commands.stream().forEach(c -> commandsMap.put(c.commandName(), c));
+        commands.forEach(c -> commandsMap.put(c.commandName(), c));
         singleThread = new ThreadPoolExecutor(10, 10, keepAlive, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
     }
 
@@ -94,8 +94,9 @@ public class CommandExecutor {
                         }
                     } catch (MafiaException e) {
                         ResultMessage resultMessage = new ResultMessage(
-                                new Message(e.getMessageCode(), interfaceContext.getUserId(),
-                                        interfaceContext.getUserName(), e.getMessageArgs()),
+                                new Message(e.getMessageCode())
+                                        .setReceiverId(interfaceContext.getUserId())
+                                        .setArgs(e.getMessageArgs()),
                                 interfaceContext.getSenderType(), interfaceContext);
                         logger.warn("on game {} :{}", interfaceContext, resultMessage);
                         channel.send(resultMessage);

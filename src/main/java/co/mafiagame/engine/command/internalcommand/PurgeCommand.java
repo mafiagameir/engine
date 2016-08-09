@@ -45,7 +45,7 @@ public class PurgeCommand implements Command<EmptyContext> {
         Game game = context.getGame();
         gameContainer.finished(game.getInterfaceContext());
         interfaceChannel.gameOver(game.getBackupPlayerState().keySet());
-        return new ResultMessage(new Message("game.purged", null, null), ChannelType.GENERAL,
+        return new ResultMessage(new Message("game.purged"), ChannelType.GENERAL,
                 game.getInterfaceContext());
     }
 

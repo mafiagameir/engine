@@ -53,11 +53,11 @@ public class ElectionFinishedCommand extends
     public ResultMessage execute(EmptyContext context) {
         List<Message> messages = new ArrayList<>();
         Game game = context.getGame();
-        electionResult(messages, game,context);
+        electionResult(messages, game, context);
         if (game.getElectionMood() == ElectionMood.FINALELECTION) {
             boolean electionOver = citizenFinalElectionHandler(messages, game);
             if (electionOver) {
-                messages.add(new Message("night.started.be.silent", null, null));
+                messages.add(new Message("night.started.be.silent"));
                 commandExecutor.run(context.getInterfaceContext(),
                         Constants.CMD.Internal.NEXT_MOOD, new EmptyContext(
                                 context.getInterfaceContext(), game));
@@ -73,7 +73,7 @@ public class ElectionFinishedCommand extends
         List<Player> usersEqualMaxVote = findMaxVoted(game, false);
         if (usersEqualMaxVote == null) {
             game.clearElection();
-            messages.add(new Message("nobody.was.killed.with.maximum.votes", null, null));
+            messages.add(new Message("nobody.was.killed.with.maximum.votes"));
             return true;
         } else {
             Player maxVoted = usersEqualMaxVote.get(0);
@@ -82,15 +82,18 @@ public class ElectionFinishedCommand extends
                 game.killPlayer(maxVoted);
 
                 game.clearElection();
-                messages.add(new Message("player.was.killed.with.maximum.votes",
-                        null,null, maxVoted.getAccount().getUsername(), String.valueOf(maxVoteNum)));
+                messages.add(new Message("player.was.killed.with.maximum.votes")
+                        .setArgs(maxVoted.getAccount().getUsername(), String.valueOf(maxVoteNum))
+                );
                 return true;
             } else {
-                messages.add(new Message(
-                        "nobody.was.killed.because.more.than.one.user.has.equal.vote",
-                        null,null, ListToString.toString(usersEqualMaxVote.stream().map(Player::getAccount)
-                        .map(Account::getUsername).collect(Collectors.toList())),
-                        String.valueOf(maxVoteNum)));
+                messages.add(new Message("nobody.was.killed.because.more.than.one.user.has.equal.vote")
+                        .setArgs(
+                                ListToString.toString(
+                                        usersEqualMaxVote.stream().map(Player::getAccount)
+                                                .map(Account::getUsername).collect(Collectors.toList())
+                                ),
+                                String.valueOf(maxVoteNum)));
                 return false;
             }
         }

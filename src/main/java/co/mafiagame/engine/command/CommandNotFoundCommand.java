@@ -31,9 +31,8 @@ import org.springframework.stereotype.Component;
 public class CommandNotFoundCommand implements Command<EmptyContext> {
     @Override
     public ResultMessage execute(EmptyContext context) {
-        return new ResultMessage(new Message("command.not.found",
-                context.getInterfaceContext().getUserId(),
-                context.getInterfaceContext().getUserName()),
+        return new ResultMessage(new Message("command.not.found")
+                .setReceiverId(context.getInterfaceContext().getUserId()),
                 context.getInterfaceContext().getSenderType(),
                 context.getInterfaceContext());
     }

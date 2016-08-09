@@ -50,7 +50,8 @@ public class KillMeCommand implements Command<EmptyContext> {
             commandExecutor.run(context.getInterfaceContext(),
                     Constants.CMD.Internal.HANDLE_GAME_OVER, new EmptyContext(
                             context.getInterfaceContext(), game));
-        return new ResultMessage(new Message("user.exit.game",null,null,player.getAccount().getUsername()),
+        return new ResultMessage(new Message("user.exit.game")
+                .setArgs(player.getAccount().getUsername()),
                 ChannelType.GENERAL, context.getInterfaceContext());
     }
 

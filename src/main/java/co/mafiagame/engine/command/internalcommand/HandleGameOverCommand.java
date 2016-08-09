@@ -52,17 +52,18 @@ public class HandleGameOverCommand implements Command<EmptyContext> {
         List<Message> messages = new ArrayList<>();
         Map<String, Role> backupPlayerState = game.getBackupPlayerState();
         backupPlayerState.keySet().stream().forEach(
-                user -> messages.add(new Message("player.role.was", null,null, user,
-                        backupPlayerState.get(user).name())));
+                user -> messages.add(new Message("player.role.was")
+                        .setArgs(user, backupPlayerState.get(user).name())
+                ));
         gameContainer.finished(context.getInterfaceContext());
         interfaceChannel.gameOver(game.getBackupPlayerState().keySet());
         GameResult gameResult = game.checkGameOver();
         if (gameResult == GameResult.CITIZEN_WIN)
-            messages.add(new Message("citizens.win", null, null));
+            messages.add(new Message("citizens.win"));
         else if (gameResult == GameResult.CANCELED)
-            messages.add(new Message("game.canceled", null, null));
+            messages.add(new Message("game.canceled"));
         else
-            messages.add(new Message("mafia.win", null, null));
+            messages.add(new Message("mafia.win"));
         return new ResultMessage(messages, ChannelType.GENERAL, context.getInterfaceContext());
     }
 

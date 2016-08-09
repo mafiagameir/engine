@@ -42,9 +42,9 @@ public class WhoIsPlayingCommand implements Command<EmptyContext> {
         game.update();
         List<Player> players = game.getPlayers();
         List<Message> messages = players.stream()
-                .map(p -> new Message("user.playing", context.getInterfaceContext().getUserId(),
-                        context.getInterfaceContext().getUserName(),
-                        p.getAccount().getUsername()))
+                .map(p -> new Message("user.playing")
+                        .setReceiverId(context.getInterfaceContext().getUserId())
+                        .setArgs(p.getAccount().getUsername()))
                 .collect(Collectors.toList());
         return new ResultMessage(
                 messages, context.getInterfaceContext().getSenderType(), context.getInterfaceContext());

@@ -64,13 +64,15 @@ public class StartStashedGameCommand implements Command<StartStashedGameCommandC
                 context.getDoctorNum());
         stashedGameContainer.addGame(stashedGame);
         int sum = context.getCitizenNum() + context.getMafiaNum() + context.getDetectiveNum() + context.getDoctorNum();
-        return new ResultMessage(new Message("stashed.game.started", null, null,
-                Collections.singletonList(new Option(Constants.CMD.REGISTER)), null,
-                String.valueOf(context.getCitizenNum()),
-                String.valueOf(context.getMafiaNum()),
-                String.valueOf(context.getDetectiveNum()),
-                String.valueOf(context.getDoctorNum()),
-                String.valueOf(sum)),
+        return new ResultMessage(new Message("stashed.game.started")
+                .setOptions(Collections.singletonList(new Option(Constants.CMD.REGISTER)))
+                .setArgs(
+                        String.valueOf(context.getCitizenNum()),
+                        String.valueOf(context.getMafiaNum()),
+                        String.valueOf(context.getDetectiveNum()),
+                        String.valueOf(context.getDoctorNum()),
+                        String.valueOf(sum)
+                ),
                 ChannelType.GENERAL, context.getInterfaceContext());
     }
 
