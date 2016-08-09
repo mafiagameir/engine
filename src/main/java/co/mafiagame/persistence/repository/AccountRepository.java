@@ -23,7 +23,6 @@ import co.mafiagame.common.domain.InterfaceType;
 import co.mafiagame.common.utils.MessageHolder;
 import co.mafiagame.persistence.rowmapper.AccountRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -36,6 +35,7 @@ import java.util.Objects;
 @Component
 public class AccountRepository {
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired

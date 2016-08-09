@@ -31,7 +31,7 @@ import java.util.Map;
 /**
  * @author nazila
  */
-public abstract class VotableCommand<T extends CommandContext> implements Command<T> {
+abstract class VotableCommand<T extends CommandContext> implements Command<T> {
 
     protected void vote(Player voter, List<String> votedUsernames, Game game) {
         if (votedUsernames == null || votedUsernames.size() == 0)

@@ -52,9 +52,9 @@ public class GameApi {
                         citizenNum, mafiaNum, detectiveNum, doctorNum));
     }
 
-    public void register(InterfaceContext interfaceContext, String username, String firstName, String lastName) {
+    public void register(InterfaceContext interfaceContext, String firstName, String lastName) {
         commandExecutor.run(interfaceContext, Constants.CMD.REGISTER,
-                new RegisterCommandContext(interfaceContext, username, firstName, lastName));
+                new RegisterCommandContext(interfaceContext, firstName, lastName));
     }
 
     public void startElection(InterfaceContext interfaceContext) {
@@ -72,7 +72,7 @@ public class GameApi {
     }
 
     public void detectiveAsk(InterfaceContext interfaceContext, String username,
-                            String who) {
+                             String who) {
         Game game = gameContainer.getGame(interfaceContext);
         commandExecutor.run(interfaceContext, Constants.CMD.DETECTIVE_ASK,
                 new DetectiveAskCommandContext(interfaceContext, game, username,

@@ -80,7 +80,7 @@ public class TestHelper {
         }
         gameApi.startStashedGame(ic(), citizenNum, mafiaNum, hasDetective ? 1 : 0, hasDoctor ? 1 : 0);
         userInterfaceContexts.forEach(u ->
-                gameApi.register(u, u.getUserName(), null, null)
+                gameApi.register(u, null, null)
         );
         commandExecutor.waitUntilOver(ic());
         users = gameContainer.getGame(userInterfaceContexts.get(0)).getPlayers();

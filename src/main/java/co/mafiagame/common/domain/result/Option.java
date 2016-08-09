@@ -18,8 +18,6 @@
 
 package co.mafiagame.common.domain.result;
 
-import java.util.List;
-
 /**
  * @author hekmatof
  */

@@ -32,6 +32,7 @@ import java.util.List;
 @Component
 public class AuditRepository {
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired

@@ -49,7 +49,7 @@ public class RegisterCommand implements Command<RegisterCommandContext> {
     @Override
     public ResultMessage execute(RegisterCommandContext context) {
         Account account = persistenceApi.saveAccount(
-                context.getUsername(),
+                context.getInterfaceContext().getUserName(),
                 context.getFirstName(),
                 context.getLastName(),
                 context.getInterfaceContext().interfaceType(),

@@ -53,6 +53,7 @@ public class CommandExecutor {
     @Autowired
     private InterfaceChannel channel;
     @Autowired
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private List<Command> commands;
     @Value("${mafia.thread.keep.alive}")
     private int keepAlive;

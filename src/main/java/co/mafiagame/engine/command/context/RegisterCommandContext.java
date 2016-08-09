@@ -24,19 +24,13 @@ import co.mafiagame.common.channel.InterfaceContext;
  * @author hekmatof
  */
 public class RegisterCommandContext extends CommandContext {
-    private final String username;
     private final String firstName;
     private final String lastName;
 
-    public RegisterCommandContext(InterfaceContext interfaceContext, String username, String firstName, String lastName) {
+    public RegisterCommandContext(InterfaceContext interfaceContext, String firstName, String lastName) {
         super(interfaceContext);
-        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public String getFirstName() {
@@ -50,7 +44,6 @@ public class RegisterCommandContext extends CommandContext {
     @Override
     public String toString() {
         return "RegisterCommandContext{" +
-                "username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 "} " + super.toString();

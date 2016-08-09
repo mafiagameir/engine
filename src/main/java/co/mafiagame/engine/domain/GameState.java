@@ -27,6 +27,7 @@ public class GameState {
     private int detectiveNum;
     private int doctorNum;
 
+    @SuppressWarnings("unused")
     public GameState() {
     }
 

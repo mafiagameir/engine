@@ -197,14 +197,14 @@ public class Scenario2 {
         for (int i = 0; i < 9; i++) {
             TestInterfaceContext userIc = new TestInterfaceContext(
                     gameIdentity, "user" + i, ChannelType.GENERAL);
-            gameApi.register(userIc, userIc.getUserName(), null, null);
+            gameApi.register(userIc, null, null);
         }
     }
 
     private void startGameFinal() throws InterruptedException {
         TestInterfaceContext userIc = new TestInterfaceContext(
                 gameIdentity, "user9", ChannelType.GENERAL);
-        gameApi.register(userIc, userIc.getUserName(), null, null);
+        gameApi.register(userIc, null, null);
     }
 
     public void firstElection() throws InterruptedException {
