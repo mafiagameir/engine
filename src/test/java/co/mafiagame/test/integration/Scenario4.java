@@ -28,7 +28,7 @@ import co.mafiagame.test.env.TestInterfaceChannel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -38,7 +38,7 @@ import static org.junit.Assert.assertTrue;
  * @author nazila
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = CommonConfiguration.class)
+@SpringBootTest(classes = CommonConfiguration.class)
 public class Scenario4 {
 
     @Autowired
