@@ -34,7 +34,7 @@ import co.mafiagame.engine.domain.GameState;
 import co.mafiagame.engine.domain.Player;
 import co.mafiagame.engine.domain.Role;
 import co.mafiagame.engine.executor.CommandExecutor;
-import co.mafiagame.persistence.api.PersistenceApi;
+import co.mafiagame.persistence.api.IPersistenceApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -52,7 +52,7 @@ public class StartGameCommand implements Command<StartGameCommandContext> {
     @Autowired
     private CommandExecutor commandExecutor;
     @Autowired
-    private PersistenceApi persistenceApi;
+    private IPersistenceApi persistenceApi;
     @Autowired
     private StashedGameContainer stashedGameContainer;
 
