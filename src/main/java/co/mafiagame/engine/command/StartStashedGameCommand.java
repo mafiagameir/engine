@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.Objects;
 
 /**
  * @author hekmatof
@@ -50,14 +51,7 @@ public class StartStashedGameCommand implements Command<StartStashedGameCommandC
 
     @Override
     public ResultMessage execute(StartStashedGameCommandContext context) {
-        if (context.getDetectiveNum() > 1)
-            throw new MoreThanOneDetectiveException();
-        if (context.getDoctorNum() > 1)
-            throw new MoreThanOneDoctorException();
-        if (context.getMafiaNum() < 1)
-            throw new ZeroMafiaException();
-        if (gameContainer.getGame(context.getInterfaceContext()) != null)
-            throw new GameAlreadyStartedException();
+        validate(context);
         StashedGame stashedGame = new StashedGame(
                 context.getInterfaceContext(), context.getCitizenNum(),
                 context.getMafiaNum(), context.getDetectiveNum(),
@@ -74,6 +68,17 @@ public class StartStashedGameCommand implements Command<StartStashedGameCommandC
                         String.valueOf(sum)
                 ),
                 ChannelType.GENERAL, context.getInterfaceContext());
+    }
+
+    private void validate(StartStashedGameCommandContext context) {
+        if (context.getDetectiveNum() > 1)
+            throw new MoreThanOneDetectiveException();
+        if (context.getDoctorNum() > 1)
+            throw new MoreThanOneDoctorException();
+        if (context.getMafiaNum() < 1)
+            throw new ZeroMafiaException();
+        if (Objects.nonNull(gameContainer.getGame(context.getInterfaceContext())))
+            throw new GameAlreadyStartedException();
     }
 
     @Override

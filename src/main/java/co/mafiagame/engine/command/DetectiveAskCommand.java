@@ -51,12 +51,7 @@ public class DetectiveAskCommand implements Command<DetectiveAskCommandContext> 
         Game game = context.getGame();
         game.update();
         Player detective = game.playerByUsername(context.getUsername());
-        if (context.getInterfaceContext().getSenderType() != ChannelType.USER_PRIVATE)
-            throw new CommandIsUnavailableHereException();
-        if (detective.getRole() != Role.DETECTIVE)
-            throw new YouAreNotDetectiveException();
-        if (game.getGameMood() != GameMood.NIGHT_DETECTIVE)
-            throw new YouCantAskNow();
+        validate(context);
         Player who = game.playerByUsername(context.getWho());
         commandExecutor.run(context.getInterfaceContext(),
                 Constants.CMD.Internal.NEXT_MOOD,
@@ -72,6 +67,18 @@ public class DetectiveAskCommand implements Command<DetectiveAskCommandContext> 
                     .setArgs(who.getAccount().getUsername());
         return new ResultMessage(message, ChannelType.USER_PRIVATE,
                 context.getInterfaceContext());
+    }
+
+    private void validate(DetectiveAskCommandContext context) {
+        Game game = context.getGame();
+        game.update();
+        Player detective = game.playerByUsername(context.getUsername());
+        if (context.getInterfaceContext().getSenderType() != ChannelType.USER_PRIVATE)
+            throw new CommandIsUnavailableHereException();
+        if (detective.getRole() != Role.DETECTIVE)
+            throw new YouAreNotDetectiveException();
+        if (game.getGameMood() != GameMood.NIGHT_DETECTIVE)
+            throw new YouCantAskNow();
     }
 
     @Override

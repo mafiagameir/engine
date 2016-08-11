@@ -34,6 +34,8 @@ import co.mafiagame.persistence.api.PersistenceApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * @author hekmatof
  */
@@ -48,14 +50,9 @@ public class RegisterCommand implements Command<RegisterCommandContext> {
 
     @Override
     public ResultMessage execute(RegisterCommandContext context) {
-        Account account = persistenceApi.saveAccount(
-                context.getInterfaceContext().getUserName(),
-                context.getFirstName(),
-                context.getLastName(),
-                context.getInterfaceContext().interfaceType(),
-                context.getInterfaceContext().getUserId());
+        Account account = saveAccount(context);
         StashedGame game = stashedGameContainer.getGame(context.getInterfaceContext());
-        if (game == null)
+        if (Objects.isNull(game))
             throw new RegisterBeforeStartException();
         if (game.register(new Player(account)))
             commandExecutor.run(context.getInterfaceContext(),
@@ -64,6 +61,15 @@ public class RegisterCommand implements Command<RegisterCommandContext> {
         return new ResultMessage(new Message("player.successfully.registered")
                 .setArgs(account.getUsername()),
                 ChannelType.GENERAL, context.getInterfaceContext());
+    }
+
+    private Account saveAccount(RegisterCommandContext context) {
+        return persistenceApi.saveAccount(
+                context.getInterfaceContext().getUserName(),
+                context.getFirstName(),
+                context.getLastName(),
+                context.getInterfaceContext().interfaceType(),
+                context.getInterfaceContext().getUserId());
     }
 
     @Override

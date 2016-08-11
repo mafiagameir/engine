@@ -48,12 +48,7 @@ public class DoctorHealCommand implements Command<DoctorHealCommandContext> {
         validateGameNotNull(context);
         Game game = context.getGame();
         game.update();
-        if (context.getInterfaceContext().getSenderType() != ChannelType.USER_PRIVATE)
-            throw new NotInDoctorPrivateException();
-        if (game.playerByUsername(context.getDoctorName()).getRole() != Role.DOCTOR)
-            throw new YouAreNotDoctorException();
-        if (game.getGameMood() != GameMood.NIGHT_DOCTOR)
-            throw new NotTimeOfDoctorHeal();
+        validate(context);
         game.setHealCandidate(game.playerByUsername(context.getHealedName()));
         commandExecutor.run(context.getInterfaceContext(),
                 Constants.CMD.Internal.NEXT_MOOD,
@@ -62,6 +57,16 @@ public class DoctorHealCommand implements Command<DoctorHealCommandContext> {
                 .setReceiverId(game.doctor().getAccount().getUserInterfaceId()),
                 context.getInterfaceContext().getSenderType(),
                 context.getInterfaceContext());
+    }
+
+    private void validate(DoctorHealCommandContext context) {
+        Game game = context.getGame();
+        if (context.getInterfaceContext().getSenderType() != ChannelType.USER_PRIVATE)
+            throw new NotInDoctorPrivateException();
+        if (game.playerByUsername(context.getDoctorName()).getRole() != Role.DOCTOR)
+            throw new YouAreNotDoctorException();
+        if (game.getGameMood() != GameMood.NIGHT_DOCTOR)
+            throw new NotTimeOfDoctorHeal();
     }
 
     @Override

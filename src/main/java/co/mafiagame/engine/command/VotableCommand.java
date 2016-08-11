@@ -33,8 +33,8 @@ import java.util.Map;
  */
 abstract class VotableCommand<T extends CommandContext> implements Command<T> {
 
-    protected void vote(Player voter, List<String> votedUsernames, Game game) {
-        if (votedUsernames == null || votedUsernames.size() == 0)
+    protected void vote(Player voter, List<String> votedUserNames, Game game) {
+        if (votedUserNames == null || votedUserNames.size() == 0)
             throw new UsernameNotNull();
         Map<Player, List<Player>> playerVote = game.getPlayerVote();
         if (voter.isVoted()) {
@@ -42,7 +42,7 @@ abstract class VotableCommand<T extends CommandContext> implements Command<T> {
                     .filter(p -> playerVote.get(p).contains(voter))
                     .forEach(p -> playerVote.get(p).remove(voter));
         }
-        for (String votedUsername : votedUsernames) {
+        for (String votedUsername : votedUserNames) {
             if (votedUsername.equals(Constants.NO_BODY))
                 continue;
             Player voted = game.playerByUsername(votedUsername);

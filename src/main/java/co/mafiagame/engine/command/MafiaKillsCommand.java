@@ -52,10 +52,7 @@ public class MafiaKillsCommand extends VotableCommand<MafiaKillsCommandContext> 
         Game game = context.getGame();
         game.update();
         Player voter = game.playerByUsername(context.getMafiaVoter());
-        if (game.getGameMood() != GameMood.NIGHT_MAFIA)
-            throw new MafiaVoteOnWrongMoodException();
-        if (voter.getRole() != Role.MAFIA)
-            throw new YouAreNotMafiaException();
+        validate(context);
         vote(voter, Collections.singletonList(context.getUserVoted()), game);
         voter.setVoted(true);
         if (game.checkMafiaElectionIsOver())
@@ -63,19 +60,28 @@ public class MafiaKillsCommand extends VotableCommand<MafiaKillsCommandContext> 
                     Constants.CMD.Internal.MAFIA_ELECTION_FINISHED,
                     new EmptyContext(context.getInterfaceContext(), game));
         List<Message> messages = new ArrayList<>();
-        if (Constants.NO_BODY.equals(context.getUserVoted())) {
-            game.mafias().forEach(
-                    m -> messages.add(new Message("user.vote.nobody")
-                            .setReceiverId(m.getAccount().getUserInterfaceId())
-                            .setArgs(context.getMafiaVoter())));
-        } else {
-            game.mafias().forEach(
-                    m -> messages.add(new Message("user.vote.another")
-                            .setReceiverId(m.getAccount().getUserInterfaceId())
-                            .setArgs(context.getMafiaVoter(), context.getUserVoted())));
-        }
+        if (Constants.NO_BODY.equals(context.getUserVoted()))
+            game.mafias().forEach(m -> messages.add(createResultMessage(context, "user.vote.nobody", m)));
+        else
+            game.mafias().forEach(m -> messages.add(createResultMessage(context, "user.vote.another", m)));
+
         return new ResultMessage(
                 messages, context.getInterfaceContext().getSenderType(), context.getInterfaceContext());
+    }
+
+    private Message createResultMessage(MafiaKillsCommandContext context, String messageCode, Player mafia) {
+        return new Message(messageCode)
+                .setReceiverId(mafia.getAccount().getUserInterfaceId())
+                .setArgs(context.getMafiaVoter());
+    }
+
+    private void validate(MafiaKillsCommandContext context) {
+        Game game = context.getGame();
+        Player voter = game.playerByUsername(context.getMafiaVoter());
+        if (game.getGameMood() != GameMood.NIGHT_MAFIA)
+            throw new MafiaVoteOnWrongMoodException();
+        if (voter.getRole() != Role.MAFIA)
+            throw new YouAreNotMafiaException();
     }
 
     @Override
