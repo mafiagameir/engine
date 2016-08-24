@@ -57,7 +57,7 @@ abstract class Container<T extends InterfaceContextAware> {
     private File directory() throws IOException {
         File gameDirectory = new File(getGameLocation() + File.separator + getDir());
         if (!gameDirectory.exists() && !gameDirectory.mkdir())
-            throw new IOException("could now create game directory");
+            throw new IOException("can't create game directory");
         return gameDirectory;
     }
 

@@ -22,5 +22,5 @@ package co.mafiagame.common.domain;
  * @author hekmatof
  */
 public enum InterfaceType {
-    TELEGRAM, TEST
+    TELEGRAM, TEST,APP
 }
