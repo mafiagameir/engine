@@ -23,8 +23,8 @@ import co.mafiagame.common.domain.result.ChannelType;
 import co.mafiagame.common.domain.result.Message;
 import co.mafiagame.common.domain.result.ResultMessage;
 import co.mafiagame.common.utils.ListToString;
-import co.mafiagame.engine.command.context.EmptyContext;
 import co.mafiagame.engine.command.context.VoteCommandContext;
+import co.mafiagame.engine.command.internalcommand.context.ElectionFinishedCommandContext;
 import co.mafiagame.engine.domain.ElectionMood;
 import co.mafiagame.engine.domain.Game;
 import co.mafiagame.engine.domain.GameMood;
@@ -55,8 +55,8 @@ public class VoteCommand extends VotableCommand<VoteCommandContext> {
         voter.setVoted(true);
         if (game.checkElectionIsOver())
             commandExecutor.run(context.getInterfaceContext(),
-                    Constants.CMD.Internal.ELECTION_FINISHED, new EmptyContext(
-                            context.getInterfaceContext(), game));
+                    Constants.CMD.Internal.ELECTION_FINISHED, new ElectionFinishedCommandContext(
+                            context.getInterfaceContext(), game, false));
         if (context.getVotedUsername().size() == 1
                 && Constants.NO_BODY.equals(context.getVotedUsername().get(0)))
             return new ResultMessage(new Message("user.vote.nobody")

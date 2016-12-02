@@ -26,6 +26,7 @@ import co.mafiagame.common.domain.result.ResultMessage;
 import co.mafiagame.common.utils.ListToString;
 import co.mafiagame.engine.command.ElectionHandlerCommand;
 import co.mafiagame.engine.command.context.EmptyContext;
+import co.mafiagame.engine.command.internalcommand.context.ElectionFinishedCommandContext;
 import co.mafiagame.engine.domain.ElectionMood;
 import co.mafiagame.engine.domain.Game;
 import co.mafiagame.engine.domain.Player;
@@ -44,17 +45,19 @@ import java.util.stream.Collectors;
  */
 @Component
 public class ElectionFinishedCommand extends
-        ElectionHandlerCommand<EmptyContext> {
+        ElectionHandlerCommand<ElectionFinishedCommandContext> {
 
     @Autowired
     private CommandExecutor commandExecutor;
 
     @Override
-    public ResultMessage execute(EmptyContext context) {
+    public ResultMessage execute(ElectionFinishedCommandContext context) {
         List<Message> messages = new ArrayList<>();
+        if (context.isOnTimer())
+            messages.add(new Message("election.time.is.over"));
         Game game = context.getGame();
         electionResult(messages, game, context);
-        if (game.getElectionMood() == ElectionMood.FINALELECTION) {
+        if (game.getElectionMood() == ElectionMood.FINAL_ELECTION) {
             boolean electionOver = citizenFinalElectionHandler(messages, game);
             if (electionOver) {
                 messages.add(new Message("night.started.be.silent"));

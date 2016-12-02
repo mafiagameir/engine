@@ -30,6 +30,8 @@ import co.mafiagame.engine.domain.GameMood;
 import co.mafiagame.engine.domain.Player;
 import co.mafiagame.engine.exception.ElectionAlreadyStarted;
 import co.mafiagame.engine.exception.VoteOnNightException;
+import co.mafiagame.engine.executor.CommandExecutor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -40,6 +42,8 @@ import java.util.stream.Collectors;
  */
 @Component
 public class StartFinalElectionCommand implements Command<EmptyContext> {
+    @Autowired
+    private CommandExecutor commandExecutor;
 
     @Override
     public ResultMessage execute(EmptyContext context) {
@@ -53,6 +57,9 @@ public class StartFinalElectionCommand implements Command<EmptyContext> {
         game.startElection(true);
         List<String> users = game.getPlayers().stream().map(Player::getAccount).map(Account::getUsername)
                 .collect(Collectors.toList());
+        commandExecutor.run(context.getInterfaceContext(),
+                Constants.CMD.Internal.END_ELECTION_ON_TIME,
+                new EmptyContext(context.getInterfaceContext(), game));
         return new ResultMessage(new Message("final.election.started")
                 .setOptions(game.makeOption(Constants.CMD.VOTE, true))
                 .setToUsers(users),

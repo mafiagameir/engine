@@ -97,7 +97,7 @@ public class Game implements InterfaceContextAware {
 
     public synchronized void startElection(boolean finalElection) {
         clearElection();
-        electionMood = finalElection ? ElectionMood.FINALELECTION : ElectionMood.ELECTION;
+        electionMood = finalElection ? ElectionMood.FINAL_ELECTION : ElectionMood.ELECTION;
     }
 
     public synchronized void clearElection() {

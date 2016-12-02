@@ -37,6 +37,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -81,8 +82,8 @@ public class Scenario3 {
 
         //final election
         gameApi.startFinalElection(helper.user(0));
-        commandExecutor.waitUntilOver(helper.ic());
-        assertTrue(testInterfaceChannel.containKey("final.election.started"));
+        //commandExecutor.waitUntilOver(helper.ic());
+        //assertTrue(testInterfaceChannel.containKey("final.election.started"));
 
         //user vote for mafia member
         userVotes();
@@ -99,6 +100,12 @@ public class Scenario3 {
         gameApi.vote(helper.user(0), helper.username(0), Collections.singletonList(helper.mafiaUsername(0)));
         gameApi.vote(helper.user(1), helper.username(1), Collections.singletonList(helper.mafiaUsername(0)));
         gameApi.vote(helper.user(2), helper.username(2), victims);
-        gameApi.vote(helper.user(3), helper.username(3), Collections.singletonList(helper.mafiaUsername(0)));
+        try {
+            Thread.sleep(TimeUnit.SECONDS.toMillis(121));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+        }
+        //gameApi.vote(helper.user(3), helper.username(3), Collections.singletonList(helper.mafiaUsername(0)));
     }
 }

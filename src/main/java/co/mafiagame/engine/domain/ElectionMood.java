@@ -22,5 +22,5 @@ package co.mafiagame.engine.domain;
  * @author hekmatof
  */
 public enum ElectionMood {
-    NONE, ELECTION, FINALELECTION
+    NONE, ELECTION, FINAL_ELECTION
 }

@@ -49,7 +49,7 @@ public class CommandExecutor {
             .getLogger(CommandExecutor.class);
     private Map<String, Command> commandsMap;
     //private final Map<InterfaceContext, ThreadPoolExecutor> executors = new HashMap<>();
-    private ThreadPoolExecutor singleThread;
+    private ThreadPoolExecutor threadPool;
     @Autowired
     private InterfaceChannel channel;
     @Autowired
@@ -62,11 +62,11 @@ public class CommandExecutor {
     public void init() {
         commandsMap = new HashMap<>();
         commands.forEach(c -> commandsMap.put(c.commandName(), c));
-        singleThread = new ThreadPoolExecutor(10, 10, keepAlive, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
+        threadPool = new ThreadPoolExecutor(10, 10, keepAlive, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
     }
 
     private ThreadPoolExecutor getExecutor(InterfaceContext interfaceContext) {
-        return singleThread;
+        return threadPool;
         /*if (executors.containsKey(interfaceContext))
             return executors.get(interfaceContext);
         ThreadPoolExecutor executorService = new ThreadPoolExecutor(0, 1, keepAlive, TimeUnit.SECONDS,
