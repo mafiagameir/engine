@@ -19,7 +19,6 @@
 package co.mafiagame.engine.command;
 
 import co.mafiagame.common.Constants;
-import co.mafiagame.common.domain.result.ChannelType;
 import co.mafiagame.common.domain.result.Message;
 import co.mafiagame.common.domain.result.ResultMessage;
 import co.mafiagame.engine.command.context.EmptyContext;
@@ -52,7 +51,8 @@ public class KillMeCommand implements Command<EmptyContext> {
                             context.getInterfaceContext(), game));
         return new ResultMessage(new Message("user.exit.game")
                 .setArgs(player.getAccount().getUsername()),
-                ChannelType.GENERAL, context.getInterfaceContext());
+                context.getInterfaceContext().getSenderType(),
+                context.getInterfaceContext());
     }
 
     @Override
